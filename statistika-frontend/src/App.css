@@ -1,0 +1,11 @@
+.App {
+  background-color: rgb(27, 27, 27);
+  min-height: 100vh;
+}
+
+p {
+  text-align: center;
+  color: wheat;
+  font-size: 100px;
+  line-height: 100vh;
+}
