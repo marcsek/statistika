@@ -1,11 +1,16 @@
 .App {
-  background-color: rgb(27, 27, 27);
+  background-color: var(--pozadie);
+  background-image: radial-gradient(rgba(90, 90, 90, 0.274) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.Content {
   min-height: 100vh;
+  padding-top: 100px;
 }
 
 p {
   text-align: center;
   color: wheat;
   font-size: 100px;
-  line-height: 100vh;
 }
