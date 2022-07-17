@@ -53,10 +53,20 @@ ol li {
   font-size: 0.87rem;
 }
 
-.legenda #zmena {
+.legenda #bot-par {
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 600;
+  font-size: 0.87rem;
+}
+
+.legenda .zmena {
   font-weight: 600;
   font-size: 0.87rem;
   color: rgba(255, 255, 255, 0.4);
+}
+
+.legenda .zmena#graf {
+  width: 120px;
 }
 
 .legenda {
@@ -71,36 +81,99 @@ ol li {
   pointer-events: none;
   z-index: 0;
 }
+.legenda#sucet {
+  height: 63px;
+  border-top: solid 2px rgba(255, 255, 255, 0.29);
+}
 
+#sucet-text {
+  left: 60px;
+  background-color: #252525;
+  padding: 1px 9px;
+  border-radius: 8px;
+  border: 2px rgba(255, 255, 255, 0.4) solid;
+  bottom: 48px;
+  position: absolute;
+  font-size: 0.83rem;
+  color: var(--pismo-biela);
+  text-align: center;
+  color: #bbbbbb;
+}
+
+.legenda#sucet #bot-mena {
+  color: var(--pismo-biela);
+  font-size: 0.91rem;
+  font-weight: 600;
+  padding: 1px;
+}
+
+.legenda#sucet .zmena {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+}
 ol li:hover {
   background-color: #252525;
 }
 
 #bot-meno {
   cursor: pointer;
-  color: var(--pismo-biela);
-  width: 150px;
+  color: #bbbbbb;
+  width: 100px;
   text-align: left;
   font-size: 1rem;
   font-weight: 600;
 }
 #bot-mena {
   color: var(--pismo-biela);
+  margin-right: 40px;
+  width: 90px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#bot-mena p {
+  color: var(--pismo-biela);
+  font-size: 0.91rem;
+  font-weight: 600;
+  padding: 1px;
+}
+
+#bot-mena p + p {
+  /* border-top: solid rgba(255, 255, 255, 0.29) 1px; */
+}
+
+#bot-mena p text {
+  /* color: var(--pismo-biela); */
+  /* font-size: 1rem; */
+  font-weight: 500;
+  /* color: #c9c9c9; */
+}
+
+#btc {
+  margin: 7px;
+  border-radius: 20px;
+  background-color: #2c53dd;
+}
+
+#bot-par {
+  color: #bbbbbb;
   margin-right: 100px;
-  width: 150px;
+  width: 90px;
   text-align: left;
   font-size: 1rem;
   font-weight: 600;
 }
 
-#zmena {
+.zmena {
   text-align: center;
   width: 70px;
   font-size: 1rem;
   font-weight: 600;
 }
 
-.bot-list #zmena {
+.bot-list .zmena {
   text-align: center;
   width: 70px;
 }
@@ -121,18 +194,6 @@ ol li:hover {
 }
 
 .vypinac {
-  /* position: fixed;
-  color: var(--pismo-biela);
-  font-size: 1rem;
-  font-weight: 600;
-  width: 120px;
-  height: 50px;
-  bottom: 100px;
-  right: 100px;
-  background-color: rgb(255, 62, 62);
-  outline: 0;
-  border: 0;
-  border-radius: 10%; */
   z-index: 2;
   position: fixed;
   width: 200px;
@@ -141,11 +202,9 @@ ol li:hover {
   top: 20px;
   right: 0;
   transform: translate(-50%, 0%);
-  background: #cc3333;
   font-size: 1.1rem;
   color: white;
   border-radius: 7px;
-  box-shadow: 0 7px 0px #a82a2a;
   display: inline-block;
   transition: all 0.2s;
   padding: 12px 20px;
@@ -154,10 +213,28 @@ ol li:hover {
   margin: 0 20px;
   border-width: 1px;
   outline: none;
+  box-shadow: 0 7px 0px #6d6565;
+}
+
+.vypinac#red {
+  background: #cc3333;
 }
 
 .vypinac:active {
   top: 23px;
-  box-shadow: 0 2px 0px #a82a2a;
-  transition: all 0.12s;
+  box-shadow: 0 2px 0px #6d6565;
+  transition: all 0.1s;
+}
+
+.vypinac#green {
+  /* #23c552 */
+  background: #2c53dd;
+}
+
+.list-graf {
+  pointer-events: none;
+  position: relative;
+  width: 120px;
+  height: 50px;
+  display: inline-block;
 }
