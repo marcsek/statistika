@@ -1,6 +1,7 @@
 import "./BotList.css";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 import ListGraf from "./ListGraf";
 
@@ -11,12 +12,22 @@ function BotList() {
 
   const [click, setClick] = useState(false);
 
+  const [chartData, setchData] = useState([]);
+
+  useEffect(() => {
+    getFakeData();
+  }, []);
+
   const getFakeData = () => {
-    const labels = faker.date.betweens("2056-06-16T21:15:47.998Z", "2066-11-07T14:49:54.185Z", 50);
-
-    const fakeObj = { labels: labels, data: labels.map(() => faker.datatype.number({ min: 1, max: 30 })) };
-
-    return fakeObj;
+    var docData = [];
+    axios
+      .get(`https://min-api.cryptocompare.com/data/v2/histohour?fsym=BTC&tsym=USD&limit=168&toTs=-1&agregate=1&api_key=YOURKEYHERE`)
+      .then((res) => {
+        res.data.Data.Data.forEach((e) => {
+          docData.push({ x: new Date(e.time * 1000), y: e.high });
+        });
+        setchData(docData);
+      });
   };
 
   return (
@@ -67,7 +78,7 @@ function BotList() {
                 1400.3%
               </span>
               <div className="list-graf">
-                <ListGraf {...getFakeData()} />
+                <ListGraf newData={chartData} />
               </div>
             </li>
 
@@ -94,9 +105,7 @@ function BotList() {
               <span style={{ color: "#16c784" }} className="zmena">
                 1400.3%
               </span>
-              <div className="list-graf">
-                <ListGraf {...getFakeData()} />
-              </div>
+              <div className="list-graf">{<ListGraf newData={chartData} />}</div>
             </li>
 
             <li>
@@ -122,9 +131,7 @@ function BotList() {
               <span style={{ color: "#ea3943" }} className="zmena">
                 1400.3%
               </span>
-              <div className="list-graf">
-                <ListGraf {...getFakeData()} />
-              </div>
+              <div className="list-graf">{<ListGraf newData={chartData} />}</div>
             </li>
 
             <li>
@@ -150,9 +157,7 @@ function BotList() {
               <span style={{ color: "#ea3943" }} className="zmena">
                 1400.3%
               </span>
-              <div className="list-graf">
-                <ListGraf {...getFakeData()} />
-              </div>
+              <div className="list-graf">{<ListGraf newData={chartData} />}</div>
             </li>
             <div className="legenda" id="sucet">
               <p id="sucet-text">Súčet</p>

@@ -127,7 +127,7 @@ ol li:hover {
 #bot-mena {
   color: var(--pismo-biela);
   margin-right: 40px;
-  width: 90px;
+  width: 97px;
   text-align: center;
   font-size: 1rem;
   font-weight: 600;
@@ -137,7 +137,6 @@ ol li:hover {
   color: var(--pismo-biela);
   font-size: 0.91rem;
   font-weight: 600;
-  padding: 1px;
 }
 
 #bot-mena p + p {
@@ -155,6 +154,7 @@ ol li:hover {
   margin: 7px;
   border-radius: 20px;
   background-color: #2c53dd;
+  padding: 2px 1px;
 }
 
 #bot-par {
