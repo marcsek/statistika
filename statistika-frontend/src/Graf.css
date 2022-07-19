@@ -1,46 +1,170 @@
-.main-chart-div {
-  margin: auto;
+.graf-page-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.celkovy-stav-cont {
   position: relative;
-  height: 900px;
-  width: 1100px;
+  width: 100%;
+  max-width: 900px;
+  min-width: 700px;
+  height: 90px;
+  padding: 20px 0px;
+  border-top: 1px solid rgba(255, 255, 255, 0.29);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.29);
+  margin: 70px 0px 120px 0px;
 }
 
-.graf-filter {
-  position: absolute;
-  /* padding: 5px 0 5px 0; */
-  top: 40px;
-  right: 0px;
-  width: 300px;
-  height: 37px;
-  background-color: #292929;
-  border-radius: 10px;
-}
-
-.graf-filter ul {
+.celkovy-stav-cont ul {
   padding: 0;
-  padding: 4px 5px 4px 5px;
-  /* height: 100%; */
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-
-  align-items: center;
   list-style: none;
+  justify-content: space-evenly;
+  height: 100%;
+  align-items: center;
 }
 
-.graf-filter ul li {
-  /* margin: 5px 0 5px 0; */
-  font-size: 0.88rem;
-  width: 30px;
-  line-height: 26px;
-  border-radius: 5px;
-  padding: 2px;
-  text-align: center;
-  color: white;
+.celkovy-stav-cont ul li {
+  position: relative;
+  height: 100%;
+  width: 180px;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  gap: 3px;
+}
+
+.stav-element + .stav-element {
+  border-left: 1px solid rgba(255, 255, 255, 0.29);
+}
+
+.celkovy-stav-cont ul li p {
+  font-size: 0.85rem;
+  color: rgb(141, 141, 141);
+  text-align: left;
   font-weight: 600;
-  cursor: pointer;
 }
 
-.graf-filter ul li:hover {
+.celkovy-stav-cont ul li span {
+  font-size: 1.05rem;
+  color: rgb(255, 255, 255);
+}
+
+#perc-zmena {
+  color: #16c784;
+  font-size: 0.85rem;
+  font-weight: 500;
+  align-items: center;
+  display: flex;
+  align-items: center;
+}
+
+#btc-zmena {
+  color: #2c53dd;
+  font-weight: 700;
+  font-size: 0.93rem;
+  filter: brightness(1.6);
+}
+
+#eur-zmena {
+  margin-top: 6px;
+  font-weight: 600;
+  color: var(--pismo-biela);
+}
+
+#indikator {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 18px;
+  color: rgb(22, 199, 132);
+}
+
+.graf-burzy-cont {
+  width: 1300px;
+  margin-top: 100px;
+}
+
+.graf-burzy-cont ul {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0;
+  grid-gap: 20px;
+}
+
+.graf-burzy-cont ul li {
+  list-style: none;
+  padding: 30px;
+  padding-top: 0px;
+}
+
+.burza-cont {
+  height: 100%;
+  width: 600px;
+  position: relative;
+}
+
+.burza-cont p {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.vyvin-title {
+  font-size: 1.6rem;
+  top: -45px;
+  left: -30px;
+}
+
+.graf-title {
+  font-size: 1.6rem;
+  left: -30px;
+  top: -20px;
+}
+
+#graf-burza-cont {
+  position: relative;
+}
+
+.devider {
+  top: 40px;
+  left: 5px;
+  height: 200px;
+  width: 4px;
+}
+
+.devider-vyvin {
+  top: -27px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 4px;
+  width: 400px;
+}
+
+.devider-graf {
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 4px;
+  width: 600px;
+}
+
+#devider {
+  position: absolute;
   background-color: rgba(255, 255, 255, 0.29);
+  border-radius: 25px;
+}
+
+#title {
+  margin-bottom: 10px;
+  position: absolute;
+  padding: 0;
+  text-align: left;
+  color: var(--pismo-biela);
+  font-weight: bolder;
 }

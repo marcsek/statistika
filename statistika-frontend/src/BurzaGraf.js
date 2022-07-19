@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import "./MainGraf.css";
+import "./BurzaGraf.css";
 
 import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale } from "chart.js";
 import { Line } from "react-chartjs-2";
 
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 
-function MainGraf({ grafRequestData, newData }) {
+function BurzaGraf({ grafRequestData, newData, farbaCiary, index }) {
   Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin);
   Interaction.modes.interpolate = Interpolate;
 
-  const [filter, setFilter] = useState("1y");
+  const [filter, setFilter] = useState("all");
   const [data, setData] = useState({ datasets: [] });
 
   useEffect(() => {
-    grafRequestData(filter);
+    grafRequestData(filter, index);
   }, [filter]);
 
   useEffect(() => {
@@ -22,20 +22,8 @@ function MainGraf({ grafRequestData, newData }) {
       datasets: [
         {
           label: "Bitcoin",
-          data: newData[0],
-          borderColor: "#ffbb1f",
-          borderDash: [5, 5],
-        },
-        {
-          backgroundColor: "#2c53dd",
-          label: "Bot Eur",
-          data: newData[1],
-          borderColor: "#2c53dd",
-        },
-        {
-          label: "Bot Btc",
-          data: newData[2],
-          borderColor: "#00E5B0",
+          data: newData,
+          borderColor: farbaCiary ? farbaCiary : "#2c53dd",
         },
       ],
     });
@@ -64,8 +52,7 @@ function MainGraf({ grafRequestData, newData }) {
         ticks: {
           color: "#bbbbbb",
           autoSkip: true,
-          maxTicksLimit: 15,
-          minTicksLimit: 15,
+          maxTicksLimit: 6,
           maxRotation: 0,
           font: {
             weight: 550,
@@ -91,28 +78,20 @@ function MainGraf({ grafRequestData, newData }) {
           font: {
             weight: 550,
           },
+          maxTicksLimit: 8,
+          minTickLimit: 8,
         },
       },
     },
     plugins: {
       legend: {
-        align: "start",
-        position: "top",
-        fullSize: false,
-        labels: {
-          // usePointStyle: true,
-          color: "#bbbbbb",
-          padding: 50,
-          font: {
-            size: 13,
-            weight: "bold",
-          },
-        },
+        display: false,
       },
       crosshair: {
         line: {
+          //   display: false,
           color: "#bbbbbb",
-          width: 1,
+          width: 0,
           dashPattern: [3, 3],
         },
         sync: {
@@ -136,25 +115,19 @@ function MainGraf({ grafRequestData, newData }) {
   };
 
   return (
-    <div className="main-chart-div">
-      <div className="main-graf-filter" id="graf-filter">
+    <div className="burza-chart-div">
+      <div className="burza-graf-filter" id="graf-filter">
         <ul>
-          <li style={{ backgroundColor: filter == "1d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1d")}>
+          <li style={{ backgroundColor: filter === "1d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1d")}>
             1D
           </li>
-          <li style={{ backgroundColor: filter == "7d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("7d")}>
+          <li style={{ backgroundColor: filter === "7d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("7d")}>
             7D
           </li>
-          <li style={{ backgroundColor: filter == "1m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1m")}>
-            1M
-          </li>
-          <li style={{ backgroundColor: filter == "3m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("3m")}>
+          <li style={{ backgroundColor: filter === "3m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("3m")}>
             3M
           </li>
-          <li style={{ backgroundColor: filter == "1y" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1y")}>
-            1Y
-          </li>
-          <li style={{ backgroundColor: filter == "all" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("all")}>
+          <li style={{ backgroundColor: filter === "all" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("all")}>
             All
           </li>
         </ul>
@@ -164,4 +137,4 @@ function MainGraf({ grafRequestData, newData }) {
   );
 }
 
-export default MainGraf;
+export default BurzaGraf;

@@ -63,6 +63,7 @@ ol li {
   font-weight: 600;
   font-size: 0.87rem;
   color: rgba(255, 255, 255, 0.4);
+  display: inline;
 }
 
 .legenda .zmena#graf {
@@ -111,9 +112,19 @@ ol li {
   text-align: center;
   font-size: 1rem;
   font-weight: 600;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 ol li:hover {
   background-color: #252525;
+}
+
+.zmena svg {
+  left: 0;
+  bottom: 0;
+  font-size: 13px;
+  min-width: 13px;
 }
 
 #bot-meno {
@@ -131,6 +142,7 @@ ol li:hover {
   text-align: center;
   font-size: 1rem;
   font-weight: 600;
+  font-style: normal;
 }
 
 #bot-mena p {
@@ -168,9 +180,12 @@ ol li:hover {
 
 .zmena {
   text-align: center;
-  width: 70px;
+  width: 80px;
   font-size: 1rem;
   font-weight: 600;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .bot-list .zmena {
@@ -237,4 +252,8 @@ ol li:hover {
   width: 120px;
   height: 50px;
   display: inline-block;
+}
+
+.burza {
+  height: 400px;
 }

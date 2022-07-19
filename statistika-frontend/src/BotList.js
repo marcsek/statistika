@@ -2,10 +2,9 @@ import "./BotList.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 
 import ListGraf from "./ListGraf";
-
-import { faker } from "@faker-js/faker";
 
 function BotList() {
   const navigate = useNavigate();
@@ -19,15 +18,29 @@ function BotList() {
   }, []);
 
   const getFakeData = () => {
-    var docData = [];
-    axios
-      .get(`https://min-api.cryptocompare.com/data/v2/histohour?fsym=BTC&tsym=USD&limit=168&toTs=-1&agregate=1&api_key=YOURKEYHERE`)
-      .then((res) => {
-        res.data.Data.Data.forEach((e) => {
-          docData.push({ x: new Date(e.time * 1000), y: e.high });
+    const requestOne = axios.get(
+      `https://min-api.cryptocompare.com/data/v2/histohour?fsym=BTC&tsym=USD&limit=168&toTs=-1&agregate=1&api_key=YOURKEYHERE`
+    );
+    const requestTwo = axios.get(
+      `https://min-api.cryptocompare.com/data/v2/histohour?fsym=ETH&tsym=USD&limit=168&toTs=-1&agregate=1&api_key=YOURKEYHER`
+    );
+    axios.all([requestOne, requestTwo]).then(
+      axios.spread((...responses) => {
+        const responseOne = responses[0];
+        const responseTwo = responses[1];
+
+        let dataOne = [];
+        responseOne.data.Data.Data.forEach((e) => {
+          dataOne.push({ x: new Date(e.time * 1000), y: e.high });
         });
-        setchData(docData);
-      });
+        let dataTwo = [];
+        responseTwo.data.Data.Data.forEach((e) => {
+          dataTwo.push({ x: new Date(e.time * 1000), y: e.high });
+        });
+
+        setchData([dataOne, dataTwo]);
+      })
+    );
   };
 
   return (
@@ -56,129 +69,148 @@ function BotList() {
               <p id="bot-meno" onClick={() => navigate("../bot-detail/3232")}>
                 Bot 1
               </p>
-              <p id="bot-mena">
+              <i id="bot-mena">
                 <p>
-                  <text>$ </text>7403.34
+                  <i>$ </i>7403.34
                 </p>
                 <p id="btc">
-                  <text>₿ </text>0.25435
+                  <i>₿ </i>0.25435
                 </p>
-              </p>
+              </i>
               <p id="bot-par">ETH - USDT</p>
               <span style={{ color: "#16c784" }} className="zmena">
+                <VscTriangleUp />
                 0.24%
               </span>
               <span style={{ color: "#ea3943" }} className="zmena">
+                <VscTriangleDown />
                 2.44%
               </span>
               <span style={{ color: "#ea3943" }} className="zmena">
+                <VscTriangleDown />
                 5.07777%
               </span>
               <span style={{ color: "#ea3943" }} className="zmena">
+                <VscTriangleDown />
                 1400.3%
               </span>
               <div className="list-graf">
-                <ListGraf newData={chartData} />
+                <ListGraf newData={chartData[0]} />
               </div>
             </li>
 
             <li>
               <p id="bot-meno">Bot 1</p>
-              <p id="bot-mena">
+              <i id="bot-mena">
                 <p>
-                  <text>$ </text>7403.34
+                  <i>$ </i>7403.34
                 </p>
                 <p id="btc">
-                  <text>₿ </text>0.25435
+                  <i>₿ </i>0.25435
                 </p>
-              </p>
+              </i>
               <p id="bot-par">ETH - USDT</p>
               <span style={{ color: "#ea3943" }} className="zmena">
+                <VscTriangleDown />
                 0.24%
               </span>
               <span style={{ color: "#ea3943" }} className="zmena">
+                <VscTriangleDown />
                 2.44%
               </span>
               <span style={{ color: "#16c784" }} className="zmena">
-                5.07777%
+                <VscTriangleUp />
+                5.077%
               </span>
               <span style={{ color: "#16c784" }} className="zmena">
+                <VscTriangleUp />
                 1400.3%
               </span>
-              <div className="list-graf">{<ListGraf newData={chartData} />}</div>
+              <div className="list-graf">{<ListGraf newData={chartData[1]} />}</div>
             </li>
 
             <li>
               <p id="bot-meno">Bot 1</p>
-              <p id="bot-mena">
+              <i id="bot-mena">
                 <p>
-                  <text>$ </text>7403.34
+                  <i>$ </i>7403.34
                 </p>
                 <p id="btc">
-                  <text>₿ </text>0.25435
+                  <i>₿ </i>0.25435
                 </p>
-              </p>
+              </i>
               <p id="bot-par">ETH - USDT</p>
               <span style={{ color: "#16c784" }} className="zmena">
+                <VscTriangleUp />
                 0.24%
               </span>
               <span style={{ color: "#ea3943" }} className="zmena">
+                <VscTriangleDown />
                 2.44%
               </span>
               <span style={{ color: "#ea3943" }} className="zmena">
+                <VscTriangleDown />
                 5.07777%
               </span>
               <span style={{ color: "#ea3943" }} className="zmena">
+                <VscTriangleDown />
                 1400.3%
               </span>
-              <div className="list-graf">{<ListGraf newData={chartData} />}</div>
+              <div className="list-graf">{<ListGraf newData={chartData[0]} />}</div>
             </li>
 
             <li>
               <p id="bot-meno">Bot 1</p>
-              <p id="bot-mena">
+              <i id="bot-mena">
                 <p>
-                  <text>$ </text>740334.34
+                  <i>$ </i>740334.34
                 </p>
                 <p id="btc">
-                  <text>₿ </text>0.25323
+                  <i>₿ </i>0.25323
                 </p>
-              </p>
+              </i>
               <p id="bot-par">ETH - USDT</p>
               <span style={{ color: "#16c784" }} className="zmena">
+                <VscTriangleUp />
                 0.24%
               </span>
               <span style={{ color: "#16c784" }} className="zmena">
+                <VscTriangleUp />
                 2.44%
               </span>
               <span style={{ color: "#ea3943" }} className="zmena">
+                <VscTriangleDown />
                 5.07777%
               </span>
               <span style={{ color: "#ea3943" }} className="zmena">
+                <VscTriangleDown />
                 1400.3%
               </span>
-              <div className="list-graf">{<ListGraf newData={chartData} />}</div>
+              <div className="list-graf">{<ListGraf newData={chartData[1]} />}</div>
             </li>
             <div className="legenda" id="sucet">
               <p id="sucet-text">Súčet</p>
               <p id="bot-meno">---</p>
-              <p id="bot-mena">
+              <i id="bot-mena">
                 <p>
-                  <text>$ </text>7403.34
+                  <i>$ </i>7403.34
                 </p>
                 <p id="btc">
-                  <text>₿ </text>0.25435
+                  <i>₿ </i>0.25435
                 </p>
-              </p>
+              </i>
               <p id="bot-par">---</p>
               <span style={{ color: "#16c784" }} className="zmena">
+                <VscTriangleUp />
                 0.24%
               </span>
               <span style={{ color: "#16c784" }} className="zmena">
+                <VscTriangleUp />
                 2.44%
               </span>
               <span style={{ color: "#ea3943" }} className="zmena">
-                5.07777%
+                <VscTriangleDown />
+                5.07545%
               </span>
               <span className="zmena">---</span>
               <span className="zmena" id="graf">

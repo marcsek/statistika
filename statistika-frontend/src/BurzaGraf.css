@@ -1,0 +1,18 @@
+.burza-chart-div {
+  margin: auto;
+  position: absolute;
+  width: 500px;
+  left: 25px;
+  top: 50px;
+}
+
+.burza-graf-filter {
+  top: 20px;
+  right: -60px;
+}
+
+.burza-graf-filter ul {
+  padding: 4px 3px 4px 3px;
+  height: fit-content;
+  flex-direction: column;
+}

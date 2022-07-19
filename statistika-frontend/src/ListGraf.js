@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
 import "chartjs-adapter-moment";
 
 function ListGraf({ newData }) {
@@ -11,11 +10,15 @@ function ListGraf({ newData }) {
   const [data, setData] = useState({ datasets: [] });
 
   useEffect(() => {
+    let dataCopy = [];
+    if (newData != undefined) {
+      dataCopy = [...newData];
+    }
     setData({
       datasets: [
         {
-          data: newData,
-          borderColor: /*grafData.data[0] > grafData.data.slice(-1)[0] ?*/ "rgb(214,69,93)" /*: "rgb(79,194,128)",*/,
+          data: dataCopy,
+          borderColor: dataCopy[0] > dataCopy.slice(-1)[0] ? "rgb(214,69,93)" : "rgb(79,194,128)",
         },
       ],
     });
@@ -28,7 +31,7 @@ function ListGraf({ newData }) {
       point: {
         radius: 0,
       },
-      line: { borderWidth: 1.5 },
+      line: { borderWidth: 2 },
     },
     tooltips: { enabled: false },
     hover: { mode: null },

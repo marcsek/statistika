@@ -1,70 +1,195 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./Graf.css";
 import axios from "axios";
 import MainGraf from "./MainGraf";
+import BurzaGraf from "./BurzaGraf";
+
+import { VscTriangleUp, VscTriangleDown, VscCircleFilled } from "react-icons/vsc";
 
 import { faker } from "@faker-js/faker";
 
 function Graf() {
-  const [chartData, setchData] = useState([]);
+  const [mainChartData, setMainChData] = useState([]);
+  const [subChartsData, setSubChData] = useState([]);
 
-  const grafRequestData = (duration) => {
-    let day = "";
-    let amount = "";
+  const filterDate = (duration) => {
+    let requestData = { tick: "", amount: "" };
 
-    if (duration == "1d") {
-      day = "hour";
-      amount = "24";
+    switch (duration) {
+      case "1d":
+        requestData.tick = "hour";
+        requestData.amount = "24";
+        break;
+      case "7d":
+        requestData.tick = "hour";
+        requestData.amount = "168";
+        break;
+      case "1m,":
+        requestData.tick = "day";
+        requestData.amount = "30";
+        break;
+      case "3m":
+        requestData.tick = "day";
+        requestData.amount = "90";
+        break;
+      case "1y":
+        requestData.tick = "day";
+        requestData.amount = "365";
+        break;
+      case "all":
+        requestData.tick = "day";
+        requestData.amount = "365";
+        break;
+      default:
+        break;
     }
-    if (duration == "7d") {
-      day = "hour";
-      amount = "168";
-    }
-    if (duration == "1m") {
-      day = "day";
-      amount = "30";
-    }
-    if (duration == "3m") {
-      day = "day";
-      amount = "90";
-    }
-    if (duration == "1y") {
-      day = "day";
-      amount = "360";
-    }
+
+    return requestData;
+  };
+
+  const mainGrafRequestData = useCallback((duration) => {
+    let requestParams = filterDate(duration);
+
     var docData = [];
     var dataToUpdate = [[], [], []];
     axios
-      .get(`https://min-api.cryptocompare.com/data/v2/histo${day}?fsym=BTC&tsym=USD&limit=${amount}&toTs=-1&agregate=1&api_key=YOURKEYHERE`)
+      .get(
+        `https://min-api.cryptocompare.com/data/v2/histo${requestParams.tick}?fsym=BTC&tsym=USD&limit=${requestParams.amount}&toTs=-1&agregate=1&api_key=YOURKEYHERE`
+      )
       .then((res) => {
-        console.log(res);
         res.data.Data.Data.forEach((e) => {
           docData.push({ x: new Date(e.time * 1000), y: e.high });
-          // console.log(new Date(e.time));
         });
         dataToUpdate[0].push(...docData);
         docData = [];
         res.data.Data.Data.forEach((e) => {
           docData.push({ x: new Date(e.time * 1000), y: e.high / 1.2 + faker.datatype.number({ min: 1000, max: 2000 }) });
-          // console.log(new Date(e.time));
         });
-        // console.log(docData);
         dataToUpdate[1].push(...docData);
         docData = [];
         res.data.Data.Data.forEach((e) => {
           docData.push({ x: new Date(e.time * 1000), y: e.high / 2.5 + faker.datatype.number({ min: 1000, max: 5000 }) });
-          // console.log(new Date(e.time));
         });
-        // console.log(docData);
         dataToUpdate[2].push(...docData);
 
-        setchData(dataToUpdate);
+        setMainChData(dataToUpdate);
       });
-  };
+  }, []);
+
+  const subChartRequestData = useCallback(
+    (duration, index) => {
+      let requestParams = filterDate(duration);
+
+      var docData = [];
+      var dataToUpdate = [[], [], [], []];
+
+      axios
+        .get(
+          `https://min-api.cryptocompare.com/data/v2/histo${requestParams.tick}?fsym=BTC&tsym=USD&limit=${requestParams.amount}&toTs=-1&agregate=1&api_key=YOURKEYHERE`
+        )
+        .then((res) => {
+          res.data.Data.Data.forEach((e) => {
+            docData.push({ x: new Date(e.time * 1000), y: e.high });
+          });
+          if (index === -1 || subChartsData.length === 0) {
+            console.log(index);
+            for (var i = 0; i < dataToUpdate.length; i++) {
+              dataToUpdate[i] = docData;
+            }
+            setSubChData(dataToUpdate);
+          } else {
+            var stateDoc = [...subChartsData];
+            stateDoc.splice(index, 1, docData);
+            console.log(stateDoc);
+            setSubChData(stateDoc);
+          }
+        });
+    },
+    [subChartsData]
+  );
 
   return (
-    <div>
-      <MainGraf grafRequestData={grafRequestData} newData={chartData}></MainGraf>
+    <div className="graf-page-div">
+      <div className="celkovy-stav-cont">
+        <div className="devider-vyvin" id="devider"></div>
+        <p className="vyvin-title" id="title">
+          Celkový vývin
+        </p>
+        <ul>
+          <li className="stav-element">
+            <VscCircleFilled id="indikator" />
+            <p>Zmena 24H</p>
+            <span id="eur-zmena">€ +1 300.45</span>
+            <p id="btc-zmena">₿ +0.24544</p>
+            <span id="perc-zmena">
+              <VscTriangleUp /> 10%
+            </span>
+          </li>
+          <li className="stav-element">
+            <VscCircleFilled id="indikator" />
+            <p>Zmena 7D</p>
+            <span id="eur-zmena">€ +16 433.35</span>
+            <p id="btc-zmena">₿ +0.24544</p>
+            <span id="perc-zmena">
+              <VscTriangleUp /> 10%
+            </span>
+          </li>
+          <li className="stav-element">
+            <VscCircleFilled style={{ color: "#ea3943" }} id="indikator" />
+            <p>Zmena 3M</p>
+            <span id="eur-zmena">€ -344 333.64</span>
+            <p id="btc-zmena">₿ -0.24544</p>
+            <span style={{ color: "#ea3943" }} id="perc-zmena">
+              <VscTriangleDown /> 10%
+            </span>
+          </li>
+          <li className="stav-element">
+            <p>Celkové prostriedky</p>
+            <span id="eur-zmena">€ 143 300</span>
+            <p id="btc-zmena">₿ 3.24544</p>
+          </li>
+        </ul>
+      </div>
+      <div id="graf-burza-cont">
+        <div className="devider-graf" id="devider"></div>
+        <p className="graf-title" id="title">
+          Graf vývoja
+        </p>
+        <MainGraf grafRequestData={mainGrafRequestData} newData={mainChartData}></MainGraf>
+      </div>
+      <div className="graf-burzy-cont">
+        <ul>
+          <li className="burza">
+            <div className="burza-cont">
+              <div className="devider" id="devider"></div>
+              <p id="title">Burza 1</p>
+              <BurzaGraf grafRequestData={subChartRequestData} newData={subChartsData[0]} index={0}></BurzaGraf>
+            </div>
+          </li>
+          <li className="burza">
+            <div className="burza-cont">
+              <div className="devider" id="devider"></div>
+              <p id="title">Burza 2</p>
+              <BurzaGraf grafRequestData={subChartRequestData} newData={subChartsData[1]} farbaCiary="#FF6384" index={1}></BurzaGraf>
+            </div>
+          </li>
+          <li className="burza">
+            <div className="burza-cont">
+              <div className="devider" id="devider"></div>
+              <p id="title">Burza 3</p>
+              <BurzaGraf grafRequestData={subChartRequestData} newData={subChartsData[2]} farbaCiary="#FF6384" index={2}></BurzaGraf>
+            </div>
+          </li>
+          <li className="burza">
+            {" "}
+            <div className="burza-cont">
+              <div className="devider" id="devider"></div>
+              <p id="title">Burza 4</p>
+              <BurzaGraf grafRequestData={subChartRequestData} newData={subChartsData[3]} index={3}></BurzaGraf>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }
