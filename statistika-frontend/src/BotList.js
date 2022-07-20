@@ -5,6 +5,7 @@ import axios from "axios";
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 
 import ListGraf from "./ListGraf";
+import { faker } from "@faker-js/faker";
 
 function BotList() {
   const navigate = useNavigate();
@@ -12,9 +13,58 @@ function BotList() {
   const [click, setClick] = useState(false);
 
   const [chartData, setchData] = useState([]);
+  const [pageData, setPageData] = useState([]);
 
   useEffect(() => {
     getFakeData();
+
+    let docData = [];
+    for (let i = 0; i < 5; i++) {
+      let d = [];
+      for (let i = 0; i < Math.floor(Math.random() * 5) + 1; i++) {
+        d.push({
+          bMeno: `Bot ${i + 1}`,
+          cena: {
+            e: faker.datatype.float({
+              min: 1000,
+              max: 500000,
+            }),
+            b: faker.datatype.float({
+              min: 0.00025,
+              max: 10.0,
+              precision: 0.0001,
+            }),
+          },
+          botPar: "ETH - USDT",
+          zmena: {
+            h24: faker.datatype.float({
+              min: 0.025,
+              max: 100.0,
+              precision: 0.01,
+            }),
+            d7: faker.datatype.float({
+              min: 0.025,
+              max: 100.0,
+              precision: 0.01,
+            }),
+            d30: faker.datatype.float({
+              min: 0.025,
+              max: 100.0,
+              precision: 0.01,
+            }),
+            cc: faker.datatype.float({
+              min: 0.025,
+              max: 100.0,
+              precision: 0.01,
+            }),
+          },
+        });
+      }
+      docData.push({
+        burza: { meno: `Burza ${i + 1}`, boti: [...d] },
+      });
+    }
+    setPageData([...docData]);
   }, []);
 
   const getFakeData = () => {
@@ -43,14 +93,11 @@ function BotList() {
     );
   };
 
-  return (
-    <div>
-      <button className="vypinac" id={!click ? "red" : "green"} onClick={() => setClick(!click)}>
-        {!click ? "Vypnúť botov" : "Zapnúť Botov"}
-      </button>
-      <ul className="list-burza">
+  const BurzaList = () => {
+    let page = pageData.map((b) => {
+      return (
         <li className="li-burza">
-          <p id="burza-meno">Burza 1</p>
+          <p id="burza-meno">{b.burza.meno}</p>
           <ol className="bot-list">
             <div id="divider"></div>
             <div className="legenda">
@@ -65,129 +112,50 @@ function BotList() {
                 Pos. 7 Dní
               </span>
             </div>
-            <li>
-              <p id="bot-meno" onClick={() => navigate("../bot-detail/3232")}>
-                Bot 1
-              </p>
-              <i id="bot-mena">
-                <p>
-                  <i>$ </i>7403.34
-                </p>
-                <p id="btc">
-                  <i>₿ </i>0.25435
-                </p>
-              </i>
-              <p id="bot-par">ETH - USDT</p>
-              <span style={{ color: "#16c784" }} className="zmena">
-                <VscTriangleUp />
-                0.24%
-              </span>
-              <span style={{ color: "#ea3943" }} className="zmena">
-                <VscTriangleDown />
-                2.44%
-              </span>
-              <span style={{ color: "#ea3943" }} className="zmena">
-                <VscTriangleDown />
-                5.07777%
-              </span>
-              <span style={{ color: "#ea3943" }} className="zmena">
-                <VscTriangleDown />
-                1400.3%
-              </span>
-              <div className="list-graf">
-                <ListGraf newData={chartData[0]} />
-              </div>
-            </li>
-
-            <li>
-              <p id="bot-meno">Bot 1</p>
-              <i id="bot-mena">
-                <p>
-                  <i>$ </i>7403.34
-                </p>
-                <p id="btc">
-                  <i>₿ </i>0.25435
-                </p>
-              </i>
-              <p id="bot-par">ETH - USDT</p>
-              <span style={{ color: "#ea3943" }} className="zmena">
-                <VscTriangleDown />
-                0.24%
-              </span>
-              <span style={{ color: "#ea3943" }} className="zmena">
-                <VscTriangleDown />
-                2.44%
-              </span>
-              <span style={{ color: "#16c784" }} className="zmena">
-                <VscTriangleUp />
-                5.077%
-              </span>
-              <span style={{ color: "#16c784" }} className="zmena">
-                <VscTriangleUp />
-                1400.3%
-              </span>
-              <div className="list-graf">{<ListGraf newData={chartData[1]} />}</div>
-            </li>
-
-            <li>
-              <p id="bot-meno">Bot 1</p>
-              <i id="bot-mena">
-                <p>
-                  <i>$ </i>7403.34
-                </p>
-                <p id="btc">
-                  <i>₿ </i>0.25435
-                </p>
-              </i>
-              <p id="bot-par">ETH - USDT</p>
-              <span style={{ color: "#16c784" }} className="zmena">
-                <VscTriangleUp />
-                0.24%
-              </span>
-              <span style={{ color: "#ea3943" }} className="zmena">
-                <VscTriangleDown />
-                2.44%
-              </span>
-              <span style={{ color: "#ea3943" }} className="zmena">
-                <VscTriangleDown />
-                5.07777%
-              </span>
-              <span style={{ color: "#ea3943" }} className="zmena">
-                <VscTriangleDown />
-                1400.3%
-              </span>
-              <div className="list-graf">{<ListGraf newData={chartData[0]} />}</div>
-            </li>
-
-            <li>
-              <p id="bot-meno">Bot 1</p>
-              <i id="bot-mena">
-                <p>
-                  <i>$ </i>740334.34
-                </p>
-                <p id="btc">
-                  <i>₿ </i>0.25323
-                </p>
-              </i>
-              <p id="bot-par">ETH - USDT</p>
-              <span style={{ color: "#16c784" }} className="zmena">
-                <VscTriangleUp />
-                0.24%
-              </span>
-              <span style={{ color: "#16c784" }} className="zmena">
-                <VscTriangleUp />
-                2.44%
-              </span>
-              <span style={{ color: "#ea3943" }} className="zmena">
-                <VscTriangleDown />
-                5.07777%
-              </span>
-              <span style={{ color: "#ea3943" }} className="zmena">
-                <VscTriangleDown />
-                1400.3%
-              </span>
-              <div className="list-graf">{<ListGraf newData={chartData[1]} />}</div>
-            </li>
+            {b.burza.boti.map((e) => {
+              function numberWithSpaces(x) {
+                var parts = x.toString().split(".");
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                return parts.join(".");
+              }
+              return (
+                <li>
+                  <p id="bot-meno" onClick={() => navigate("../bot-detail/3232")}>
+                    {e.bMeno}
+                  </p>
+                  <i id="bot-mena">
+                    <p>
+                      <i>$ </i>
+                      {numberWithSpaces(e.cena.e)}
+                    </p>
+                    <p id="btc">
+                      <i>₿ </i>
+                      {e.cena.b}
+                    </p>
+                  </i>
+                  <p id="bot-par">{e.botPar}</p>
+                  <span style={{ color: "#16c784" }} className="zmena">
+                    <VscTriangleUp />
+                    {e.zmena.h24}%
+                  </span>
+                  <span style={{ color: "#ea3943" }} className="zmena">
+                    <VscTriangleDown />
+                    {e.zmena.d7}%
+                  </span>
+                  <span style={{ color: "#ea3943" }} className="zmena">
+                    <VscTriangleDown />
+                    {e.zmena.d30}%
+                  </span>
+                  <span style={{ color: "#ea3943" }} className="zmena">
+                    <VscTriangleDown />
+                    {e.zmena.cc}%
+                  </span>
+                  <div className="list-graf">
+                    <ListGraf newData={chartData[0]} />
+                  </div>
+                </li>
+              );
+            })}
             <div className="legenda" id="sucet">
               <p id="sucet-text">Súčet</p>
               <p id="bot-meno">---</p>
@@ -219,59 +187,18 @@ function BotList() {
             </div>
           </ol>
         </li>
-        <li className="li-burza">
-          <p id="burza-meno">Burza 2</p>
-          <ol className="bot-list">
-            <div id="divider"></div>
-            <li className="legenda">
-              <p id="bot-meno">Meno</p>
-              <p id="bot-mena">Stav</p>
-              <span className="zmena">24h</span>
-              <span className="zmena">7d</span>
-              <span className="zmena">30d</span>
-              <span className="zmena">all-time</span>
-            </li>
-            <li>
-              <p id="bot-meno">Bot 1</p>
-              <p id="bot-mena">ETH</p>
-              <span className="zmena">0.24%</span>
-              <span className="zmena">2.44%</span>
-              <span className="zmena">5.07777%</span>
-              <span className="zmena">1400.3%</span>
-            </li>
-            <li>
-              <p id="bot-meno">Bot 1</p>
-              <p id="bot-mena">ETH</p>
-              <span className="zmena">0.24%</span>
-              <span className="zmena">2.44%</span>
-              <span className="zmena">5.07777%</span>
-              <span className="zmena">1400.3%</span>
-            </li>
-          </ol>
-        </li>
-        <li className="li-burza">
-          <p id="burza-meno">Burza 3</p>
-          <ol className="bot-list">
-            <div id="divider"></div>
-            <li className="legenda">
-              <p id="bot-meno">Meno</p>
-              <p id="bot-mena">Stav</p>
-              <span className="zmena">24h</span>
-              <span className="zmena">7d</span>
-              <span className="zmena">30d</span>
-              <span className="zmena">all-time</span>
-            </li>
-            <li>
-              <p id="bot-meno">Bot 1</p>
-              <p id="bot-mena">ETH</p>
-              <span className="zmena">0.24%</span>
-              <span className="zmena">2.44%</span>
-              <span className="zmena">5.07777%</span>
-              <span className="zmena">1400.3%</span>
-            </li>
-          </ol>
-        </li>
-      </ul>
+      );
+    });
+
+    return page;
+  };
+
+  return (
+    <div>
+      <button className="vypinac" id={!click ? "red" : "green"} onClick={() => setClick(!click)}>
+        {!click ? "Vypnúť botov" : "Zapnúť Botov"}
+      </button>
+      <ul className="list-burza">{BurzaList()}</ul>
     </div>
   );
 }
