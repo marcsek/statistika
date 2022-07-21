@@ -20,7 +20,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   padding-top: 100px;
-  width: 1500px;
+  width: 1300px;
   gap: 70px;
 }
 
@@ -29,12 +29,15 @@
   align-items: center;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .bot-parametre-cont {
-  background-color: black;
+  /* background-color: black; */
   width: 100%;
   height: 500px;
+  position: relative;
+  margin-left: 50px;
 }
 
 .bot-obchody-cont {
@@ -49,11 +52,130 @@
   height: 250px;
   width: 4px;
   left: 50%;
-  top: 60%;
+  top: 55%;
   transform: translate(-50%, -50%);
 }
 
 .bot-obchody-cont li {
   height: 50px;
   border-top: 2px white solid;
+}
+
+.bot-parametre {
+  margin-top: 50px;
+  padding-left: 25px;
+  /* height: 100%; */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.bot-parametre span {
+  color: #bbbbbb;
+  font-weight: 700;
+  position: relative;
+  font-size: 0.8rem;
+  background-color: var(--pozadie);
+  padding: 5px 5px 0px 5px;
+  z-index: 1;
+  margin-right: 15px;
+  pointer-events: none;
+}
+
+.bot-parametre input {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  background-color: transparent;
+  color: var(--pismo-biela);
+  outline: none;
+  border: 2px solid rgba(255, 255, 255, 0.29);
+  border-radius: 5px;
+  height: 15px;
+  padding: 7px 5px 5px 5px;
+  transition: all 0.1s;
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.96rem;
+}
+
+.parametre-input {
+  position: relative;
+  width: fit-content;
+  max-width: 130px;
+  min-width: 100px;
+  height: 50px;
+  padding-bottom: 20px;
+}
+
+.bot-parametre input:focus {
+  outline: none;
+  border: 2px solid #2c53dd;
+  box-shadow: 0px 0px 14px 1px rgba(44, 83, 221, 0.55);
+}
+
+.parametre-title {
+  font-size: 1.4rem;
+}
+
+.parametre-title-divider {
+  height: 4px;
+  width: 300px;
+  top: 17px;
+  left: 120px;
+}
+
+.submit-button {
+  border: none;
+  cursor: pointer;
+  color: var(--pismo-biela);
+  width: 220px;
+  height: 50px;
+  border-radius: 5px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  position: absolute;
+  right: 80px;
+  bottom: 80px;
+  transition: all 0.1s;
+}
+
+.submit-button#active {
+  background-color: #2c53dd;
+  transform: scale(1);
+}
+
+.submit-button#inactive {
+  background-color: rgba(63, 63, 63, 0.068);
+  color: rgba(255, 255, 255, 0.151);
+  pointer-events: none;
+  transform: scale(0);
+}
+
+.submit-button#active:hover {
+  filter: brightness(1.1);
+}
+
+.submit-button#active:active {
+  transition: all 0.05s;
+  transform: scale(0.95);
+}
+
+.graf-bot-title {
+  font-size: 1.4rem;
+  top: 0;
+  right: 0;
+}
+
+.bot-samotny-graf {
+  /* margin-top: 50px; */
+  margin-right: 20px;
+}
+
+.graf-bot-title-divider {
+  top: 17px;
+  height: 0px;
+  width: 300px;
+  height: 4px;
+  color: rgba(0, 27, 124, 0.55);
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "./MainGraf.css";
 
 import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale } from "chart.js";
@@ -11,14 +11,13 @@ function MainGraf({ grafRequestData, newData }) {
   Interaction.modes.interpolate = Interpolate;
 
   const [filter, setFilter] = useState("1y");
-  const [data, setData] = useState({ datasets: [] });
 
   useEffect(() => {
     grafRequestData(filter);
-  }, [filter]);
+  }, [filter, grafRequestData]);
 
-  useEffect(() => {
-    setData({
+  const data = useMemo(() => {
+    return {
       datasets: [
         {
           label: "Bitcoin",
@@ -30,7 +29,7 @@ function MainGraf({ grafRequestData, newData }) {
           backgroundColor: "#2c53dd",
           label: "Bot Eur",
           data: newData[1],
-          borderColor: "#2c53dd",
+          borderColor: "#3861FB",
         },
         {
           label: "Bot Btc",
@@ -38,7 +37,7 @@ function MainGraf({ grafRequestData, newData }) {
           borderColor: "#00E5B0",
         },
       ],
-    });
+    };
   }, [newData]);
 
   const options = {

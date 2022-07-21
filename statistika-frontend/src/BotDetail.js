@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BotGraf from "./BotGraf.js";
 import axios from "axios";
@@ -11,7 +11,21 @@ function BotDetail() {
 
   const [chartsData, setChData] = useState([]);
 
-  const chartRequestData = (duration) => {
+  const [textValues, setTextValues] = useState([
+    { title: "Parameter 1", v: "0.24", init: "0.24" },
+    { title: "Alebo aj iny", v: "434349", init: "434349" },
+    { title: "Aj text?", v: "Neviem", init: "Neviem" },
+    { title: "Uvidim", v: "434", init: "434" },
+    { title: "Nieco", v: "434", init: "434" },
+    { title: "Daco", v: "434", init: "434" },
+    { title: "Preco", v: "434", init: "434" },
+    { title: "Ako", v: "434", init: "434" },
+    { title: "Nevadi", v: "434", init: "434" },
+    { title: "Nabuduce", v: "434", init: "434" },
+  ]);
+  const [buttonChange, setButtonChange] = useState(true);
+
+  const chartRequestData = useCallback((duration) => {
     let requestParams = filterDate(duration);
 
     var docData = [];
@@ -26,6 +40,24 @@ function BotDetail() {
 
         setChData(docData);
       });
+  }, []);
+  const handeTextChange = (evt) => {
+    let stateCopy = [...textValues];
+
+    stateCopy[evt.target.accessKey].v = evt.target.value;
+    let oneWrong = false;
+    textValues.forEach((e) => {
+      if (e.v !== e.init) {
+        oneWrong = true;
+      }
+    });
+    if (oneWrong) {
+      setButtonChange(false);
+    } else {
+      setButtonChange(true);
+    }
+
+    setTextValues([...stateCopy]);
   };
 
   return (
@@ -33,11 +65,40 @@ function BotDetail() {
       <div className="bot-major-cont">
         <p id="title">Bot {botId}</p>
         <div className="bot-parametre-cont">
-          <span>Paremetre</span>
+          <div className="parametre-title-divider" id="devider"></div>
+          <span className="parametre-title" id="title">
+            Paremetre
+          </span>
+          <div className="bot-parametre">
+            {textValues.map((e, i) => {
+              return (
+                <div className="parametre-input">
+                  <span>{e.title}</span>
+                  <input
+                    autoComplete="off"
+                    accessKey={i}
+                    style={{ border: e.v !== e.init ? "2px solid #2c53dd" : "" }}
+                    value={e.v}
+                    id={e.init}
+                    onChange={handeTextChange}
+                  ></input>
+                </div>
+              );
+            })}
+          </div>
+          <button className="submit-button" id={buttonChange ? "inactive" : "active"}>
+            Updatnuť
+          </button>
         </div>
         <div className="divider-graf-para" id="devider"></div>
         <div className="bot-graf-cont">
-          <BotGraf grafRequestData={chartRequestData} newData={chartsData}></BotGraf>
+          <div className="graf-bot-title-divider" id="devider"></div>
+          <span className="graf-bot-title" id="title">
+            Graf vývoja
+          </span>
+          <div className="bot-samotny-graf">
+            <BotGraf grafRequestData={chartRequestData} newData={chartsData}></BotGraf>
+          </div>
         </div>
       </div>
       <ul className="bot-obchody-cont">

@@ -1,33 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import "./BurzaGraf.css";
 
-import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale } from "chart.js";
+import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
 import { Line } from "react-chartjs-2";
 
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 
 function BurzaGraf({ grafRequestData, newData, farbaCiary, index }) {
-  Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin);
+  Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin, Filler);
   Interaction.modes.interpolate = Interpolate;
 
   const [filter, setFilter] = useState("all");
-  const [data, setData] = useState({ datasets: [] });
+  const chartRef = useRef(null);
 
   useEffect(() => {
     grafRequestData(filter, index);
-  }, [filter]);
+  }, [filter, index]);
 
-  useEffect(() => {
-    setData({
+  const data = useMemo(() => {
+    let ctx = chartRef.current;
+    let gradient = null;
+    if (ctx != null) {
+      ctx = ctx.canvas.getContext("2d");
+      gradient = ctx.createLinearGradient(0, 0, 0, 300);
+      gradient.addColorStop(0, farbaCiary ? farbaCiary.g : "rgba(56,97,251, 0.34)");
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0.01)");
+    }
+    return {
       datasets: [
         {
           label: "Bitcoin",
           data: newData,
-          borderColor: farbaCiary ? farbaCiary : "#2c53dd",
+          borderColor: farbaCiary ? farbaCiary.c : "#3861FB",
+          backgroundColor: gradient,
+          fill: true,
         },
       ],
-    });
-  }, [newData]);
+    };
+  }, [newData, farbaCiary]);
 
   const options = {
     type: "line",
@@ -40,6 +50,12 @@ function BurzaGraf({ grafRequestData, newData, farbaCiary, index }) {
     interaction: {
       mode: "index",
       intersect: false,
+    },
+
+    elements: {
+      line: {
+        borderWidth: 2,
+      },
     },
     scales: {
       x: {
@@ -132,7 +148,7 @@ function BurzaGraf({ grafRequestData, newData, farbaCiary, index }) {
           </li>
         </ul>
       </div>
-      <Line options={options} data={data}></Line>
+      <Line ref={chartRef} options={options} data={data}></Line>
     </div>
   );
 }

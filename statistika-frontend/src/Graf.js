@@ -42,37 +42,32 @@ function Graf() {
       });
   }, []);
 
-  const subChartRequestData = useCallback(
-    (duration, index) => {
-      let requestParams = filterDate(duration);
+  const subChartRequestData = (duration, index) => {
+    let requestParams = filterDate(duration);
 
-      var docData = [];
-      var dataToUpdate = [[], [], [], []];
+    var docData = [];
+    var dataToUpdate = [[], [], [], []];
 
-      axios
-        .get(
-          `https://min-api.cryptocompare.com/data/v2/histo${requestParams.tick}?fsym=BTC&tsym=USD&limit=${requestParams.amount}&toTs=-1&agregate=1&api_key=YOURKEYHERE`
-        )
-        .then((res) => {
-          res.data.Data.Data.forEach((e) => {
-            docData.push({ x: new Date(e.time * 1000), y: e.high });
-          });
-          if (index === -1 || subChartsData.length === 0) {
-            console.log(index);
-            for (var i = 0; i < dataToUpdate.length; i++) {
-              dataToUpdate[i] = docData;
-            }
-            setSubChData(dataToUpdate);
-          } else {
-            var stateDoc = [...subChartsData];
-            stateDoc.splice(index, 1, docData);
-            console.log(stateDoc);
-            setSubChData(stateDoc);
-          }
+    axios
+      .get(
+        `https://min-api.cryptocompare.com/data/v2/histo${requestParams.tick}?fsym=BTC&tsym=USD&limit=${requestParams.amount}&toTs=-1&agregate=1&api_key=YOURKEYHERE`
+      )
+      .then((res) => {
+        res.data.Data.Data.forEach((e) => {
+          docData.push({ x: new Date(e.time * 1000), y: e.high });
         });
-    },
-    [subChartsData]
-  );
+        if (index === -1 || subChartsData.length === 0) {
+          for (var i = 0; i < dataToUpdate.length; i++) {
+            dataToUpdate[i] = docData;
+          }
+          setSubChData(dataToUpdate);
+        } else {
+          var stateDoc = [...subChartsData];
+          stateDoc.splice(index, 1, docData);
+          setSubChData(stateDoc);
+        }
+      });
+  };
 
   return (
     <div className="graf-page-div">
@@ -136,14 +131,24 @@ function Graf() {
             <div className="burza-cont">
               <div className="devider" id="devider"></div>
               <p id="title">Burza 2</p>
-              <BurzaGraf grafRequestData={subChartRequestData} newData={subChartsData[1]} farbaCiary="#FF6384" index={1}></BurzaGraf>
+              <BurzaGraf
+                grafRequestData={subChartRequestData}
+                newData={subChartsData[1]}
+                farbaCiary={{ c: "#FF6384", g: "rgba(255,99,132, 0.34)" }}
+                index={1}
+              ></BurzaGraf>
             </div>
           </li>
           <li className="burza">
             <div className="burza-cont">
               <div className="devider" id="devider"></div>
               <p id="title">Burza 3</p>
-              <BurzaGraf grafRequestData={subChartRequestData} newData={subChartsData[2]} farbaCiary="#FF6384" index={2}></BurzaGraf>
+              <BurzaGraf
+                grafRequestData={subChartRequestData}
+                newData={subChartsData[2]}
+                farbaCiary={{ c: "#FF6384", g: "rgba(255,99,132, 0.34)" }}
+                index={2}
+              ></BurzaGraf>
             </div>
           </li>
           <li className="burza">

@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale } from "chart.js";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
 
+import CrosshairPlugin from "chartjs-plugin-crosshair";
+
 function ListGraf({ newData }) {
-  Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale);
+  Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin);
 
-  const [data, setData] = useState({ datasets: [] });
+  const data = useMemo(() => {
+    let dataCopy = [...(newData ?? [])];
 
-  useEffect(() => {
-    let dataCopy = [];
-    if (newData != undefined) {
-      dataCopy = [...newData];
-    }
-    setData({
+    return {
       datasets: [
         {
           data: dataCopy,
           borderColor: dataCopy[0] > dataCopy.slice(-1)[0] ? "rgb(214,69,93)" : "rgb(79,194,128)",
         },
       ],
-    });
+    };
   }, [newData]);
 
   const options = {
@@ -58,6 +56,11 @@ function ListGraf({ newData }) {
     plugins: {
       legend: {
         display: false,
+      },
+      crosshair: {
+        sync: {
+          enabled: false,
+        },
       },
     },
   };

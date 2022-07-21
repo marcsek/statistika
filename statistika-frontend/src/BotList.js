@@ -151,7 +151,7 @@ function BotList() {
                     {e.zmena.cc}%
                   </span>
                   <div className="list-graf">
-                    <ListGraf newData={chartData[0]} />
+                    <ListGraf newData={chartData[Math.round(Math.random())]} />
                   </div>
                 </li>
               );

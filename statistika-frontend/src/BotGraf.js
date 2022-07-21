@@ -1,26 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import "./BotGraf.css";
 
-import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale } from "chart.js";
+import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, LineController } from "chart.js";
 import { Line } from "react-chartjs-2";
 
 import "chartjs-adapter-moment";
+import "chartjs-plugin-lineheight-annotation";
 
-import CrosshairPlugin, { Interpolate } from "chartjs-plugin-crosshair";
+import CrosshairPlugin from "chartjs-plugin-crosshair";
 
 function BotGraf({ grafRequestData, newData }) {
-  Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin);
-  Interaction.modes.interpolate = Interpolate;
+  Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin);
 
   const [filter, setFilter] = useState("1y");
-  const [data, setData] = useState({ datasets: [] });
+  const chartRef = useRef(null);
 
   useEffect(() => {
     grafRequestData(filter);
-  }, [filter]);
+  }, [filter, grafRequestData]);
 
-  useEffect(() => {
-    setData({
+  const data = useMemo(() => {
+    let ctx = chartRef.current;
+    let gradient = null;
+    if (ctx != null) {
+      ctx = ctx.canvas.getContext("2d");
+      gradient = ctx.createLinearGradient(0, 0, 0, 450);
+      gradient.addColorStop(0, "rgba(56,97,251, 0.34)");
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0.01)");
+    }
+    return {
+      datasets: [
+        {
+          fill: true,
+          label: "Bitcoin",
+          data: newData,
+          borderColor: "#3861FB",
+          backgroundColor: gradient,
+        },
+      ],
+    };
+  }, [newData]);
+
+  const getChartData = (canvas) => {
+    return {
       datasets: [
         {
           label: "Bitcoin",
@@ -30,18 +52,22 @@ function BotGraf({ grafRequestData, newData }) {
           backgroundColor: "#ccd5f6",
         },
       ],
-    });
-  }, [newData]);
+    };
+  };
 
   const options = {
     maintainAspectRatio: false,
-    aspectRatio: 720 / 500,
+    aspectRatio: 600 / 400,
     type: "line",
     responsive: true,
     pointHoverRadius: 7,
     pointRadius: 0,
-    lineTension: 0,
     interpolate: true,
+    elements: {
+      line: {
+        borderWidth: 3,
+      },
+    },
 
     interaction: {
       mode: "index",
@@ -53,7 +79,6 @@ function BotGraf({ grafRequestData, newData }) {
         display: true,
         grid: {
           color: "rgba(0, 0, 0, 0)",
-          borderWidth: 0,
         },
         ticks: {
           color: "#bbbbbb",
@@ -129,13 +154,13 @@ function BotGraf({ grafRequestData, newData }) {
           <li style={{ backgroundColor: filter === "7d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("7d")}>
             7D
           </li>
-          <li style={{ backgroundColor: filter == "1m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1m")}>
+          <li style={{ backgroundColor: filter === "1m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1m")}>
             1M
           </li>
           <li style={{ backgroundColor: filter === "3m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("3m")}>
             3M
           </li>
-          <li style={{ backgroundColor: filter == "1y" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1y")}>
+          <li style={{ backgroundColor: filter === "1y" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1y")}>
             1Y
           </li>
           <li style={{ backgroundColor: filter === "all" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("all")}>
@@ -143,7 +168,7 @@ function BotGraf({ grafRequestData, newData }) {
           </li>
         </ul>
       </div>
-      <Line options={options} data={data}></Line>
+      <Line ref={chartRef} options={options} data={data}></Line>
     </div>
   );
 }
