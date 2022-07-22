@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "./Graf.css";
 import axios from "axios";
-import MainGraf from "./MainGraf";
-import BurzaGraf from "./BurzaGraf";
+import MainGraf from "./komponenty/grafy/MainGraf";
+import BurzaGraf from "./komponenty/grafy/BurzaGraf";
 
 import { VscTriangleUp, VscTriangleDown, VscCircleFilled } from "react-icons/vsc";
 
 import { faker } from "@faker-js/faker";
-import filterDate from "./pomocky/FilterDate.js";
+import { filterDate } from "./pomocky/datumovanie";
 
 function Graf() {
   const [mainChartData, setMainChData] = useState([]);

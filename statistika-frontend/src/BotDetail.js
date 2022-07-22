@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import BotGraf from "./BotGraf.js";
+import BotGraf from "./komponenty/grafy/BotGraf.js";
 import axios from "axios";
 import "./BotDetail.css";
 
-import filterDate from "./pomocky/FilterDate.js";
+import { filterDate } from "./pomocky/datumovanie";
+import ObchodyList from "./komponenty/ObchodyList.js";
 
 function BotDetail() {
   const { botId } = useParams();
@@ -101,14 +102,7 @@ function BotDetail() {
           </div>
         </div>
       </div>
-      <ul className="bot-obchody-cont">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
+      <ObchodyList></ObchodyList>
     </div>
   );
 }

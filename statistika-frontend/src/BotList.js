@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 
-import ListGraf from "./ListGraf";
+import ListGraf from "./komponenty/grafy/ListGraf";
 import { faker } from "@faker-js/faker";
 
 function BotList() {
@@ -38,22 +38,22 @@ function BotList() {
           botPar: "ETH - USDT",
           zmena: {
             h24: faker.datatype.float({
-              min: 0.025,
+              min: -100,
               max: 100.0,
               precision: 0.01,
             }),
             d7: faker.datatype.float({
-              min: 0.025,
+              min: -100,
               max: 100.0,
               precision: 0.01,
             }),
             d30: faker.datatype.float({
-              min: 0.025,
+              min: -100,
               max: 100.0,
               precision: 0.01,
             }),
             cc: faker.datatype.float({
-              min: 0.025,
+              min: -100,
               max: 100.0,
               precision: 0.01,
             }),
@@ -134,20 +134,20 @@ function BotList() {
                     </p>
                   </i>
                   <p id="bot-par">{e.botPar}</p>
-                  <span style={{ color: "#16c784" }} className="zmena">
-                    <VscTriangleUp />
+                  <span style={{ color: e.zmena.h24 >= 0 ? "#16c784" : "#ea3943" }} className="zmena">
+                    {e.zmena.h24 >= 0 ? <VscTriangleUp /> : <VscTriangleDown />}
                     {e.zmena.h24}%
                   </span>
-                  <span style={{ color: "#ea3943" }} className="zmena">
-                    <VscTriangleDown />
+                  <span style={{ color: e.zmena.d7 >= 0 ? "#16c784" : "#ea3943" }} className="zmena">
+                    {e.zmena.d7 >= 0 ? <VscTriangleUp /> : <VscTriangleDown />}
                     {e.zmena.d7}%
                   </span>
-                  <span style={{ color: "#ea3943" }} className="zmena">
-                    <VscTriangleDown />
+                  <span style={{ color: e.zmena.d30 >= 0 ? "#16c784" : "#ea3943" }} className="zmena">
+                    {e.zmena.d30 >= 0 ? <VscTriangleUp /> : <VscTriangleDown />}
                     {e.zmena.d30}%
                   </span>
-                  <span style={{ color: "#ea3943" }} className="zmena">
-                    <VscTriangleDown />
+                  <span style={{ color: e.zmena.cc >= 0 ? "#16c784" : "#ea3943" }} className="zmena">
+                    {e.zmena.cc >= 0 ? <VscTriangleUp /> : <VscTriangleDown />}
                     {e.zmena.cc}%
                   </span>
                   <div className="list-graf">

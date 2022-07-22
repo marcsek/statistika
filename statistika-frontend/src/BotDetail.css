@@ -40,25 +40,12 @@
   margin-left: 50px;
 }
 
-.bot-obchody-cont {
-  background-color: black;
-  width: 1150px;
-  margin-top: 120px;
-  list-style: none;
-  padding: 0;
-}
-
 .divider-graf-para {
   height: 250px;
   width: 4px;
   left: 50%;
   top: 55%;
   transform: translate(-50%, -50%);
-}
-
-.bot-obchody-cont li {
-  height: 50px;
-  border-top: 2px white solid;
 }
 
 .bot-parametre {
@@ -122,7 +109,7 @@
   height: 4px;
   width: 300px;
   top: 17px;
-  left: 120px;
+  left: 140px;
 }
 
 .submit-button {

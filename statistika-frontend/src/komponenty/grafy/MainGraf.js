@@ -68,6 +68,7 @@ function MainGraf({ grafRequestData, newData }) {
           maxRotation: 0,
           font: {
             weight: 550,
+            size: 13,
           },
         },
       },
@@ -89,6 +90,7 @@ function MainGraf({ grafRequestData, newData }) {
           color: "#bbbbbb",
           font: {
             weight: 550,
+            size: 13,
           },
         },
       },
@@ -103,8 +105,8 @@ function MainGraf({ grafRequestData, newData }) {
           color: "#bbbbbb",
           padding: 50,
           font: {
-            size: 13,
-            weight: "bold",
+            size: 14,
+            weight: 550,
           },
         },
       },

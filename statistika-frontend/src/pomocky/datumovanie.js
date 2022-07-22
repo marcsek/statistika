@@ -1,4 +1,4 @@
-export default function filterDate(duration) {
+const filterDate = (duration) => {
   let requestData = { tick: "", amount: "" };
 
   switch (duration) {
@@ -31,4 +31,10 @@ export default function filterDate(duration) {
   }
 
   return requestData;
-}
+};
+
+const formatDate = (date) => {
+  return [(date.getMonth() + 1).toString().padStart(2, "0"), date.getDate().toString().padStart(2, "0"), date.getFullYear()].join("/");
+};
+
+export { filterDate, formatDate };
