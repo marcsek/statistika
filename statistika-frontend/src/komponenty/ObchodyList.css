@@ -2,10 +2,26 @@
   /* background-color: black; */
   width: 1150px;
   height: 600px;
-  margin-top: 50px;
+  margin-top: 10px;
   list-style: none;
   padding: 0;
   align-items: flex-start;
+  justify-content: center;
+  overflow-y: scroll;
+}
+
+.bot-obchody-cont::-webkit-scrollbar {
+  width: 4px;
+}
+
+.bot-obchody-cont::-webkit-scrollbar-track {
+  border-radius: 100px;
+  background-color: rgba(255, 255, 255, 0.29);
+}
+
+.bot-obchody-cont::-webkit-scrollbar-thumb {
+  background-color: var(--pismo-biela);
+  border-radius: 100px;
 }
 
 .bot-obchody-cont li {
@@ -15,6 +31,7 @@
   align-items: center;
   border-bottom: solid 1px var(--list-border);
   justify-content: space-around;
+  /* #29292956 */
 }
 
 .bot-obchody-cont li p {
@@ -28,14 +45,33 @@
 }
 
 .obchody-filtre {
-  height: 50px;
+  height: 55px;
   display: flex;
-  justify-content: space-evenly;
-  width: 100%;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  width: 77%;
+  background-color: #22222256;
+  border-radius: 10px;
+  padding-left: 10px;
+  margin-top: 50px;
 }
 
 .parameter-cont {
   position: relative;
+  width: 160px;
+  line-height: 60px;
+  padding-right: 10px;
+  padding-left: 5px;
+  border: 2px solid rgba(255, 255, 255, 0.29);
+  height: 15px;
+  border-radius: 5px;
+  padding: 7px 5px 5px 5px;
+  margin-right: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .parameter-cont span {
@@ -43,30 +79,33 @@
   font-weight: 700;
   position: relative;
   font-size: 0.8rem;
-  background-color: var(--pozadie);
-  padding: 5px 5px 0px 5px;
+  /* background-color: #222222; */
+  /* padding: 5px 5px 5px 0px; */
+  /* padding-right: 10px; */
   z-index: 1;
-  margin-right: 15px;
+  /* margin-right: 15px; */
   pointer-events: none;
+  /* width: 50px; */
+  height: 40px;
+  line-height: 38px;
 }
 
 .parameter-cont input {
-  position: absolute;
-  top: 15px;
-  left: 0;
   background-color: transparent;
   color: var(--pismo-biela);
   outline: none;
-  border: 2px solid rgba(255, 255, 255, 0.29);
+  width: 100px;
+  border: none;
+  /* border: 2px solid rgba(255, 255, 255, 0.29); */
   border-radius: 5px;
   height: 15px;
-  padding: 7px 5px 5px 5px;
+  padding: 7px 5px 7px 5px;
   transition: all 0.1s;
   text-align: center;
-  width: 150px;
-  height: 30px;
+  /* width: 150px;
+  height: 30px; */
   font-weight: 600;
-  font-size: 0.96rem;
+  font-size: 0.91rem;
 }
 
 .legenda-obch {
@@ -78,13 +117,13 @@
   border-top: solid 1px var(--list-border);
   border-bottom: solid 1px var(--list-border);
   justify-content: space-around;
-  pointer-events: none;
 }
 
 .legenda-obch #element {
   color: rgba(255, 255, 255, 0.4);
   font-weight: 600;
   font-size: 0.87rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 #element {
@@ -94,14 +133,23 @@
   text-align: left;
   font-size: 1rem;
   font-weight: 600;
+  background: none;
+  border: none;
+  /* font: inherit; */
 }
 
 .cislo#element {
-  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
   text-align: center;
 }
 
 .datum#element {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   width: 150px;
 }
 
@@ -158,4 +206,47 @@
 .pagi-cont button:active {
   transition: all 0.05s;
   transform: scale(0.96);
+}
+
+.filtre-hladat-btn {
+  background-color: var(--pismo-biela);
+  border: none;
+  cursor: pointer;
+  color: #707070;
+  width: 80px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-left: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.filtre-hladat-btn svg {
+  height: 15px;
+  width: 15px;
+}
+
+.filtre-hladat-btn:hover {
+  filter: brightness(1.1);
+}
+
+.filtre-hladat-btn:active {
+  transform: scale(0.96);
+}
+
+#element svg {
+  width: 18px;
+  height: 18px;
+}
+
+#input-radio {
+  background-color: transparent;
+  outline: none;
+  visibility: hidden;
+  position: absolute;
 }

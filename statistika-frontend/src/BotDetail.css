@@ -166,3 +166,16 @@
   height: 4px;
   color: rgba(0, 27, 124, 0.55);
 }
+
+.obchody-devider {
+  width: 600px;
+  height: 4px;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.obchody-title {
+  font-size: 1.6rem;
+  left: -40px;
+}

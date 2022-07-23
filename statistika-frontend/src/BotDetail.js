@@ -73,7 +73,7 @@ function BotDetail() {
           <div className="bot-parametre">
             {textValues.map((e, i) => {
               return (
-                <div className="parametre-input">
+                <div className="parametre-input" key={i}>
                   <span>{e.title}</span>
                   <input
                     autoComplete="off"
@@ -102,7 +102,13 @@ function BotDetail() {
           </div>
         </div>
       </div>
-      <ObchodyList></ObchodyList>
+      <div style={{ position: "relative" }}>
+        <div className="obchody-devider" id="devider"></div>
+        <span className="obchody-title" id="title">
+          List obchodov
+        </span>
+        <ObchodyList></ObchodyList>
+      </div>
     </div>
   );
 }

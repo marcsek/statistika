@@ -13,13 +13,11 @@ export default function Pagination({ postsPerPage, totalPosts, paginateFront, pa
         Predošlé
       </button>
       <p className="pagi-text">
-        Showing
-        <span className="font-medium">{currentPage * postsPerPage - 9}</span>
-        to
-        <span className="font-medium"> {currentPage * postsPerPage} </span>
-        of
-        <span className="font-medium"> {totalPosts} </span>
-        results
+        Ukazuje
+        <span className="font-medium">{currentPage * postsPerPage - postsPerPage + 1}</span>
+        do
+        <span className="font-medium"> {currentPage * postsPerPage} </span>zo<span className="font-medium"> {totalPosts} </span>
+        výsledkov
       </p>
       <button
         id={currentPage + 1 <= totalPosts / postsPerPage ? "" : "inactive"}

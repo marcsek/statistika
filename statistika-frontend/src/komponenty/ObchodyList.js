@@ -7,6 +7,7 @@ import { formatDate } from "../pomocky/datumovanie";
 import { getPage } from "../pomocky/fakeApi";
 
 import Pagination from "./Pagination";
+import { BiChevronsDown, BiChevronsUp, BiSearchAlt } from "react-icons/bi";
 
 // const data = [
 //   {
@@ -40,17 +41,18 @@ function ObchodyList() {
     cislo: "",
     datum: "",
     obPar: "",
-    ascend: { type: "date", pos: true },
+    ascend: { curType: "num", typeDate: false, typeNum: false },
     dateStart: "07/22/1977",
     dateEnd: formatDate(new Date()),
   });
   const onSetFilters = useCallback((e, value) => {
+    // console.log(value);
     setFilters((prevValues) => ({ ...prevValues, [e.target.name]: value }));
   }, []);
 
   const loadNewPage = useCallback(async (pageNumber) => {
     const data = await getPage(pageNumber);
-    console.log(data);
+    // console.log(data);
     setData(data);
     setListData([...data.data]);
   }, []);
@@ -59,11 +61,10 @@ function ObchodyList() {
     loadNewPage(curPage);
   }, [loadNewPage]);
 
-  const filtrujData = (filters) => {
+  const filtrujData = useCallback((filters) => {
     let newData = [];
     newData = data.data.filter(({ obPar }) => obPar.toLowerCase().includes(filters.obPar.toLowerCase()));
     newData = newData.filter(({ cislo }) => cislo.includes(filters.cislo));
-
     newData = newData.filter(({ datum }) => {
       let filterPass = true;
       const date = new Date(datum);
@@ -79,14 +80,16 @@ function ObchodyList() {
       return filterPass;
     });
 
-    newData =
-      filters.ascend.type === "date"
-        ? newData.sort((a, b) => (filters.ascend.pos ? Number(a.datum) - Number(b.datum) : Number(b.datum) - Number(a.datum)))
-        : (newData = newData.sort((a, b) =>
-            filters.ascend.pos ? parseFloat(a.cislo) - parseFloat(b.cislo) : parseFloat(b.cislo) - parseFloat(a.cislo)
-          ));
+    if (filters.ascend.curType === "date") {
+      newData = newData.sort((a, b) => (filters.ascend.typeDate ? Number(a.datum) - Number(b.datum) : Number(b.datum) - Number(a.datum)));
+    } else if (filters.ascend.curType === "num") {
+      console.log(filters.ascend.typeNum);
+      newData = newData.sort((a, b) =>
+        !filters.ascend.typeNum ? parseFloat(a.cislo) - parseFloat(b.cislo) : parseFloat(b.cislo) - parseFloat(a.cislo)
+      );
+    }
     return newData;
-  };
+  });
 
   const loadNextPage = () => {
     if (curPage * 10 >= data.totalItems) {
@@ -104,34 +107,25 @@ function ObchodyList() {
     setCurPage(curPage - 1);
   };
 
+  const onSearchPress = useCallback(() => {
+    setListData(filtrujData(filters));
+  }, [filters, filtrujData]);
+
   useEffect(() => {
     setListData(filtrujData(filters));
-  }, [filters]);
+  }, [filters.ascend]);
 
   return (
     <div className="obchody-cont">
       <div className="obchody-filtre">
         <div className="parameter-cont">
           <span>Ob. par</span>
-          <input name="obPar" defaultValue={filters.obPar} onChange={(e) => onSetFilters(e, e.target.value)}></input>
+          <input autoComplete="off" name="obPar" defaultValue={filters.obPar} onChange={(e) => onSetFilters(e, e.target.value)}></input>
         </div>
         <div className="parameter-cont">
           <span>Meno</span>
           <input name="cislo" defaultValue={filters.cislo} onChange={(e) => onSetFilters(e, e.target.value)}></input>
         </div>
-
-        {/* <input
-        type="radio"
-        name="ascend"
-        defaultChecked={filters.ascend.pos}
-        onClick={(e) => onSetFilters(e, { type: "num", pos: !filters.ascend.pos })}
-      ></input>
-      <input
-        type="radio"
-        name="ascend"
-        defaultChecked={filters.ascend.pos}
-        onClick={(e) => onSetFilters(e, { type: "date", pos: !filters.ascend.pos })}
-      ></input> */}
         <div className="parameter-cont">
           <span>Zaciatok</span>
           <input name="dateStart" defaultValue={filters.dateStart} onChange={(e) => onSetFilters(e, e.target.value)}></input>
@@ -140,22 +134,43 @@ function ObchodyList() {
           <span>Koniec</span>
           <input name="dateEnd" defaultValue={filters.dateEnd} onChange={(e) => onSetFilters(e, e.target.value)}></input>
         </div>
+        <button className="filtre-hladat-btn" onClick={onSearchPress}>
+          <BiSearchAlt></BiSearchAlt>
+          Hľadať
+        </button>
       </div>
       <ul className="bot-obchody-cont">
         <div className="legenda-obch">
-          <p className="cislo" id="element">
+          <button
+            className="cislo"
+            id="element"
+            type="button"
+            name="ascend"
+            value={filters.ascend.pos}
+            onClick={(e) => onSetFilters(e, { curType: "num", typeNum: !filters.ascend.typeNum, typeDate: filters.ascend.typeDate })}
+          >
+            {filters.ascend.typeNum ? <BiChevronsDown></BiChevronsDown> : <BiChevronsUp></BiChevronsUp>}
             Cislo
-          </p>
-          <p className="datum" id="element">
+          </button>
+          <button
+            className="datum"
+            id="element"
+            type="radio"
+            name="ascend"
+            value={filters.ascend.pos}
+            onClick={(e) => onSetFilters(e, { curType: "date", typeNum: filters.ascend.typeNum, typeDate: !filters.ascend.typeDate })}
+          >
+            {filters.ascend.typeDate ? <BiChevronsDown></BiChevronsDown> : <BiChevronsUp></BiChevronsUp>}
             Datum
-          </p>
+          </button>
           <p className="obpar" id="element">
             Ob.par
           </p>
         </div>
-        {listData.map((e) => {
+        {listData.map((e, i) => {
+          let bgColor = i % 2 == 0 ? "#13131357" : "";
           return (
-            <li>
+            <li style={{ backgroundColor: bgColor }}>
               <p className="cislo" id="element">
                 {e.cislo}
               </p>
@@ -172,7 +187,7 @@ function ObchodyList() {
       <Pagination
         paginateFront={() => loadNextPage()}
         paginateBack={() => loadPrevPage()}
-        postsPerPage={10}
+        postsPerPage={15}
         totalPosts={data.totalItems}
         currentPage={curPage}
       ></Pagination>
