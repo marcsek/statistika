@@ -3,9 +3,9 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import Graf from "./Graf.js";
-import BotList from "./BotList.js";
-import BotDetail from "./BotDetail";
+import Graf from "./stranky/GrafPage.js";
+import BotList from "./stranky/BotListPage.js";
+import BotDetail from "./stranky/BotDetailPage";
 import Header from "./Header";
 
 function App() {

@@ -1,4 +1,5 @@
 import React from "react";
+import { HiChevronDoubleRight, HiChevronDoubleLeft } from "react-icons/hi";
 
 export default function Pagination({ postsPerPage, totalPosts, paginateFront, paginateBack, currentPage }) {
   return (
@@ -10,23 +11,23 @@ export default function Pagination({ postsPerPage, totalPosts, paginateFront, pa
           paginateBack();
         }}
       >
-        Predošlé
+        <HiChevronDoubleLeft />
       </button>
       <p className="pagi-text">
         Ukazuje
         <span className="font-medium">{currentPage * postsPerPage - postsPerPage + 1}</span>
-        do
+        po
         <span className="font-medium"> {currentPage * postsPerPage} </span>zo<span className="font-medium"> {totalPosts} </span>
         výsledkov
       </p>
       <button
-        id={currentPage + 1 <= totalPosts / postsPerPage ? "" : "inactive"}
+        id={currentPage < totalPosts / postsPerPage ? "" : "inactive"}
         onClick={(e) => {
           e.preventDefault();
           paginateFront();
         }}
       >
-        Ďalšie
+        <HiChevronDoubleRight />
       </button>
     </div>
   );

@@ -68,12 +68,25 @@
   font-weight: 700;
   font-size: 0.93rem;
   filter: brightness(1.6);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2px;
+}
+
+#btc-zmena svg {
+  height: 16px;
+  width: 16px;
 }
 
 #eur-zmena {
   margin-top: 6px;
   font-weight: 600;
   color: var(--pismo-biela);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2px;
 }
 
 #indikator {

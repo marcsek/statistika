@@ -1,23 +1,32 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import "./BotGraf.css";
 
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, LineController } from "chart.js";
+import { Chart, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
 import { Line } from "react-chartjs-2";
 
 import "chartjs-adapter-moment";
-import "chartjs-plugin-lineheight-annotation";
+
+import { formatPrice } from "../../pomocky/cislovacky";
 
 import CrosshairPlugin from "chartjs-plugin-crosshair";
 
-function BotGraf({ grafRequestData, newData }) {
-  Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin);
+function BotGraf({ grafRequestData }) {
+  Chart.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin);
 
   const [filter, setFilter] = useState("1y");
+  const [chartData, setChartData] = useState([]);
   const chartRef = useRef(null);
 
+  const onParentRequestEnd = useCallback(
+    async (filter) => {
+      setChartData(await grafRequestData(filter));
+    },
+    [grafRequestData]
+  );
+
   useEffect(() => {
-    grafRequestData(filter);
-  }, [filter, grafRequestData]);
+    onParentRequestEnd(filter);
+  }, [filter, onParentRequestEnd]);
 
   const data = useMemo(() => {
     let ctx = chartRef.current;
@@ -33,27 +42,13 @@ function BotGraf({ grafRequestData, newData }) {
         {
           fill: true,
           label: "Bitcoin",
-          data: newData,
+          data: chartData,
           borderColor: "#3861FB",
           backgroundColor: gradient,
         },
       ],
     };
-  }, [newData]);
-
-  const getChartData = (canvas) => {
-    return {
-      datasets: [
-        {
-          label: "Bitcoin",
-          data: newData,
-          borderColor: "#2c53dd",
-          fill: "start",
-          backgroundColor: "#ccd5f6",
-        },
-      ],
-    };
-  };
+  }, [chartData]);
 
   const options = {
     maintainAspectRatio: false,
@@ -87,6 +82,8 @@ function BotGraf({ grafRequestData, newData }) {
           maxRotation: 0,
           font: {
             weight: 550,
+            family: "Segoe UI",
+            size: 11,
           },
         },
       },
@@ -103,11 +100,13 @@ function BotGraf({ grafRequestData, newData }) {
 
         ticks: {
           callback: function (value, index, ticks) {
-            return "$" + value;
+            return "€ " + formatPrice(value, ",");
           },
           color: "#bbbbbb",
           font: {
             weight: 550,
+            family: "Segoe UI",
+            size: 11,
           },
           maxTicksLimit: 8,
           minTickLimit: 8,

@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale } from "chart.js";
+import { Chart, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale } from "chart.js";
 import { Line } from "react-chartjs-2";
-import "chartjs-adapter-moment";
-
 import CrosshairPlugin from "chartjs-plugin-crosshair";
 
 function ListGraf({ newData }) {
-  Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin);
+  Chart.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin);
 
   const data = useMemo(() => {
     let dataCopy = [...(newData ?? [])];

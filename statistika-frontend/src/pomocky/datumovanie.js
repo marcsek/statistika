@@ -10,7 +10,7 @@ const filterDate = (duration) => {
       requestData.tick = "hour";
       requestData.amount = "168";
       break;
-    case "1m,":
+    case "1m":
       requestData.tick = "day";
       requestData.amount = "30";
       break;

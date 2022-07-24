@@ -1,21 +1,30 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import "./BurzaGraf.css";
 
 import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
 import { Line } from "react-chartjs-2";
 
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
+import { formatPrice } from "../../pomocky/cislovacky";
 
-function BurzaGraf({ grafRequestData, newData, farbaCiary, index }) {
+function BurzaGraf({ grafRequestData, farbaCiary, index }) {
   Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin, Filler);
   Interaction.modes.interpolate = Interpolate;
 
   const [filter, setFilter] = useState("all");
+  const [chartData, setChartData] = useState([]);
   const chartRef = useRef(null);
 
+  const onParentRequestEnd = useCallback(
+    async (filter, index) => {
+      setChartData(await grafRequestData(filter, index));
+    },
+    [grafRequestData]
+  );
+
   useEffect(() => {
-    grafRequestData(filter, index);
-  }, [filter, index]);
+    onParentRequestEnd(filter, index);
+  }, [filter, index, onParentRequestEnd]);
 
   const data = useMemo(() => {
     let ctx = chartRef.current;
@@ -30,14 +39,14 @@ function BurzaGraf({ grafRequestData, newData, farbaCiary, index }) {
       datasets: [
         {
           label: "Bitcoin",
-          data: newData,
+          data: chartData,
           borderColor: farbaCiary ? farbaCiary.c : "#3861FB",
           backgroundColor: gradient,
           fill: true,
         },
       ],
     };
-  }, [newData, farbaCiary]);
+  }, [chartData, farbaCiary]);
 
   const options = {
     type: "line",
@@ -72,6 +81,8 @@ function BurzaGraf({ grafRequestData, newData, farbaCiary, index }) {
           maxRotation: 0,
           font: {
             weight: 550,
+            family: "Segoe UI",
+            size: 11,
           },
         },
       },
@@ -88,11 +99,13 @@ function BurzaGraf({ grafRequestData, newData, farbaCiary, index }) {
 
         ticks: {
           callback: function (value, index, ticks) {
-            return "$" + value;
+            return "€ " + formatPrice(value, ",");
           },
           color: "#bbbbbb",
           font: {
             weight: 550,
+            family: "Segoe UI",
+            size: 11,
           },
           maxTicksLimit: 8,
           minTickLimit: 8,
@@ -105,7 +118,6 @@ function BurzaGraf({ grafRequestData, newData, farbaCiary, index }) {
       },
       crosshair: {
         line: {
-          //   display: false,
           color: "#bbbbbb",
           width: 0,
           dashPattern: [3, 3],
@@ -124,7 +136,6 @@ function BurzaGraf({ grafRequestData, newData, farbaCiary, index }) {
         },
       },
       tooltip: {
-        // mode: "interpolate",
         caretPadding: 12,
       },
     },

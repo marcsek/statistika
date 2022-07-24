@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import "./MainGraf.css";
 
 import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale } from "chart.js";
@@ -6,39 +6,49 @@ import { Line } from "react-chartjs-2";
 
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 
-function MainGraf({ grafRequestData, newData }) {
+import { formatPrice } from "../../pomocky/cislovacky";
+
+function MainGraf({ grafRequestData }) {
   Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin);
   Interaction.modes.interpolate = Interpolate;
 
   const [filter, setFilter] = useState("1y");
+  const [chartData, setChartData] = useState([]);
+
+  const onParentRequestEnd = useCallback(
+    async (filter) => {
+      setChartData(await grafRequestData(filter));
+    },
+    [grafRequestData]
+  );
 
   useEffect(() => {
-    grafRequestData(filter);
-  }, [filter, grafRequestData]);
+    onParentRequestEnd(filter);
+  }, [filter, onParentRequestEnd]);
 
   const data = useMemo(() => {
     return {
       datasets: [
         {
           label: "Bitcoin",
-          data: newData[0],
+          data: chartData[0],
           borderColor: "#ffbb1f",
           borderDash: [5, 5],
         },
         {
           backgroundColor: "#2c53dd",
           label: "Bot Eur",
-          data: newData[1],
+          data: chartData[1],
           borderColor: "#3861FB",
         },
         {
           label: "Bot Btc",
-          data: newData[2],
+          data: chartData[2],
           borderColor: "#00E5B0",
         },
       ],
     };
-  }, [newData]);
+  }, [chartData]);
 
   const options = {
     type: "line",
@@ -63,12 +73,13 @@ function MainGraf({ grafRequestData, newData }) {
         ticks: {
           color: "#bbbbbb",
           autoSkip: true,
-          maxTicksLimit: 15,
-          minTicksLimit: 15,
+          // maxTicksLimit: 55,
+          // minTicksLimit: 55,
           maxRotation: 0,
           font: {
             weight: 550,
-            size: 13,
+            size: 12,
+            family: "Segoe UI",
           },
         },
       },
@@ -85,12 +96,13 @@ function MainGraf({ grafRequestData, newData }) {
 
         ticks: {
           callback: function (value, index, ticks) {
-            return "$" + value;
+            return "€ " + formatPrice(value, ",");
           },
           color: "#bbbbbb",
           font: {
-            weight: 550,
-            size: 13,
+            weight: 600,
+            size: 12,
+            family: "Segoe UI",
           },
         },
       },
@@ -105,7 +117,7 @@ function MainGraf({ grafRequestData, newData }) {
           color: "#bbbbbb",
           padding: 50,
           font: {
-            size: 14,
+            size: 13,
             weight: 550,
           },
         },
