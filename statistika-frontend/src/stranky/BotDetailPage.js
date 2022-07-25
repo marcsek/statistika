@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BotGraf from "../komponenty/grafy/BotGraf.js";
 import axios from "axios";
@@ -6,21 +6,63 @@ import "./BotDetailPage.css";
 
 import { filterDate } from "../pomocky/datumovanie";
 import ObchodyList from "../komponenty/ObchodyList.js";
+import { getTextValues, setNewTextValues } from "../pomocky/fakeApi.js";
+import LoadingComponent from "../komponenty/LoadingComponent.js";
 
 const ParametreEditor = () => {
   const [buttonState, setButtonState] = useState(false);
   const [textValues, setTextValues] = useState([
-    { title: "Parameter 1", v: "0.24", init: "0.24" },
-    { title: "Alebo aj iny", v: "434349", init: "434349" },
-    { title: "Aj text?", v: "Neviem", init: "Neviem" },
-    { title: "Uvidim", v: "434", init: "434" },
-    { title: "Nieco", v: "434", init: "434" },
-    { title: "Daco", v: "434", init: "434" },
-    { title: "Preco", v: "434", init: "434" },
-    { title: "Ako", v: "434", init: "434" },
-    { title: "Nevadi", v: "434", init: "434" },
-    { title: "Nabuduce", v: "434", init: "434" },
+    { title: "Parameter 1", v: "", init: "0.24" },
+    { title: "Alebo aj iny", v: "", init: "434349" },
+    { title: "Aj text?", v: "", init: "Neviem" },
+    { title: "Uvidim", v: "", init: "434" },
+    { title: "Nieco", v: "", init: "434" },
+    { title: "Daco", v: "", init: "434" },
+    { title: "Preco", v: "", init: "434" },
+    { title: "Ako", v: "", init: "434" },
+    { title: "Nevadi", v: "", init: "434" },
+    { title: "Nabuduce", v: "", init: "434" },
   ]);
+  const [loading, setLoading] = useState({ isLoading: true, msg: "", hasError: { status: false, msg: "" } });
+
+  const textValuesRequest = useCallback(async () => {
+    setLoading((prevState) => {
+      return { ...prevState, isLoading: true };
+    });
+    const textValuess = await getTextValues();
+    setLoading((prevState) => {
+      return { ...prevState, isLoading: false };
+    });
+    setTextValues((prevState) => {
+      const stateCopy = [...prevState];
+      for (let i = 0; i < stateCopy.length; i++) {
+        stateCopy[i].v = textValuess[i];
+        stateCopy[i].init = textValuess[i];
+      }
+      return stateCopy;
+    });
+  }, []);
+
+  const textValuesSend = useCallback(async (textValues) => {
+    setButtonState(false);
+
+    setLoading({ isLoading: true, msg: "Posielam...", hasError: { status: false } });
+    const valuesToSend = textValues.map((e) => e.v);
+    const response = await setNewTextValues(valuesToSend);
+    setLoading((prevState) => {
+      return { ...prevState, isLoading: false };
+    });
+
+    const stateCopy = [...textValues];
+    stateCopy.forEach((element, index) => {
+      element.init = response[index];
+    });
+    setTextValues(stateCopy);
+  }, []);
+
+  useEffect(() => {
+    textValuesRequest();
+  }, [textValuesRequest]);
 
   const onTextChange = useCallback(
     (evt) => {
@@ -45,7 +87,8 @@ const ParametreEditor = () => {
       <span className="parametre-title" id="title">
         Paremetre
       </span>
-      <div className="bot-parametre">
+      {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
+      <div style={{ display: loading.isLoading ? "none" : "" }} className="bot-parametre">
         {textValues.map((e, i) => {
           return (
             <div className="parametre-input" key={i}>
@@ -62,7 +105,13 @@ const ParametreEditor = () => {
           );
         })}
       </div>
-      <button className="submit-button" id={buttonState ? "active" : "inactive"}>
+      <button
+        className="submit-button"
+        onClick={(e) => {
+          textValuesSend(textValues);
+        }}
+        id={buttonState ? "active" : "inactive"}
+      >
         Updatnuť
       </button>
     </div>
@@ -82,6 +131,8 @@ function BotDetail() {
     resData.data.Data.Data.forEach((e) => {
       chartData.push({ x: new Date(e.time * 1000), y: e.high });
     });
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    await sleep(200);
     return chartData;
   }, []);
 

@@ -7,8 +7,9 @@ import { MdEuroSymbol } from "react-icons/md";
 import { BsCurrencyBitcoin } from "react-icons/bs";
 
 import ListGraf from "../komponenty/grafy/ListGraf";
-import { faker } from "@faker-js/faker";
+import { getFakeListData } from "../pomocky/fakeApi";
 import { formatPrice, formatCrypto } from "../pomocky/cislovacky.js";
+import LoadingComponent from "../komponenty/LoadingComponent";
 
 function BotList() {
   const navigate = useNavigate();
@@ -16,56 +17,7 @@ function BotList() {
   const [buttonClicked, setButtonClick] = useState(false);
   const [chartData, setChData] = useState([]);
   const [pageData, setPageData] = useState([]);
-
-  const getFakeListData = useCallback(() => {
-    let burzi = [];
-    for (let i = 0; i < 5; i++) {
-      let boti = [];
-      for (let i = 0; i < Math.floor(Math.random() * 5) + 1; i++) {
-        boti.push({
-          bMeno: `Bot ${i + 1}`,
-          cena: {
-            e: faker.datatype.float({
-              min: 1000,
-              max: 500000,
-            }),
-            b: faker.datatype.float({
-              min: 0.00025,
-              max: 10.0,
-              precision: 0.0001,
-            }),
-          },
-          botPar: "ETH-USDT",
-          zmena: {
-            h24: faker.datatype.float({
-              min: -100,
-              max: 100.0,
-              precision: 0.01,
-            }),
-            d7: faker.datatype.float({
-              min: -100,
-              max: 100.0,
-              precision: 0.01,
-            }),
-            d30: faker.datatype.float({
-              min: -100,
-              max: 100.0,
-              precision: 0.01,
-            }),
-            cc: faker.datatype.float({
-              min: -100,
-              max: 100.0,
-              precision: 0.01,
-            }),
-          },
-          chart: Math.round(Math.random()),
-        });
-      }
-      burzi.push({ meno: `Burza ${i + 1}`, boti: [...boti] });
-    }
-    console.log(burzi);
-    return burzi;
-  }, []);
+  const [loading, setLoading] = useState({ isLoading: true, msg: "", hasError: { status: false, msg: "" } });
 
   const genFakeChartData = useCallback(() => {
     const requestOne = axios.get(
@@ -94,18 +46,30 @@ function BotList() {
     );
   }, []);
 
+  const getFakeApiListData = useCallback(async () => {
+    setLoading((prevState) => {
+      return { ...prevState, isLoading: true };
+    });
+    const res = await getFakeListData();
+    setLoading((prevState) => {
+      return { ...prevState, isLoading: false };
+    });
+    setPageData(res);
+  }, []);
+
   useEffect(() => {
     genFakeChartData();
-    setPageData(getFakeListData());
-  }, [genFakeChartData, getFakeListData]);
+    getFakeApiListData();
+  }, [genFakeChartData, getFakeApiListData]);
 
   return (
-    <div>
+    <div className="bot-list-main-div">
       <button className="vypinac" id={!buttonClicked ? "red" : "green"} onClick={() => setButtonClick(!buttonClicked)}>
         {!buttonClicked ? "Vypnúť botov" : "Zapnúť Botov"}
       </button>
+      {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
       {/* list vsetkych burzi */}
-      <ul className="list-burza">
+      <ul style={{ display: loading.isLoading ? "none" : "" }} className="list-burza">
         {pageData.map((burza, i) => {
           return (
             <li key={i} className="li-burza">

@@ -133,6 +133,7 @@
 }
 
 .submit-button#inactive {
+  transition-duration: 0.25s;
   background-color: rgba(63, 63, 63, 0.068);
   color: rgba(255, 255, 255, 0.151);
   pointer-events: none;

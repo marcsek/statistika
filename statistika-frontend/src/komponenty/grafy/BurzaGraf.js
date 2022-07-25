@@ -6,6 +6,7 @@ import { Line } from "react-chartjs-2";
 
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 import { formatPrice } from "../../pomocky/cislovacky";
+import LoadingComponent from "../LoadingComponent";
 
 function BurzaGraf({ grafRequestData, farbaCiary, index }) {
   Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin, Filler);
@@ -14,10 +15,17 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
   const [filter, setFilter] = useState("all");
   const [chartData, setChartData] = useState([]);
   const chartRef = useRef(null);
+  const [loading, setLoading] = useState({ isLoading: true, hasError: { status: false, msg: "" } });
 
   const onParentRequestEnd = useCallback(
     async (filter, index) => {
+      setLoading((prevState) => {
+        return { ...prevState, isLoading: true };
+      });
       setChartData(await grafRequestData(filter, index));
+      setLoading((prevState) => {
+        return { ...prevState, isLoading: false };
+      });
     },
     [grafRequestData]
   );
@@ -159,7 +167,8 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
           </li>
         </ul>
       </div>
-      <Line ref={chartRef} options={options} data={data}></Line>
+      {loading.isLoading && <LoadingComponent error={loading.hasError.msg} />}
+      <Line style={{ display: loading.isLoading ? "none" : "" }} ref={chartRef} options={options} data={data}></Line>
     </div>
   );
 }

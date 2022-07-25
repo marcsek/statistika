@@ -1,3 +1,10 @@
+.bot-list-main-div {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .list-burza {
   height: 100%;
   width: 100%;

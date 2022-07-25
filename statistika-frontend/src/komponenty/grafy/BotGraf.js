@@ -9,6 +9,7 @@ import "chartjs-adapter-moment";
 import { formatPrice } from "../../pomocky/cislovacky";
 
 import CrosshairPlugin from "chartjs-plugin-crosshair";
+import LoadingComponent from "../LoadingComponent";
 
 function BotGraf({ grafRequestData }) {
   Chart.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin);
@@ -16,10 +17,17 @@ function BotGraf({ grafRequestData }) {
   const [filter, setFilter] = useState("1y");
   const [chartData, setChartData] = useState([]);
   const chartRef = useRef(null);
+  const [loading, setLoading] = useState({ isLoading: true, hasError: { status: false, msg: "" } });
 
   const onParentRequestEnd = useCallback(
     async (filter) => {
+      setLoading((prevState) => {
+        return { ...prevState, isLoading: true };
+      });
       setChartData(await grafRequestData(filter));
+      setLoading((prevState) => {
+        return { ...prevState, isLoading: false };
+      });
     },
     [grafRequestData]
   );
@@ -167,7 +175,8 @@ function BotGraf({ grafRequestData }) {
           </li>
         </ul>
       </div>
-      <Line ref={chartRef} options={options} data={data}></Line>
+      {loading.isLoading && <LoadingComponent error={loading.hasError.msg} />}
+      <Line style={{ display: loading.isLoading ? "none" : "" }} ref={chartRef} options={options} data={data}></Line>
     </div>
   );
 }

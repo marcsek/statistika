@@ -1,12 +1,13 @@
 import "./ObchodyList.css";
 
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 import { formatDate } from "../pomocky/datumovanie";
 import { getPage, filtrujData } from "../pomocky/fakeApi";
 
 import Pagination from "./Pagination";
 import { BiChevronsDown, BiChevronsUp, BiSearchAlt } from "react-icons/bi";
+import LoadingComponent from "./LoadingComponent";
 
 /* filtre oddelene do komponentu aby sa zbytocne nerendroval list */
 const FiltreBotList = ({ updateFilters, orderFilters }) => {
@@ -66,35 +67,50 @@ function ObchodyList() {
   const [curPage, setCurPage] = useState(1);
   const [orderFilter, setOrderFilter] = useState({ curType: "num", typeDate: false, typeNum: false });
 
+  const [loading, setLoading] = useState({ isLoading: false, msg: "" });
+
   const onOrderFilterSet = useCallback((filters) => {
     setOrderFilter(filters);
   }, []);
 
   const loadNewPage = useCallback(async (pageNumber) => {
+    setLoading({ isLoading: true, msg: "" });
     const resData = await getPage(pageNumber);
+
+    setLoading((prevState) => {
+      return { ...prevState, isLoading: false };
+    });
+
     setListData(resData);
+    setCurPage(pageNumber);
   }, []);
 
   const filterData = useCallback(async (filters) => {
-    const resData = await filtrujData({ ...filters });
-    setListData(resData);
     setCurPage(1);
-  }, []);
+    setLoading({ isLoading: true, msg: "" });
+    const resData = await filtrujData({ ...filters });
 
-  useEffect(() => {
-    loadNewPage(curPage);
-  }, [loadNewPage, curPage]);
+    if (resData.totalItems === 0) {
+      setLoading({ isLoading: true, msg: "Žiadna zhoda" });
+    } else {
+      setLoading((prevState) => {
+        return { ...prevState, isLoading: false };
+      });
+    }
+
+    setListData(resData);
+  }, []);
 
   /* passuju sa Pagination.js */
   const loadNextPage = () => {
     if (curPage * 15 < listData.totalItems) {
-      setCurPage(curPage + 1);
+      loadNewPage(curPage + 1);
     }
   };
 
   const loadPrevPage = () => {
     if (curPage > 1) {
-      setCurPage(curPage - 1);
+      loadNewPage(curPage - 1);
     }
   };
   /*   */
@@ -108,6 +124,7 @@ function ObchodyList() {
             className="cislo"
             id="element"
             name="ascend"
+            style={{ pointerEvents: loading.isLoading ? "none" : "" }}
             onClick={(e) => onOrderFilterSet({ curType: "num", typeNum: !orderFilter.typeNum, typeDate: orderFilter.typeDate })}
           >
             {orderFilter.typeNum ? <BiChevronsDown /> : <BiChevronsUp />}
@@ -117,6 +134,7 @@ function ObchodyList() {
             className="datum"
             id="element"
             name="ascend"
+            style={{ pointerEvents: loading.isLoading ? "none" : "" }}
             onClick={(e) => onOrderFilterSet({ curType: "date", typeNum: orderFilter.typeNum, typeDate: !orderFilter.typeDate })}
           >
             {orderFilter.typeDate ? <BiChevronsDown /> : <BiChevronsUp />}
@@ -129,7 +147,7 @@ function ObchodyList() {
         {listData.data.map((e, i) => {
           let bgColor = i % 2 === 0 ? "#13131357" : "";
           return (
-            <li key={i} style={{ backgroundColor: bgColor }}>
+            <li key={i} style={{ backgroundColor: bgColor, display: loading.isLoading ? "none" : "" }}>
               <p className="cislo" id="element">
                 {e.cislo}
               </p>
@@ -142,6 +160,7 @@ function ObchodyList() {
             </li>
           );
         })}
+        {loading.isLoading && <LoadingComponent background={true} error={loading.msg} />}
       </ul>
       <Pagination
         paginateFront={() => loadNextPage()}
@@ -149,6 +168,7 @@ function ObchodyList() {
         postsPerPage={15}
         totalPosts={listData.totalItems}
         currentPage={curPage}
+        isLoading={loading.isLoading}
       />
     </div>
   );

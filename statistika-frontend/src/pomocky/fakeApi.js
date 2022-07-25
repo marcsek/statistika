@@ -48,7 +48,6 @@ const filtrujData = async (filters) => {
   if (filters.ascend.curType === "date") {
     newData = newData.sort((a, b) => (filters.ascend.typeDate ? Number(a.datum) - Number(b.datum) : Number(b.datum) - Number(a.datum)));
   } else if (filters.ascend.curType === "num") {
-    console.log(filters.ascend.typeNum);
     newData = newData.sort((a, b) =>
       !filters.ascend.typeNum ? parseFloat(a.cislo) - parseFloat(b.cislo) : parseFloat(b.cislo) - parseFloat(a.cislo)
     );
@@ -57,4 +56,78 @@ const filtrujData = async (filters) => {
   return getPage(1);
 };
 
-export { getPage, filtrujData };
+var textValues = ["0.24", "434349", "Neviem", "434", "434", "434", "434", "434", "434", "434"];
+
+const getTextValues = async () => {
+  await sleep(400);
+  return textValues;
+};
+
+const setNewTextValues = async (newTextValues) => {
+  await sleep(400);
+  textValues = newTextValues;
+  return textValues;
+};
+
+var celkovyVyvinData = {
+  h24: { e: 1300.45, b: 0.24544, p: 10 },
+  d7: { e: 16433.35, b: 0.24544, p: 10 },
+  m3: { e: -344333.64, b: -0.24544, p: -10 },
+  cc: { e: 143300, b: 3.24544 },
+};
+const getCelkovyVyvinData = async () => {
+  await sleep(100);
+  return celkovyVyvinData;
+};
+
+const getFakeListData = async () => {
+  let burzi = [];
+  for (let i = 0; i < 5; i++) {
+    let boti = [];
+    for (let i = 0; i < Math.floor(Math.random() * 5) + 1; i++) {
+      boti.push({
+        bMeno: `Bot ${i + 1}`,
+        cena: {
+          e: faker.datatype.float({
+            min: 1000,
+            max: 500000,
+          }),
+          b: faker.datatype.float({
+            min: 0.00025,
+            max: 10.0,
+            precision: 0.0001,
+          }),
+        },
+        botPar: "ETH-USDT",
+        zmena: {
+          h24: faker.datatype.float({
+            min: -100,
+            max: 100.0,
+            precision: 0.01,
+          }),
+          d7: faker.datatype.float({
+            min: -100,
+            max: 100.0,
+            precision: 0.01,
+          }),
+          d30: faker.datatype.float({
+            min: -100,
+            max: 100.0,
+            precision: 0.01,
+          }),
+          cc: faker.datatype.float({
+            min: -100,
+            max: 100.0,
+            precision: 0.01,
+          }),
+        },
+        chart: Math.round(Math.random()),
+      });
+    }
+    burzi.push({ meno: `Burza ${i + 1}`, boti: [...boti] });
+  }
+  await sleep(100);
+  return burzi;
+};
+
+export { getPage, filtrujData, getTextValues, setNewTextValues, getCelkovyVyvinData, getFakeListData };

@@ -7,6 +7,7 @@ import { Line } from "react-chartjs-2";
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 
 import { formatPrice } from "../../pomocky/cislovacky";
+import LoadingComponent from "../LoadingComponent";
 
 function MainGraf({ grafRequestData }) {
   Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin);
@@ -14,10 +15,17 @@ function MainGraf({ grafRequestData }) {
 
   const [filter, setFilter] = useState("1y");
   const [chartData, setChartData] = useState([]);
+  const [loading, setLoading] = useState({ isLoading: true, hasError: { status: false, msg: "" } });
 
   const onParentRequestEnd = useCallback(
     async (filter) => {
+      setLoading((prevState) => {
+        return { ...prevState, isLoading: true };
+      });
       setChartData(await grafRequestData(filter));
+      setLoading((prevState) => {
+        return { ...prevState, isLoading: false };
+      });
     },
     [grafRequestData]
   );
@@ -172,7 +180,8 @@ function MainGraf({ grafRequestData }) {
           </li>
         </ul>
       </div>
-      <Line options={options} data={data}></Line>
+      {loading.isLoading && <LoadingComponent error={loading.hasError.msg} />}
+      <Line style={{ display: loading.isLoading ? "none" : "" }} options={options} data={data}></Line>
     </div>
   );
 }
