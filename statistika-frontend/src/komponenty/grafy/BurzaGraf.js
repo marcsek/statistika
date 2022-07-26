@@ -89,8 +89,8 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
           maxRotation: 0,
           font: {
             weight: 550,
-            family: "Segoe UI",
-            size: 11,
+            family: "Open Sans",
+            size: 10,
           },
         },
       },
@@ -112,8 +112,8 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
           color: "#bbbbbb",
           font: {
             weight: 550,
-            family: "Segoe UI",
-            size: 11,
+            family: "Open Sans",
+            size: 10,
           },
           maxTicksLimit: 8,
           minTickLimit: 8,

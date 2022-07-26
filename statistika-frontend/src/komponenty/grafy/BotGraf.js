@@ -90,7 +90,7 @@ function BotGraf({ grafRequestData }) {
           maxRotation: 0,
           font: {
             weight: 550,
-            family: "Segoe UI",
+            family: "Open Sans",
             size: 11,
           },
         },
@@ -113,7 +113,8 @@ function BotGraf({ grafRequestData }) {
           color: "#bbbbbb",
           font: {
             weight: 550,
-            family: "Segoe UI",
+            weight: 550,
+            family: "Open Sans",
             size: 11,
           },
           maxTicksLimit: 8,
