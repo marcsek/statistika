@@ -13,6 +13,7 @@ import { BsCurrencyBitcoin } from "react-icons/bs";
 
 import { getCelkovyVyvinData } from "../pomocky/fakeApi";
 import LoadingComponent from "../komponenty/LoadingComponent.js";
+import { formatCrypto, formatPrice } from "../pomocky/cislovacky";
 
 const CelkovyVyvin = () => {
   const [data, setData] = useState({});
@@ -45,10 +46,10 @@ const CelkovyVyvin = () => {
           <VscCircleFilled id="indikator" />
           <p>Zmena 24H</p>
           <span id="eur-zmena">
-            <MdEuroSymbol /> +{data.h24?.e}
+            <MdEuroSymbol /> +{formatPrice(data.h24?.e, ",")}
           </span>
           <p id="btc-zmena">
-            <BsCurrencyBitcoin /> +{data.h24?.b}
+            <BsCurrencyBitcoin /> +{formatCrypto(data.h24?.b)}
           </p>
           <span id="perc-zmena">
             <VscTriangleUp /> {data.h24?.p}%
@@ -58,10 +59,10 @@ const CelkovyVyvin = () => {
           <VscCircleFilled id="indikator" />
           <p>Zmena 7D</p>
           <span id="eur-zmena">
-            <MdEuroSymbol /> +{data.d7?.e}
+            <MdEuroSymbol /> +{formatPrice(data.d7?.e, ",")}
           </span>
           <p id="btc-zmena">
-            <BsCurrencyBitcoin /> +{data.d7?.b}
+            <BsCurrencyBitcoin /> +{formatCrypto(data.d7?.b)}
           </p>
           <span id="perc-zmena">
             <VscTriangleUp /> {data.d7?.p}%
@@ -71,10 +72,10 @@ const CelkovyVyvin = () => {
           <VscCircleFilled style={{ color: "#ea3943" }} id="indikator" />
           <p>Zmena 3M</p>
           <span id="eur-zmena">
-            <MdEuroSymbol /> {data.m3?.e}
+            <MdEuroSymbol /> {formatPrice(data.m3?.e, ",")}
           </span>
           <p id="btc-zmena">
-            <BsCurrencyBitcoin /> {data.m3?.b}
+            <BsCurrencyBitcoin /> {formatCrypto(data.m3?.b)}
           </p>
           <span style={{ color: "#ea3943" }} id="perc-zmena">
             <VscTriangleDown /> {data.m3?.p}%
@@ -83,10 +84,10 @@ const CelkovyVyvin = () => {
         <li className="stav-element">
           <p>Celkové prostriedky</p>
           <span id="eur-zmena">
-            <MdEuroSymbol /> {data.cc?.e}
+            <MdEuroSymbol /> {formatPrice(data.cc?.e, ",")}
           </span>
           <p id="btc-zmena">
-            <BsCurrencyBitcoin /> {data.cc?.b}
+            <BsCurrencyBitcoin /> {formatCrypto(data.cc?.b)}
           </p>
         </li>
       </ul>

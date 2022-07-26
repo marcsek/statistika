@@ -60,6 +60,7 @@ function MainGraf({ grafRequestData }) {
 
   const options = {
     type: "line",
+    maintainAspectRatio: false,
     responsive: true,
     pointHoverRadius: 7,
     pointRadius: 0,

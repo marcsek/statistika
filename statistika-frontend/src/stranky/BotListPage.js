@@ -10,16 +10,27 @@ import ListGraf from "../komponenty/grafy/ListGraf";
 import { getFakeListData } from "../pomocky/fakeApi";
 import { formatPrice, formatCrypto } from "../pomocky/cislovacky.js";
 import LoadingComponent from "../komponenty/LoadingComponent";
+import { MdOutlinePowerOff, MdOutlinePower } from "react-icons/md";
+
+function ButtonComponent() {
+  const [buttonClicked, setButtonClick] = useState(false);
+
+  return (
+    <button className="vypinac" id={!buttonClicked ? "red" : "green"} onClick={() => setButtonClick(!buttonClicked)}>
+      {!buttonClicked ? <MdOutlinePowerOff /> : <MdOutlinePower />}
+      {!buttonClicked ? "Vypnúť botov" : "Zapnúť Botov"}
+    </button>
+  );
+}
 
 function BotList() {
   const navigate = useNavigate();
 
-  const [buttonClicked, setButtonClick] = useState(false);
   const [chartData, setChData] = useState([]);
   const [pageData, setPageData] = useState([]);
   const [loading, setLoading] = useState({ isLoading: true, msg: "", hasError: { status: false, msg: "" } });
 
-  const genFakeChartData = useCallback(() => {
+  const genFakeChartData = useCallback(async () => {
     const requestOne = axios.get(
       `https://min-api.cryptocompare.com/data/v2/histohour?fsym=BTC&tsym=USD&limit=168&toTs=-1&agregate=1&api_key=YOURKEYHERE`
     );
@@ -44,6 +55,11 @@ function BotList() {
         setChData([dataOne, dataTwo]);
       })
     );
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    await sleep(600);
+    setLoading((prevState) => {
+      return { ...prevState, isLoading: false };
+    });
   }, []);
 
   const getFakeApiListData = useCallback(async () => {
@@ -51,9 +67,6 @@ function BotList() {
       return { ...prevState, isLoading: true };
     });
     const res = await getFakeListData();
-    setLoading((prevState) => {
-      return { ...prevState, isLoading: false };
-    });
     setPageData(res);
   }, []);
 
@@ -64,9 +77,7 @@ function BotList() {
 
   return (
     <div className="bot-list-main-div">
-      <button className="vypinac" id={!buttonClicked ? "red" : "green"} onClick={() => setButtonClick(!buttonClicked)}>
-        {!buttonClicked ? "Vypnúť botov" : "Zapnúť Botov"}
-      </button>
+      <ButtonComponent />
       {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
       {/* list vsetkych burzi */}
       <ul style={{ display: loading.isLoading ? "none" : "" }} className="list-burza">

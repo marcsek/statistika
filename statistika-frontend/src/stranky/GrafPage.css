@@ -98,28 +98,39 @@
 }
 
 .graf-burzy-cont {
-  width: 1300px;
+  width: 95%;
+  max-width: 1400px;
+  min-width: 700px;
   margin-top: 100px;
 }
 
 .graf-burzy-cont ul {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
   padding: 0;
-  grid-gap: 20px;
+  grid-gap: 20px 2%;
+  /* column-gap: 20px; */
 }
 
 .graf-burzy-cont ul li {
   list-style: none;
-  padding: 30px;
+  padding: 10px;
+  padding-bottom: 20px;
   padding-top: 0px;
+}
+
+.burza {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .burza-cont {
   height: 100%;
-  width: 600px;
+  width: 610px;
   position: relative;
+  display: flex;
 }
 
 .burza-cont p {
@@ -131,22 +142,30 @@
 .vyvin-title {
   font-size: 1.6rem;
   top: -45px;
-  left: -30px;
+  left: -55px;
 }
 
 .graf-title {
   font-size: 1.6rem;
-  left: -30px;
+  left: 30px;
   top: -20px;
 }
 
 #graf-burza-cont {
+  /* margin: 0 100px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
+  width: 100%;
+  max-width: 1330px;
+  min-width: 700px;
+  height: 600px;
 }
 
 .devider {
   top: 40px;
-  left: 5px;
+  left: 15px;
   height: 200px;
   width: 4px;
 }
@@ -164,7 +183,7 @@
   left: 50%;
   transform: translateX(-50%);
   height: 4px;
-  width: 600px;
+  width: 50%;
 }
 
 #devider {
@@ -175,6 +194,7 @@
 
 #title {
   margin-bottom: 10px;
+  /* margin-left: 25px; */
   position: absolute;
   padding: 0;
   text-align: left;

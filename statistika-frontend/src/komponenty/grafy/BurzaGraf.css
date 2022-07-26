@@ -1,9 +1,11 @@
 .burza-chart-div {
-  margin: auto;
+  /* margin: auto; */
   position: absolute;
   width: 500px;
   height: 254px;
-  left: 25px;
+  left: 45px;
+  /* left: 50%; */
+  /* transform: translateX(-50%); */
   top: 50px;
 }
 

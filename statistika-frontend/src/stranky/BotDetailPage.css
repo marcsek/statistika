@@ -15,12 +15,15 @@
 
 .bot-major-cont {
   margin: 0;
-  padding: 0;
+  padding: 100px 20px 0 20px;
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding-top: 100px;
-  width: 1300px;
+  grid-template-columns: minmax(500px, 1fr) minmax(500px, 1fr);
+  /* padding-top: 100px; */
+  width: 100%;
+  max-width: 1300px;
+  min-width: 1000px;
+  /* width: 1300px; */
   gap: 70px;
 }
 
@@ -30,6 +33,8 @@
   display: flex;
   justify-content: center;
   position: relative;
+  width: 100%;
+  /* margin-right: 50px; */
 }
 
 .bot-parametre-cont {
@@ -37,7 +42,6 @@
   width: 100%;
   height: 500px;
   position: relative;
-  margin-left: 50px;
 }
 
 .divider-graf-para {
@@ -50,7 +54,6 @@
 
 .bot-parametre {
   margin-top: 50px;
-  padding-left: 25px;
   /* height: 100%; */
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -95,6 +98,13 @@
   padding-bottom: 20px;
 }
 
+.parametre-input-cont {
+  /* width: 100%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .bot-parametre input:focus {
   outline: none;
   border: 2px solid #2c53dd;
@@ -107,7 +117,7 @@
 
 .parametre-title-divider {
   height: 4px;
-  width: 300px;
+  width: 50%;
   top: 17px;
   left: 140px;
 }
@@ -152,24 +162,25 @@
 .graf-bot-title {
   font-size: 1.4rem;
   top: 0;
-  right: 0;
+  right: -10px;
 }
 
 .bot-samotny-graf {
   /* margin-top: 50px; */
+  width: 100%;
   margin-right: 20px;
 }
 
 .graf-bot-title-divider {
   top: 17px;
   height: 0px;
-  width: 300px;
+  width: 50%;
   height: 4px;
   color: rgba(0, 27, 124, 0.55);
 }
 
 .obchody-devider {
-  width: 650px;
+  width: 56%;
   height: 4px;
   top: 18px;
   left: 50%;
@@ -178,5 +189,11 @@
 
 .obchody-title {
   font-size: 1.6rem;
-  left: -40px;
+  left: -50px;
+}
+
+.list-obchodov-div {
+  width: 90%;
+  max-width: 1150px;
+  min-width: 900px;
 }

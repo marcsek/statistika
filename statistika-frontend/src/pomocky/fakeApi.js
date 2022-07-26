@@ -134,7 +134,6 @@ const getFakeListData = async () => {
     }
     burzi.push({ meno: `Burza ${i + 1}`, boti: [...boti] });
   }
-  await sleep(100);
   return burzi;
 };
 

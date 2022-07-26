@@ -1,6 +1,5 @@
 .bot-obchody-cont {
   /* background-color: black; */
-  width: 1150px;
   height: 600px;
   /* margin-top: 10px; */
   list-style: none;
@@ -8,6 +7,10 @@
   align-items: flex-start;
   justify-content: center;
   overflow-y: scroll;
+}
+
+.obchody-list-const {
+  width: 100%;
 }
 
 .bot-obchody-cont::-webkit-scrollbar {
@@ -50,7 +53,6 @@
   justify-content: flex-start;
   flex-direction: row;
   align-items: center;
-  width: 77%;
   /* background-color: #22222256; */
   border-radius: 10px;
   padding-left: 10px;
@@ -152,9 +154,19 @@
   display: flex;
   align-items: center;
   justify-content: right;
-  width: 90px;
+  width: 110px;
   text-align: right;
   margin-left: 40px;
+}
+
+svg.euro-symbol {
+  margin-right: 2px;
+  height: 15px;
+  width: 15px;
+}
+
+.bot-obchody-cont li .cena {
+  color: var(--pismo-biela) !important;
 }
 
 .datum#element {
@@ -251,6 +263,24 @@
   gap: 2px;
 }
 
+.filtre-reset-btn {
+  background-color: #2c53dd;
+  border: none;
+  cursor: pointer;
+  color: white;
+  /* width: 80px; */
+  height: 30px;
+  border-radius: 25px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-right: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
 .filtre-hladat-btn svg {
   height: 15px;
   width: 15px;
@@ -264,7 +294,7 @@
   transform: scale(0.96);
 }
 
-#element svg {
+button svg {
   width: 20px;
   height: 20px;
 }
