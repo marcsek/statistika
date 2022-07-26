@@ -74,7 +74,7 @@ ol li {
 }
 
 .legenda .zmena#graf {
-  width: 120px;
+  width: 150px;
 }
 
 .legenda {
@@ -98,7 +98,7 @@ ol li {
   left: 60px;
   background-color: #252525;
   padding: 1px 9px;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 2px rgba(255, 255, 255, 0.4) solid;
   bottom: 48px;
   position: absolute;
@@ -297,8 +297,8 @@ ol li:hover {
 .list-graf {
   pointer-events: none;
   position: relative;
-  width: 120px;
-  height: 50px;
+  width: 150px;
+  height: 65px;
   display: inline-block;
 }
 

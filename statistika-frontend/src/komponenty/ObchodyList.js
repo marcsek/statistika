@@ -49,7 +49,7 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
         <BiReset />
       </button>
       <div className="parameter-cont">
-        <span>Ob. par</span>
+        <span>Ob. pár</span>
         <input autoComplete="off" name="obPar" value={filters.obPar} onChange={(e) => onSetFilters(e, e.target.value)}></input>
       </div>
       <div className="parameter-cont">
@@ -57,7 +57,7 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
         <input name="cislo" value={filters.cislo} onChange={(e) => onSetFilters(e, e.target.value)}></input>
       </div>
       <div className="parameter-cont">
-        <span>Zaciatok</span>
+        <span>Začiatok</span>
         <input name="dateStart" value={filters.dateStart} onChange={(e) => onSetFilters(e, e.target.value)}></input>
       </div>
       <div className="parameter-cont">
@@ -140,7 +140,7 @@ function ObchodyList() {
             }
           >
             {orderFilter.typeNum ? <BiChevronsDown /> : <BiChevronsUp />}
-            Cislo
+            Číslo
           </button>
           <button
             className="datum"
@@ -152,7 +152,7 @@ function ObchodyList() {
             }
           >
             {orderFilter.typeDate ? <BiChevronsDown /> : <BiChevronsUp />}
-            Datum
+            Dátum
           </button>
           <button
             className="cena"
@@ -167,7 +167,7 @@ function ObchodyList() {
             Cena
           </button>
           <p className="obpar" id="element">
-            Ob.par
+            Ob.pár
           </p>
         </div>
         <ul className="bot-obchody-cont">

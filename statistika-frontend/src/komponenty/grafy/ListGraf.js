@@ -21,8 +21,9 @@ function ListGraf({ newData }) {
   }, [newData]);
 
   const options = {
+    type: "line",
     responsive: true,
-    aspectRatio: 2,
+    maintainAspectRatio: false,
     elements: {
       point: {
         radius: 0,
@@ -35,6 +36,7 @@ function ListGraf({ newData }) {
       x: {
         grid: {
           display: false,
+          borderWidth: 0,
         },
         ticks: {
           display: false,
@@ -45,6 +47,7 @@ function ListGraf({ newData }) {
         type: "linear",
         grid: {
           display: false,
+          borderWidth: 0,
         },
         ticks: {
           display: false,
@@ -65,7 +68,7 @@ function ListGraf({ newData }) {
 
   return (
     newData != null && (
-      <div className="chart-div">
+      <div style={{ width: "100%", height: "100%" }} className="chart-div">
         <Line options={options} data={data}></Line>
       </div>
     )

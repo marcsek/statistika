@@ -56,7 +56,7 @@ function BotList() {
       })
     );
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    await sleep(600);
+    await sleep(1000);
     setLoading((prevState) => {
       return { ...prevState, isLoading: false };
     });

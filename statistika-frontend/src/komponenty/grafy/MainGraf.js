@@ -160,22 +160,22 @@ function MainGraf({ grafRequestData }) {
     <div className="main-chart-div">
       <div className="main-graf-filter" id="graf-filter">
         <ul>
-          <li style={{ backgroundColor: filter == "1d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1d")}>
+          <li style={{ backgroundColor: filter === "1d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1d")}>
             1D
           </li>
-          <li style={{ backgroundColor: filter == "7d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("7d")}>
+          <li style={{ backgroundColor: filter === "7d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("7d")}>
             7D
           </li>
-          <li style={{ backgroundColor: filter == "1m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1m")}>
+          <li style={{ backgroundColor: filter === "1m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1m")}>
             1M
           </li>
-          <li style={{ backgroundColor: filter == "3m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("3m")}>
+          <li style={{ backgroundColor: filter === "3m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("3m")}>
             3M
           </li>
-          <li style={{ backgroundColor: filter == "1y" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1y")}>
+          <li style={{ backgroundColor: filter === "1y" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1y")}>
             1Y
           </li>
-          <li style={{ backgroundColor: filter == "all" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("all")}>
+          <li style={{ backgroundColor: filter === "all" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("all")}>
             All
           </li>
         </ul>
