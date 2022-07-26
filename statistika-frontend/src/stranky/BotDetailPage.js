@@ -91,16 +91,18 @@ const ParametreEditor = () => {
       <div style={{ display: loading.isLoading ? "none" : "" }} className="bot-parametre">
         {textValues.map((e, i) => {
           return (
-            <div className="parametre-input" key={i}>
-              <span>{e.title}</span>
-              <input
-                autoComplete="off"
-                name={i}
-                style={{ border: e.v !== e.init ? "2px solid #2c53dd" : "" }}
-                value={e.v}
-                id={e.init}
-                onChange={onTextChange}
-              ></input>
+            <div className="parametre-input-cont" key={i}>
+              <div className="parametre-input">
+                <span>{e.title}</span>
+                <input
+                  autoComplete="off"
+                  name={i}
+                  style={{ border: e.v !== e.init ? "2px solid #2c53dd" : "" }}
+                  value={e.v}
+                  id={e.init}
+                  onChange={onTextChange}
+                ></input>
+              </div>
             </div>
           );
         })}
@@ -152,10 +154,10 @@ function BotDetail() {
           </div>
         </div>
       </div>
-      <div style={{ position: "relative" }}>
+      <div className="list-obchodov-div" style={{ position: "relative" }}>
         <div className="obchody-devider" id="devider"></div>
         <span className="obchody-title" id="title">
-          List obchodov
+          Zoznam obchodov
         </span>
         <ObchodyList />
       </div>

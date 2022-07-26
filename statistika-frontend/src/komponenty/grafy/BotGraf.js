@@ -113,7 +113,6 @@ function BotGraf({ grafRequestData }) {
           color: "#bbbbbb",
           font: {
             weight: 550,
-            weight: 550,
             family: "Open Sans",
             size: 11,
           },

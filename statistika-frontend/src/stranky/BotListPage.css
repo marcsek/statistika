@@ -7,7 +7,7 @@
 
 .list-burza {
   height: 100%;
-  width: 100%;
+  width: 96%;
   padding: 0;
   list-style: none;
   display: flex;
@@ -18,7 +18,7 @@
 .li-burza {
   width: 100%;
   max-width: 1300px;
-  min-width: 700px;
+  min-width: 1000px;
   padding-bottom: 3rem;
 }
 
@@ -74,7 +74,7 @@ ol li {
 }
 
 .legenda .zmena#graf {
-  width: 120px;
+  width: 150px;
 }
 
 .legenda {
@@ -98,7 +98,7 @@ ol li {
   left: 60px;
   background-color: #252525;
   padding: 1px 9px;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 2px rgba(255, 255, 255, 0.4) solid;
   bottom: 48px;
   position: absolute;
@@ -251,22 +251,26 @@ ol li:hover {
   position: fixed;
   width: 200px;
   height: 40px;
-  margin-top: 15px;
   top: 20px;
   right: 0;
   transform: translate(-50%, 0%);
   font-size: 1.1rem;
   color: white;
   border-radius: 7px;
-  display: inline-block;
-  transition: all 0.2s;
-  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: top 0.15s;
   font-weight: 600;
   cursor: pointer;
   margin: 0 20px;
-  border-width: 1px;
   outline: none;
-  box-shadow: 0 7px 0px #6d6565;
+  border: none;
+}
+
+.vypinac:hover {
+  filter: brightness(1.05);
 }
 
 .vypinac#red {
@@ -275,8 +279,8 @@ ol li:hover {
 
 .vypinac:active {
   top: 23px;
-  box-shadow: 0 2px 0px #6d6565;
-  transition: all 0.1s;
+  /* transform: scale(0.98); */
+  transition: all 0.01s;
 }
 
 .vypinac#green {
@@ -284,11 +288,17 @@ ol li:hover {
   background: #2c53dd;
 }
 
+.vypinac svg {
+  margin-bottom: 2px;
+  height: 23px;
+  width: 23px;
+}
+
 .list-graf {
   pointer-events: none;
   position: relative;
-  width: 120px;
-  height: 50px;
+  width: 150px;
+  height: 65px;
   display: inline-block;
 }
 

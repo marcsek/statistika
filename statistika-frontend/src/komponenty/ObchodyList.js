@@ -6,9 +6,10 @@ import { formatDate } from "../pomocky/datumovanie";
 import { getPage, filtrujData } from "../pomocky/fakeApi";
 
 import Pagination from "./Pagination";
-import { BiChevronsDown, BiChevronsUp, BiSearchAlt } from "react-icons/bi";
+import { BiChevronsDown, BiChevronsUp, BiSearchAlt, BiReset } from "react-icons/bi";
 import LoadingComponent from "./LoadingComponent";
 import { formatPrice } from "../pomocky/cislovacky";
+import { MdEuroSymbol } from "react-icons/md";
 
 /* filtre oddelene do komponentu aby sa zbytocne nerendroval list */
 const FiltreBotList = ({ updateFilters, orderFilters }) => {
@@ -17,7 +18,7 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
     datum: "",
     obPar: "",
     ascend: { curType: "num", typeDate: false, typeNum: false },
-    dateStart: "07/22/1977",
+    dateStart: "01/01/2000",
     dateEnd: formatDate(new Date()),
   });
 
@@ -27,6 +28,11 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
 
   const onSearchPress = useCallback(() => {
     updateFilters(filters);
+  }, [filters, updateFilters]);
+
+  const onResetPress = useCallback(() => {
+    setFilters({ ...filters, cislo: "", datum: "", obPar: "", dateStart: "01/01/2000", dateEnd: formatDate(new Date()) });
+    updateFilters({ ...filters, cislo: "", datum: "", obPar: "", dateStart: "01/01/2000", dateEnd: formatDate(new Date()) });
   }, [filters, updateFilters]);
 
   useEffect(() => {
@@ -39,21 +45,24 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
 
   return (
     <div className="obchody-filtre">
+      <button className="filtre-reset-btn" onClick={onResetPress}>
+        <BiReset />
+      </button>
       <div className="parameter-cont">
-        <span>Ob. par</span>
-        <input autoComplete="off" name="obPar" defaultValue={filters.obPar} onChange={(e) => onSetFilters(e, e.target.value)}></input>
+        <span>Ob. pár</span>
+        <input autoComplete="off" name="obPar" value={filters.obPar} onChange={(e) => onSetFilters(e, e.target.value)}></input>
       </div>
       <div className="parameter-cont">
         <span>Meno</span>
-        <input name="cislo" defaultValue={filters.cislo} onChange={(e) => onSetFilters(e, e.target.value)}></input>
+        <input name="cislo" value={filters.cislo} onChange={(e) => onSetFilters(e, e.target.value)}></input>
       </div>
       <div className="parameter-cont">
-        <span>Zaciatok</span>
-        <input name="dateStart" defaultValue={filters.dateStart} onChange={(e) => onSetFilters(e, e.target.value)}></input>
+        <span>Začiatok</span>
+        <input name="dateStart" value={filters.dateStart} onChange={(e) => onSetFilters(e, e.target.value)}></input>
       </div>
       <div className="parameter-cont">
         <span>Koniec</span>
-        <input name="dateEnd" defaultValue={filters.dateEnd} onChange={(e) => onSetFilters(e, e.target.value)}></input>
+        <input name="dateEnd" value={filters.dateEnd} onChange={(e) => onSetFilters(e, e.target.value)}></input>
       </div>
       <button className="filtre-hladat-btn" onClick={onSearchPress}>
         <BiSearchAlt></BiSearchAlt>
@@ -119,7 +128,7 @@ function ObchodyList() {
   return (
     <div className="obchody-cont">
       <FiltreBotList updateFilters={filterData} orderFilters={orderFilter} />
-      <div>
+      <div className="obchody-list-const">
         <div className="legenda-obch">
           <button
             className="cislo"
@@ -131,7 +140,7 @@ function ObchodyList() {
             }
           >
             {orderFilter.typeNum ? <BiChevronsDown /> : <BiChevronsUp />}
-            Cislo
+            Číslo
           </button>
           <button
             className="datum"
@@ -143,7 +152,7 @@ function ObchodyList() {
             }
           >
             {orderFilter.typeDate ? <BiChevronsDown /> : <BiChevronsUp />}
-            Datum
+            Dátum
           </button>
           <button
             className="cena"
@@ -158,7 +167,7 @@ function ObchodyList() {
             Cena
           </button>
           <p className="obpar" id="element">
-            Ob.par
+            Ob.pár
           </p>
         </div>
         <ul className="bot-obchody-cont">
@@ -173,6 +182,7 @@ function ObchodyList() {
                   {formatDate(e.datum)}
                 </p>
                 <p className="cena" id="element">
+                  <MdEuroSymbol className="euro-symbol" />
                   {formatPrice(e.cena, ",")}
                 </p>
                 <p className="obpar" id="element">
