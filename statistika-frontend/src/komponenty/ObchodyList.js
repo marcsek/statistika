@@ -8,6 +8,7 @@ import { getPage, filtrujData } from "../pomocky/fakeApi";
 import Pagination from "./Pagination";
 import { BiChevronsDown, BiChevronsUp, BiSearchAlt } from "react-icons/bi";
 import LoadingComponent from "./LoadingComponent";
+import { formatPrice } from "../pomocky/cislovacky";
 
 /* filtre oddelene do komponentu aby sa zbytocne nerendroval list */
 const FiltreBotList = ({ updateFilters, orderFilters }) => {
@@ -65,7 +66,7 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
 function ObchodyList() {
   const [listData, setListData] = useState({ totalItems: 0, data: [] });
   const [curPage, setCurPage] = useState(1);
-  const [orderFilter, setOrderFilter] = useState({ curType: "num", typeDate: false, typeNum: false });
+  const [orderFilter, setOrderFilter] = useState({ curType: "num", typeDate: false, typeNum: false, typePrice: false });
 
   const [loading, setLoading] = useState({ isLoading: false, msg: "" });
 
@@ -118,14 +119,16 @@ function ObchodyList() {
   return (
     <div className="obchody-cont">
       <FiltreBotList updateFilters={filterData} orderFilters={orderFilter} />
-      <ul className="bot-obchody-cont">
+      <div>
         <div className="legenda-obch">
           <button
             className="cislo"
             id="element"
             name="ascend"
             style={{ pointerEvents: loading.isLoading ? "none" : "" }}
-            onClick={(e) => onOrderFilterSet({ curType: "num", typeNum: !orderFilter.typeNum, typeDate: orderFilter.typeDate })}
+            onClick={(e) =>
+              onOrderFilterSet({ curType: "num", typeNum: !orderFilter.typeNum, typeDate: orderFilter.typeDate, typePrice: orderFilter.typePrice })
+            }
           >
             {orderFilter.typeNum ? <BiChevronsDown /> : <BiChevronsUp />}
             Cislo
@@ -135,33 +138,52 @@ function ObchodyList() {
             id="element"
             name="ascend"
             style={{ pointerEvents: loading.isLoading ? "none" : "" }}
-            onClick={(e) => onOrderFilterSet({ curType: "date", typeNum: orderFilter.typeNum, typeDate: !orderFilter.typeDate })}
+            onClick={(e) =>
+              onOrderFilterSet({ curType: "date", typeNum: orderFilter.typeNum, typeDate: !orderFilter.typeDate, typePrice: orderFilter.typePrice })
+            }
           >
             {orderFilter.typeDate ? <BiChevronsDown /> : <BiChevronsUp />}
             Datum
+          </button>
+          <button
+            className="cena"
+            id="element"
+            name="ascend"
+            style={{ pointerEvents: loading.isLoading ? "none" : "" }}
+            onClick={(e) =>
+              onOrderFilterSet({ curType: "price", typeNum: orderFilter.typeNum, typeDate: orderFilter.typeDate, typePrice: !orderFilter.typePrice })
+            }
+          >
+            {orderFilter.typePrice ? <BiChevronsDown /> : <BiChevronsUp />}
+            Cena
           </button>
           <p className="obpar" id="element">
             Ob.par
           </p>
         </div>
-        {listData.data.map((e, i) => {
-          let bgColor = i % 2 === 0 ? "#13131357" : "";
-          return (
-            <li key={i} style={{ backgroundColor: bgColor, display: loading.isLoading ? "none" : "" }}>
-              <p className="cislo" id="element">
-                {e.cislo}
-              </p>
-              <p className="datum" id="element">
-                {formatDate(e.datum)}
-              </p>
-              <p className="obpar" id="element">
-                {e.obPar}
-              </p>
-            </li>
-          );
-        })}
-        {loading.isLoading && <LoadingComponent background={true} error={loading.msg} />}
-      </ul>
+        <ul className="bot-obchody-cont">
+          {listData.data.map((e, i) => {
+            let bgColor = i % 2 === 0 ? "#13131357" : "";
+            return (
+              <li key={i} style={{ backgroundColor: bgColor, display: loading.isLoading ? "none" : "" }}>
+                <p className="cislo" id="element">
+                  {e.cislo}
+                </p>
+                <p className="datum" id="element">
+                  {formatDate(e.datum)}
+                </p>
+                <p className="cena" id="element">
+                  {formatPrice(e.cena, ",")}
+                </p>
+                <p className="obpar" id="element">
+                  {e.obPar}
+                </p>
+              </li>
+            );
+          })}
+          {loading.isLoading && <LoadingComponent background={true} error={loading.msg} />}
+        </ul>
+      </div>
       <Pagination
         paginateFront={() => loadNextPage()}
         paginateBack={() => loadPrevPage()}

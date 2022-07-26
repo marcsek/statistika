@@ -85,9 +85,9 @@ function MainGraf({ grafRequestData }) {
           // minTicksLimit: 55,
           maxRotation: 0,
           font: {
-            weight: 550,
-            size: 12,
-            family: "Segoe UI",
+            weight: 500,
+            family: "Open Sans",
+            size: 11,
           },
         },
       },
@@ -98,7 +98,6 @@ function MainGraf({ grafRequestData }) {
           color: "rgba(255, 255, 255, 0.18)",
           borderColor: "rgba(255, 255, 255, 0.18)",
           offset: true,
-
           tickWidth: 0,
         },
 
@@ -108,9 +107,9 @@ function MainGraf({ grafRequestData }) {
           },
           color: "#bbbbbb",
           font: {
-            weight: 600,
-            size: 12,
-            family: "Segoe UI",
+            weight: 500,
+            family: "Open Sans",
+            size: 11,
           },
         },
       },

@@ -8,6 +8,10 @@ for (let i = 1; i < 151; i++) {
     cislo: i.toString(),
     datum: faker.datatype.datetime({ min: 1047500000000, max: 1658500000000 }),
     obPar: "ETH - USDT",
+    cena: faker.datatype.float({
+      min: 1000,
+      max: 500000,
+    }),
   });
 }
 dataFilter = [...dataGen];
@@ -51,6 +55,10 @@ const filtrujData = async (filters) => {
     newData = newData.sort((a, b) =>
       !filters.ascend.typeNum ? parseFloat(a.cislo) - parseFloat(b.cislo) : parseFloat(b.cislo) - parseFloat(a.cislo)
     );
+  } else if (filters.ascend.curType === "price") {
+    console.log(filters.ascend);
+    newData = newData.sort((a, b) => (!filters.ascend.typePrice ? a.cena - b.cena : b.cena - a.cena));
+    console.log(newData);
   }
   dataFilter = newData;
   return getPage(1);

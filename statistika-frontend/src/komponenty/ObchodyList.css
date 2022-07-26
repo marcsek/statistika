@@ -2,7 +2,7 @@
   /* background-color: black; */
   width: 1150px;
   height: 600px;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   list-style: none;
   padding: 0;
   align-items: flex-start;
@@ -51,7 +51,7 @@
   flex-direction: row;
   align-items: center;
   width: 77%;
-  background-color: #22222256;
+  /* background-color: #22222256; */
   border-radius: 10px;
   padding-left: 10px;
   margin-top: 60px;
@@ -111,8 +111,10 @@
 .legenda-obch {
   width: 100%;
   height: 35px;
+  margin-top: 10px;
   display: flex;
   align-items: center;
+  position: relative;
   /* outline: solid 1px var(--list-border); */
   border-top: solid 1px var(--list-border);
   border-bottom: solid 1px var(--list-border);
@@ -146,11 +148,28 @@
   text-align: center;
 }
 
+.cena#element {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  width: 90px;
+  text-align: right;
+  margin-left: 40px;
+}
+
 .datum#element {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   width: 150px;
+}
+
+.obpar#element {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  width: 110px;
+  text-align: right;
 }
 
 .pagi-cont {
