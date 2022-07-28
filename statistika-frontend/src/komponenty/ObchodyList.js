@@ -49,20 +49,23 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
         <BiReset />
       </button>
       <div className="parameter-cont">
+        <span>Číslo</span>
+        <input autoComplete="off" name="cislo" value={filters.cislo} onChange={(e) => onSetFilters(e, e.target.value)}></input>
+      </div>
+      <div className="parameter-cont">
         <span>Ob. pár</span>
         <input autoComplete="off" name="obPar" value={filters.obPar} onChange={(e) => onSetFilters(e, e.target.value)}></input>
       </div>
       <div className="parameter-cont">
-        <span>Meno</span>
-        <input name="cislo" value={filters.cislo} onChange={(e) => onSetFilters(e, e.target.value)}></input>
-      </div>
-      <div className="parameter-cont">
+        <div className="nadpis-obdobie">
+          <span>Obdobie</span>
+        </div>
         <span>Začiatok</span>
-        <input name="dateStart" value={filters.dateStart} onChange={(e) => onSetFilters(e, e.target.value)}></input>
+        <input autoComplete="off" name="dateStart" value={filters.dateStart} onChange={(e) => onSetFilters(e, e.target.value)}></input>
       </div>
       <div className="parameter-cont">
         <span>Koniec</span>
-        <input name="dateEnd" value={filters.dateEnd} onChange={(e) => onSetFilters(e, e.target.value)}></input>
+        <input autoComplete="off" name="dateEnd" value={filters.dateEnd} onChange={(e) => onSetFilters(e, e.target.value)}></input>
       </div>
       <button className="filtre-hladat-btn" onClick={onSearchPress}>
         <BiSearchAlt></BiSearchAlt>

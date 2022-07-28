@@ -126,6 +126,7 @@
 }
 
 .legenda-obch #element {
+  cursor: pointer;
   color: rgba(255, 255, 255, 0.4);
   font-weight: 600;
   font-size: 0.87rem;
@@ -133,7 +134,7 @@
 }
 
 #element {
-  cursor: pointer;
+  cursor: default;
   color: #bbbbbb;
   width: 100px;
   text-align: left;
@@ -179,6 +180,7 @@ svg.euro-symbol {
 }
 
 .obpar#element {
+  cursor: default;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -306,4 +308,27 @@ button svg {
   outline: none;
   visibility: hidden;
   position: absolute;
+}
+
+.nadpis-obdobie {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  width: 200px;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.29);
+  border-radius: 25px;
+}
+
+.nadpis-obdobie span {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--pozadie);
+  height: 25px;
+  text-align: center;
+  width: 70px;
+  font-size: 0.79rem;
+  /* border-radius: 25px; */
 }

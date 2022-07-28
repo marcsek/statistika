@@ -7,7 +7,7 @@ for (let i = 1; i < 151; i++) {
   dataGen.push({
     cislo: i.toString(),
     datum: faker.datatype.datetime({ min: 1047500000000, max: 1658500000000 }),
-    obPar: "ETH - USDT",
+    obPar: Math.round(Math.random()) === 0 ? "ETH-USDT" : "LTC-USDT",
     cena: faker.datatype.float({
       min: 1000,
       max: 500000,
@@ -106,7 +106,7 @@ const getFakeListData = async () => {
             precision: 0.0001,
           }),
         },
-        botPar: "ETH-USDT",
+        botPar: Math.round(Math.random()) === 0 ? "ETH-USDT" : "LTC-USDT",
         zmena: {
           h24: faker.datatype.float({
             min: -100,
