@@ -173,7 +173,7 @@ function MainGraf({ grafRequestData }) {
             3M
           </li>
           <li style={{ backgroundColor: filter === "1y" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1y")}>
-            1Y
+            1R
           </li>
           <li style={{ backgroundColor: filter === "all" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("all")}>
             All

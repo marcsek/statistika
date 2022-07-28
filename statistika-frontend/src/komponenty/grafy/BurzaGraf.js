@@ -46,7 +46,7 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     return {
       datasets: [
         {
-          label: "Bitcoin",
+          label: "Hodnota",
           data: chartData,
           borderColor: farbaCiary ? farbaCiary.c : "#3861FB",
           backgroundColor: gradient,

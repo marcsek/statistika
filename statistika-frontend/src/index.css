@@ -16,13 +16,16 @@ code {
 #root {
   height: 100%;
 }
+:root {
+  color-scheme: dark;
+}
 
 [data-reactroot] {
   height: 100% !important;
 }
 
 :root {
-  --pozadie: rgb(27, 27, 27);
+  --pozadie: rgb(24, 24, 24);
   --pismo-biela: #e7e7e7;
   --list-border: #2e2e2e;
 }
