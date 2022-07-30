@@ -10,24 +10,25 @@ import { BiChevronsDown, BiChevronsUp, BiSearchAlt, BiReset } from "react-icons/
 import LoadingComponent from "./LoadingComponent";
 import { formatPrice } from "../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
-// import Calendar from "react-calendar";
-// import "react-calendar/dist/Calendar.css";
 import CalendarComp from "./CalendarComp";
 
 /* filtre oddelene do komponentu aby sa zbytocne nerendroval list */
 const FiltreBotList = ({ updateFilters, orderFilters }) => {
-  const [datePlaceholder, setDatePlaceholder] = useState(formatDate(new Date(946684800)) + " - " + formatDate(new Date()));
+  const initialStart = new Date(946684800);
+  const initialEnd = new Date();
+
+  const [datePlaceholder, setDatePlaceholder] = useState(formatDate(initialStart) + " - " + formatDate(initialEnd));
   const [button, clicked] = useState(false);
 
-  const childRed = useRef(null);
+  const childRef = useRef(null);
 
   const [filters, setFilters] = useState({
     cislo: "",
     datum: "",
     obPar: "",
     ascend: { curType: "num", typeDate: false, typeNum: false },
-    dateStart: new Date(946684800),
-    dateEnd: new Date(),
+    dateStart: initialStart,
+    dateEnd: initialEnd,
   });
 
   const onSetFilters = useCallback((e, value) => {
@@ -44,12 +45,12 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
   }, []);
 
   const onDataButtonPress = useCallback((state) => {
-    const value = childRed.current.dajData();
+    const value = childRef.current.dajData();
     if (state === true) {
-      const val1 = formatDate(value[0]);
-      const val2 = formatDate(value[1]);
+      const val1 = value[0];
+      const val2 = value[1];
       if (val1 && val2) {
-        setDatePlaceholder(val1 + " - " + val2);
+        setDatePlaceholder(formatDate(value[0]) + " - " + formatDate(value[0]));
         setFilters((prevValues) => ({
           ...prevValues,
           dateStart: val1 ? val1 : prevValues.dateStart,
@@ -65,9 +66,9 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
   }, [filters, updateFilters]);
 
   const onResetPress = useCallback(() => {
-    setDatePlaceholder(formatDate(new Date(946684800)) + " - " + formatDate(new Date()));
-    setFilters({ ...filters, cislo: "", datum: "", obPar: "", dateStart: new Date(946684800), dateEnd: new Date() });
-    updateFilters({ ...filters, cislo: "", datum: "", obPar: "", dateStart: new Date(946684800), dateEnd: new Date() });
+    setDatePlaceholder(formatDate(initialStart) + " - " + formatDate(initialEnd));
+    setFilters({ ...filters, cislo: "", datum: "", obPar: "", dateStart: initialStart, dateEnd: initialEnd });
+    updateFilters({ ...filters, cislo: "", datum: "", obPar: "", dateStart: initialStart, dateEnd: initialEnd });
   }, [filters, updateFilters]);
 
   useEffect(() => {
@@ -77,14 +78,6 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
   useEffect(() => {
     updateFilters(filters);
   }, [filters.ascend, updateFilters]);
-
-  // useEffect(() => {
-  //   setFilters((prevValues) => ({
-  //     ...prevValues,
-  //     dateStart: value[0] ? value[0] : prevValues.dateStart,
-  //     dateEnd: value[1] ? value[1] : prevValues.dateEnd,
-  //   }));
-  // }, [value]);
 
   return (
     <div className="obchody-filtre">
@@ -129,7 +122,7 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
         <button className="calendar-button-open" onClick={(e) => onDataButtonPress(button)}>
           Calendar
         </button>
-        <CalendarComp minDate={new Date(946684800)} display={button} ref={childRed} />
+        <CalendarComp minDate={new Date(946684800)} display={button} ref={childRef} />
       </div>
       <button className="filtre-hladat-btn" onClick={onSearchPress}>
         <BiSearchAlt></BiSearchAlt>
@@ -163,7 +156,7 @@ function ObchodyList() {
   }, []);
 
   const filterData = useCallback(async (filters) => {
-    console.log("teraz");
+    console.log(filters);
     setCurPage(1);
     setLoading({ isLoading: true, msg: "" });
     const resData = await filtrujData({ ...filters });

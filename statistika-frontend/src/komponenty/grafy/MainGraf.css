@@ -47,3 +47,17 @@
 #graf-filter ul li:hover {
   background-color: rgba(255, 255, 255, 0.29);
 }
+
+#ChartContainer2 {
+
+  width: 100%;
+  height:100% ;
+
+}
+
+/* .highcharts-scrollbar{
+  display: none;
+}
+.highcharts-navigator-outline{
+  display: none;
+} */

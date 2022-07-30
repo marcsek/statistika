@@ -1,4 +1,6 @@
 import { forwardRef, useRef, useImperativeHandle, useState } from "react";
+import "./CalendarComp.css";
+
 import "react-calendar/dist/Calendar.css";
 import Calendar from "react-calendar";
 
@@ -7,6 +9,7 @@ const CalendarComp = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     dajData() {
+      console.log(value);
       return value;
     },
   }));

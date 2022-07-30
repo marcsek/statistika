@@ -6,7 +6,7 @@ import { Line } from "react-chartjs-2";
 
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 import { VscTriangleUp, VscTriangleDown, VscCircleFilled } from "react-icons/vsc";
-import { formatPrice } from "../../pomocky/cislovacky";
+import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
 import LoadingComponent from "../LoadingComponent";
 
@@ -18,12 +18,6 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
   const [chartData, setChartData] = useState([]);
   const chartRef = useRef(null);
   const [loading, setLoading] = useState({ isLoading: true, hasError: { status: false, msg: "" } });
-
-  function getPercentageChange(newNumber, oldNumber) {
-    var decreaseValue = oldNumber - newNumber;
-
-    return formatPrice((decreaseValue / oldNumber) * 100);
-  }
 
   const onParentRequestEnd = useCallback(
     async (filter, index) => {

@@ -16,7 +16,11 @@ function ButtonComponent() {
   const [buttonClicked, setButtonClick] = useState(false);
 
   return (
-    <button className="vypinac" id={!buttonClicked ? "red" : "green"} onClick={() => setButtonClick(!buttonClicked)}>
+    <button
+      className="vypinac"
+      id={!buttonClicked ? "red" : "green"}
+      onClick={() => setButtonClick(!buttonClicked)}
+    >
       {!buttonClicked ? <MdOutlinePowerOff /> : <MdOutlinePower />}
       {!buttonClicked ? "Vypnúť botov" : "Zapnúť Botov"}
     </button>
@@ -28,7 +32,11 @@ function BotList() {
 
   const [chartData, setChData] = useState([]);
   const [pageData, setPageData] = useState([]);
-  const [loading, setLoading] = useState({ isLoading: true, msg: "", hasError: { status: false, msg: "" } });
+  const [loading, setLoading] = useState({
+    isLoading: true,
+    msg: "",
+    hasError: { status: false, msg: "" },
+  });
 
   const genFakeChartData = useCallback(async () => {
     const requestOne = axios.get(
@@ -78,9 +86,14 @@ function BotList() {
   return (
     <div className="bot-list-main-div">
       <ButtonComponent />
-      {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
+      {loading.isLoading && (
+        <LoadingComponent loadingText={loading.msg}></LoadingComponent>
+      )}
       {/* list vsetkych burzi */}
-      <ul style={{ display: loading.isLoading ? "none" : "" }} className="list-burza">
+      <ul
+        style={{ display: loading.isLoading ? "none" : "" }}
+        className="list-burza"
+      >
         {pageData.map((burza, i) => {
           return (
             <li key={i} className="li-burza">
@@ -103,7 +116,10 @@ function BotList() {
                 {burza.boti.map((bot, i) => {
                   return (
                     <li key={i}>
-                      <p id="bot-meno" onClick={() => navigate("../bot-detail/3232")}>
+                      <p
+                        id="bot-meno"
+                        onClick={() => navigate("../bot-detail/3232")}
+                      >
                         {bot.bMeno}
                       </p>
                       <i id="bot-mena">
@@ -121,20 +137,56 @@ function BotList() {
                         </p>
                       </i>
                       <p id="bot-par">{bot.botPar}</p>
-                      <span style={{ color: bot.zmena.h24 >= 0 ? "#16c784" : "#ea3943" }} className="zmena">
-                        {bot.zmena.h24 >= 0 ? <VscTriangleUp /> : <VscTriangleDown />}
+                      <span
+                        style={{
+                          color: bot.zmena.h24 >= 0 ? "#16c784" : "#ea3943",
+                        }}
+                        className="zmena"
+                      >
+                        {bot.zmena.h24 >= 0 ? (
+                          <VscTriangleUp />
+                        ) : (
+                          <VscTriangleDown />
+                        )}
                         {bot.zmena.h24}%
                       </span>
-                      <span style={{ color: bot.zmena.d7 >= 0 ? "#16c784" : "#ea3943" }} className="zmena">
-                        {bot.zmena.d7 >= 0 ? <VscTriangleUp /> : <VscTriangleDown />}
+                      <span
+                        style={{
+                          color: bot.zmena.d7 >= 0 ? "#16c784" : "#ea3943",
+                        }}
+                        className="zmena"
+                      >
+                        {bot.zmena.d7 >= 0 ? (
+                          <VscTriangleUp />
+                        ) : (
+                          <VscTriangleDown />
+                        )}
                         {bot.zmena.d7}%
                       </span>
-                      <span style={{ color: bot.zmena.d30 >= 0 ? "#16c784" : "#ea3943" }} className="zmena">
-                        {bot.zmena.d30 >= 0 ? <VscTriangleUp /> : <VscTriangleDown />}
+                      <span
+                        style={{
+                          color: bot.zmena.d30 >= 0 ? "#16c784" : "#ea3943",
+                        }}
+                        className="zmena"
+                      >
+                        {bot.zmena.d30 >= 0 ? (
+                          <VscTriangleUp />
+                        ) : (
+                          <VscTriangleDown />
+                        )}
                         {bot.zmena.d30}%
                       </span>
-                      <span style={{ color: bot.zmena.cc >= 0 ? "#16c784" : "#ea3943" }} className="zmena">
-                        {bot.zmena.cc >= 0 ? <VscTriangleUp /> : <VscTriangleDown />}
+                      <span
+                        style={{
+                          color: bot.zmena.cc >= 0 ? "#16c784" : "#ea3943",
+                        }}
+                        className="zmena"
+                      >
+                        {bot.zmena.cc >= 0 ? (
+                          <VscTriangleUp />
+                        ) : (
+                          <VscTriangleDown />
+                        )}
                         {bot.zmena.cc}%
                       </span>
                       <div className="list-graf">
@@ -160,7 +212,9 @@ function BotList() {
                       <i>
                         <BsCurrencyBitcoin />
                       </i>
-                      {formatCrypto(burza.boti.reduce((a, c) => a + c.cena.b, 0))}
+                      {formatCrypto(
+                        burza.boti.reduce((a, c) => a + c.cena.b, 0)
+                      )}
                     </p>
                   </i>
                   <p id="bot-par">---</p>
