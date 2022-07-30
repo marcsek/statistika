@@ -5,7 +5,9 @@ import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineEleme
 import { Line } from "react-chartjs-2";
 
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
+import { VscTriangleUp, VscTriangleDown, VscCircleFilled } from "react-icons/vsc";
 import { formatPrice } from "../../pomocky/cislovacky";
+import { MdEuroSymbol } from "react-icons/md";
 import LoadingComponent from "../LoadingComponent";
 
 function BurzaGraf({ grafRequestData, farbaCiary, index }) {
@@ -16,6 +18,12 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
   const [chartData, setChartData] = useState([]);
   const chartRef = useRef(null);
   const [loading, setLoading] = useState({ isLoading: true, hasError: { status: false, msg: "" } });
+
+  function getPercentageChange(newNumber, oldNumber) {
+    var decreaseValue = oldNumber - newNumber;
+
+    return formatPrice((decreaseValue / oldNumber) * 100);
+  }
 
   const onParentRequestEnd = useCallback(
     async (filter, index) => {
@@ -60,6 +68,7 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     type: "line",
     responsive: true,
     pointHoverRadius: 7,
+    keepAspectRatio: false,
     pointRadius: 0,
     lineTension: 0,
     interpolate: true,
@@ -149,26 +158,44 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     },
   };
 
-  return (
-    <div className="burza-chart-div">
-      <div className="burza-graf-filter" id="graf-filter">
-        <ul>
-          <li style={{ backgroundColor: filter === "1d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1d")}>
-            1D
-          </li>
-          <li style={{ backgroundColor: filter === "7d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("7d")}>
-            7D
-          </li>
-          <li style={{ backgroundColor: filter === "3m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("3m")}>
-            3M
-          </li>
-          <li style={{ backgroundColor: filter === "all" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("all")}>
-            All
-          </li>
-        </ul>
+  const PercZmenaData = ({ style }) => {
+    let perc = getPercentageChange(chartData[0]?.y, chartData?.at(-1)?.y);
+    let cena = formatPrice(chartData?.at(-1)?.y - chartData[0]?.y);
+    return (
+      <div style={style} className="perc-zmena-chart-burza">
+        <p id="eur-zmena">
+          <MdEuroSymbol /> {(chartData?.at(-1)?.y - chartData[0]?.y < 0 ? "" : "+") + cena}
+        </p>
+        <span style={{ color: perc < 0 ? "#ea3943" : "" }} id="perc-zmena">
+          {perc < 0 ? <VscTriangleDown /> : <VscTriangleUp />} {Math.abs(perc)}%
+        </span>
       </div>
+    );
+  };
+
+  return (
+    <div className="burza-chart-main">
+      <PercZmenaData style={{ visibility: loading.isLoading ? "hidden" : "" }} />
       {loading.isLoading && <LoadingComponent error={loading.hasError.msg} />}
-      <Line style={{ display: loading.isLoading ? "none" : "" }} ref={chartRef} options={options} data={data}></Line>
+      <div className="burza-chart-div">
+        <Line style={{ display: loading.isLoading ? "none" : "" }} ref={chartRef} options={options} data={data}></Line>
+        <div className="burza-graf-filter" id="graf-filter">
+          <ul>
+            <li style={{ backgroundColor: filter === "1d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1d")}>
+              1D
+            </li>
+            <li style={{ backgroundColor: filter === "7d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("7d")}>
+              7D
+            </li>
+            <li style={{ backgroundColor: filter === "3m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("3m")}>
+              3M
+            </li>
+            <li style={{ backgroundColor: filter === "all" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("all")}>
+              All
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }

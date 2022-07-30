@@ -107,7 +107,7 @@
 .graf-burzy-cont ul {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(580px, 1fr));
   padding: 0;
   grid-gap: 20px 2%;
   /* column-gap: 20px; */
@@ -124,11 +124,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 340px !important;
+  margin-bottom: 20px;
 }
 
 .burza-cont {
   height: 100%;
-  width: 610px;
+  width: 580px;
   position: relative;
   display: flex;
 }
@@ -164,9 +166,9 @@
 }
 
 .devider {
-  top: 40px;
+  top: 45px;
   left: 15px;
-  height: 200px;
+  height: 65%;
   width: 4px;
 }
 

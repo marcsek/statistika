@@ -110,14 +110,20 @@ function Graf() {
     dataToUpdate[0].push(...docData);
 
     docData = [];
+    resData = await axios.get(
+      `https://min-api.cryptocompare.com/data/v2/histo${requestParams.tick}?fsym=ETH&tsym=USD&limit=${requestParams.amount}&toTs=-1&agregate=1&api_key=YOURKEYHERE`
+    );
     resData.data.Data.Data.forEach((e) => {
-      docData.push({ x: new Date(e.time * 1000), y: e.high / 1.2 + faker.datatype.number({ min: 1000, max: 2000 }) });
+      docData.push({ x: new Date(e.time * 1000), y: e.high });
     });
     dataToUpdate[1].push(...docData);
 
     docData = [];
+    resData = await axios.get(
+      `https://min-api.cryptocompare.com/data/v2/histo${requestParams.tick}?fsym=LTC&tsym=USD&limit=${requestParams.amount}&toTs=-1&agregate=1&api_key=YOURKEYHERE`
+    );
     resData.data.Data.Data.forEach((e) => {
-      docData.push({ x: new Date(e.time * 1000), y: e.high / 2.5 + faker.datatype.number({ min: 1000, max: 5000 }) });
+      docData.push({ x: new Date(e.time * 1000), y: e.high });
     });
     dataToUpdate[2].push(...docData);
 

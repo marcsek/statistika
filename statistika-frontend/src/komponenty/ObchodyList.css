@@ -62,7 +62,7 @@
 
 .parameter-cont {
   position: relative;
-  width: 165px;
+  width: 155px;
   line-height: 60px;
   padding-right: 10px;
   padding-left: 5px;
@@ -76,6 +76,14 @@
   align-items: center;
   justify-content: space-around;
   background-color: var(--pozadie);
+}
+
+.parameter-cont#datum {
+  width: 220px;
+}
+
+.parameter-cont#datum input {
+  width: 105px;
 }
 
 .parameter-cont span {
@@ -151,15 +159,16 @@
   justify-content: center;
   width: 70px;
   text-align: center;
+  margin-right: 7%;
 }
 
 .cena#element {
   display: flex;
   align-items: center;
   justify-content: right;
-  width: 110px;
+  width: 100px;
   text-align: right;
-  margin-left: 40px;
+  margin-left: 2%;
 }
 
 svg.euro-symbol {
@@ -176,16 +185,25 @@ svg.euro-symbol {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: 150px;
+  justify-content: center;
+  width: 140px;
 }
 
-.obpar#element {
+.maker#element {
   cursor: default;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 110px;
+  width: 140px;
   text-align: right;
+}
+
+.mnozstvo#element {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  width: 95px;
+  text-align: center;
 }
 
 .pagi-cont {
@@ -310,6 +328,10 @@ button svg {
   position: absolute;
 }
 
+#dateStart {
+  width: 100% !important;
+}
+
 .nadpis-obdobie {
   position: absolute;
   top: -14px;
@@ -331,4 +353,28 @@ button svg {
   width: 70px;
   font-size: 0.79rem;
   /* border-radius: 25px; */
+}
+
+.calendar-main-cont {
+  position: relative;
+  width: 50px;
+}
+
+.calendar-button-open {
+  position: relative;
+  /* height: 50px;
+  width: 50px; */
+}
+
+.calendar-div {
+  z-index: 5;
+  background-color: #707070;
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.react-calendar {
+  background-color: transparent !important;
 }

@@ -1,8 +1,8 @@
 import "./ObchodyList.css";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 
-import { formatDate } from "../pomocky/datumovanie";
+import { formatDate, getCompatibleValue } from "../pomocky/datumovanie";
 import { getPage, filtrujData } from "../pomocky/fakeApi";
 
 import Pagination from "./Pagination";
@@ -10,20 +10,54 @@ import { BiChevronsDown, BiChevronsUp, BiSearchAlt, BiReset } from "react-icons/
 import LoadingComponent from "./LoadingComponent";
 import { formatPrice } from "../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
+// import Calendar from "react-calendar";
+// import "react-calendar/dist/Calendar.css";
+import CalendarComp from "./CalendarComp";
 
 /* filtre oddelene do komponentu aby sa zbytocne nerendroval list */
 const FiltreBotList = ({ updateFilters, orderFilters }) => {
+  const [datePlaceholder, setDatePlaceholder] = useState(formatDate(new Date(946684800)) + " - " + formatDate(new Date()));
+  const [button, clicked] = useState(false);
+
+  const childRed = useRef(null);
+
   const [filters, setFilters] = useState({
     cislo: "",
     datum: "",
     obPar: "",
     ascend: { curType: "num", typeDate: false, typeNum: false },
-    dateStart: "01/01/2000",
-    dateEnd: formatDate(new Date()),
+    dateStart: new Date(946684800),
+    dateEnd: new Date(),
   });
 
   const onSetFilters = useCallback((e, value) => {
     setFilters((prevValues) => ({ ...prevValues, [e.target.name]: value }));
+  }, []);
+
+  const onSetDate = useCallback((value) => {
+    console.log(value);
+    setFilters((prevValues) => ({
+      ...prevValues,
+      dateStart: value[0] ? value[0] : prevValues.dateStart,
+      dateEnd: value[1] ? value[1] : prevValues.dateEnd,
+    }));
+  }, []);
+
+  const onDataButtonPress = useCallback((state) => {
+    const value = childRed.current.dajData();
+    if (state === true) {
+      const val1 = formatDate(value[0]);
+      const val2 = formatDate(value[1]);
+      if (val1 && val2) {
+        setDatePlaceholder(val1 + " - " + val2);
+        setFilters((prevValues) => ({
+          ...prevValues,
+          dateStart: val1 ? val1 : prevValues.dateStart,
+          dateEnd: val2 ? val2 : prevValues.dateEnd,
+        }));
+      }
+    }
+    clicked(!state);
   }, []);
 
   const onSearchPress = useCallback(() => {
@@ -31,8 +65,9 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
   }, [filters, updateFilters]);
 
   const onResetPress = useCallback(() => {
-    setFilters({ ...filters, cislo: "", datum: "", obPar: "", dateStart: "01/01/2000", dateEnd: formatDate(new Date()) });
-    updateFilters({ ...filters, cislo: "", datum: "", obPar: "", dateStart: "01/01/2000", dateEnd: formatDate(new Date()) });
+    setDatePlaceholder(formatDate(new Date(946684800)) + " - " + formatDate(new Date()));
+    setFilters({ ...filters, cislo: "", datum: "", obPar: "", dateStart: new Date(946684800), dateEnd: new Date() });
+    updateFilters({ ...filters, cislo: "", datum: "", obPar: "", dateStart: new Date(946684800), dateEnd: new Date() });
   }, [filters, updateFilters]);
 
   useEffect(() => {
@@ -42,6 +77,14 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
   useEffect(() => {
     updateFilters(filters);
   }, [filters.ascend, updateFilters]);
+
+  // useEffect(() => {
+  //   setFilters((prevValues) => ({
+  //     ...prevValues,
+  //     dateStart: value[0] ? value[0] : prevValues.dateStart,
+  //     dateEnd: value[1] ? value[1] : prevValues.dateEnd,
+  //   }));
+  // }, [value]);
 
   return (
     <div className="obchody-filtre">
@@ -56,16 +99,37 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
         <span>Ob. pár</span>
         <input autoComplete="off" name="obPar" value={filters.obPar} onChange={(e) => onSetFilters(e, e.target.value)}></input>
       </div>
-      <div className="parameter-cont">
+      <div id="datum" className="parameter-cont">
         <div className="nadpis-obdobie">
           <span>Obdobie</span>
         </div>
-        <span>Začiatok</span>
-        <input autoComplete="off" name="dateStart" value={filters.dateStart} onChange={(e) => onSetFilters(e, e.target.value)}></input>
+        <input
+          autoComplete="off"
+          name="dateStart"
+          id="dateStart"
+          value={datePlaceholder}
+          onChange={(e) => {
+            if (
+              !/[A-Za-z]/.test(e.target.value) &&
+              /(\s-\s)/.test(e.target.value) &&
+              e.target.value.split("/").length === 5 &&
+              e.target.value.split(":").length === 3
+              // e.target.value.split(" - ").length === 2
+            ) {
+              setDatePlaceholder(e.target.value);
+              let dateSpread = e.target.value.split(" - ");
+              // console.log(dateSpread);
+              // console.log(getCompatibleValue(dateSpread[0], getCompatibleValue(dateSpread[1])));
+              onSetDate([new Date(getCompatibleValue(dateSpread[0])), new Date(getCompatibleValue(dateSpread[1]))]);
+            }
+          }}
+        ></input>
       </div>
-      <div className="parameter-cont">
-        <span>Koniec</span>
-        <input autoComplete="off" name="dateEnd" value={filters.dateEnd} onChange={(e) => onSetFilters(e, e.target.value)}></input>
+      <div style={{ position: "relative" }}>
+        <button className="calendar-button-open" onClick={(e) => onDataButtonPress(button)}>
+          Calendar
+        </button>
+        <CalendarComp minDate={new Date(946684800)} display={button} ref={childRed} />
       </div>
       <button className="filtre-hladat-btn" onClick={onSearchPress}>
         <BiSearchAlt></BiSearchAlt>
@@ -99,6 +163,7 @@ function ObchodyList() {
   }, []);
 
   const filterData = useCallback(async (filters) => {
+    console.log("teraz");
     setCurPage(1);
     setLoading({ isLoading: true, msg: "" });
     const resData = await filtrujData({ ...filters });
@@ -134,18 +199,6 @@ function ObchodyList() {
       <div className="obchody-list-const">
         <div className="legenda-obch">
           <button
-            className="cislo"
-            id="element"
-            name="ascend"
-            style={{ pointerEvents: loading.isLoading ? "none" : "" }}
-            onClick={(e) =>
-              onOrderFilterSet({ curType: "num", typeNum: !orderFilter.typeNum, typeDate: orderFilter.typeDate, typePrice: orderFilter.typePrice })
-            }
-          >
-            {orderFilter.typeNum ? <BiChevronsDown /> : <BiChevronsUp />}
-            Číslo
-          </button>
-          <button
             className="datum"
             id="element"
             name="ascend"
@@ -155,8 +208,11 @@ function ObchodyList() {
             }
           >
             {orderFilter.typeDate ? <BiChevronsDown /> : <BiChevronsUp />}
-            Dátum
+            Dátum a čas
           </button>
+          <p className="cislo" id="element">
+            Buy/Sell
+          </p>
           <button
             className="cena"
             id="element"
@@ -169,8 +225,20 @@ function ObchodyList() {
             {orderFilter.typePrice ? <BiChevronsDown /> : <BiChevronsUp />}
             Cena
           </button>
-          <p className="obpar" id="element">
-            Ob.pár
+          <button
+            className="mnozstvo"
+            id="element"
+            name="ascend"
+            style={{ pointerEvents: loading.isLoading ? "none" : "" }}
+            onClick={(e) =>
+              onOrderFilterSet({ curType: "num", typeNum: !orderFilter.typeNum, typeDate: orderFilter.typeDate, typePrice: orderFilter.typePrice })
+            }
+          >
+            {orderFilter.typeNum ? <BiChevronsDown /> : <BiChevronsUp />}
+            Množstvo
+          </button>
+          <p className="maker" id="element">
+            Maker/Taker
           </p>
         </div>
         <ul className="bot-obchody-cont">
@@ -178,17 +246,20 @@ function ObchodyList() {
             let bgColor = i % 2 === 0 ? "#13131357" : "";
             return (
               <li key={i} style={{ backgroundColor: bgColor, display: loading.isLoading ? "none" : "" }}>
-                <p className="cislo" id="element">
-                  {e.cislo}
-                </p>
                 <p className="datum" id="element">
                   {formatDate(e.datum)}
+                </p>
+                <p className="cislo" id="element">
+                  {e.cislo}
                 </p>
                 <p className="cena" id="element">
                   <MdEuroSymbol className="euro-symbol" />
                   {formatPrice(e.cena, ",")}
                 </p>
-                <p className="obpar" id="element">
+                <p className="mnozstvo" id="element">
+                  {e.obPar}
+                </p>
+                <p className="maker" id="element">
                   {e.obPar}
                 </p>
               </li>
