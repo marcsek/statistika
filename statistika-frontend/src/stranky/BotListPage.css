@@ -305,3 +305,47 @@ ol li:hover {
 .burza {
   height: 400px;
 }
+
+.bot-novy-cont {
+  z-index: 2;
+  background-color: var(--pozadie);
+  border: 2px solid rgba(255, 255, 255, 0.29);
+  position: fixed;
+  bottom: 150px;
+  max-height: 350px;
+  max-width: 1150px;
+  right: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  border-radius: 25px;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.2s; */
+}
+
+.show-bot-button {
+  background-color: #2c53dd;
+  outline: none;
+  border: none;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 100px;
+  right: 100px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.show-bot-button svg {
+  width: 37px;
+  height: 37px;
+}

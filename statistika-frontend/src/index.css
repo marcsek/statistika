@@ -28,4 +28,6 @@ code {
   --pozadie: rgb(24, 24, 24);
   --pismo-biela: #e7e7e7;
   --list-border: #2e2e2e;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    "Open Sans", sans-serif;
 }

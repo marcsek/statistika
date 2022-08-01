@@ -10,10 +10,7 @@ const formatCrypto = (amount) => {
 
 const numberWithSpaces = (number, separator) => {
   let parts = number.toString().split(".");
-  parts[0] = parts[0].replace(
-    /\B(?=(\d{3})+(?!\d))/g,
-    separator ? separator : " "
-  );
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, separator ? separator : " ");
   return parts.join(".");
 };
 
@@ -23,4 +20,18 @@ function getPercentageChange(newNumber, oldNumber) {
   return formatPrice((decreaseValue / oldNumber) * 100);
 }
 
-export { formatPrice, formatCrypto, getPercentageChange };
+function isPositiveInteger(str) {
+  if (/^[0-9]+$/.test(str) || str === "") {
+    return true;
+  }
+  return false;
+}
+
+function isDecimal(str) {
+  if (/^[0-9]+$/.test(str) || str === "") {
+    return true;
+  }
+  return false;
+}
+
+export { formatPrice, formatCrypto, getPercentageChange, isPositiveInteger };

@@ -11,19 +11,31 @@ import { getFakeListData } from "../pomocky/fakeApi";
 import { formatPrice, formatCrypto } from "../pomocky/cislovacky.js";
 import LoadingComponent from "../komponenty/LoadingComponent";
 import { MdOutlinePowerOff, MdOutlinePower } from "react-icons/md";
+import ParametreEditor from "../komponenty/ParametreEditor";
+import { BiUserPlus } from "react-icons/bi";
 
 function ButtonComponent() {
   const [buttonClicked, setButtonClick] = useState(false);
 
   return (
-    <button
-      className="vypinac"
-      id={!buttonClicked ? "red" : "green"}
-      onClick={() => setButtonClick(!buttonClicked)}
-    >
+    <button className="vypinac" id={!buttonClicked ? "red" : "green"} onClick={() => setButtonClick(!buttonClicked)}>
       {!buttonClicked ? <MdOutlinePowerOff /> : <MdOutlinePower />}
       {!buttonClicked ? "Vypnúť botov" : "Zapnúť Botov"}
     </button>
+  );
+}
+
+function NovyBotComp() {
+  const [showNovyBot, setShowNovyBot] = useState(false);
+  return (
+    <div>
+      <div className="bot-novy-cont" style={{ display: showNovyBot ? "" : "none" }}>
+        <ParametreEditor type="create"></ParametreEditor>
+      </div>
+      <button className="show-bot-button" onClick={(e) => setShowNovyBot(!showNovyBot)}>
+        <BiUserPlus />
+      </button>
+    </div>
   );
 }
 
@@ -86,14 +98,10 @@ function BotList() {
   return (
     <div className="bot-list-main-div">
       <ButtonComponent />
-      {loading.isLoading && (
-        <LoadingComponent loadingText={loading.msg}></LoadingComponent>
-      )}
+      {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
+      <NovyBotComp />
       {/* list vsetkych burzi */}
-      <ul
-        style={{ display: loading.isLoading ? "none" : "" }}
-        className="list-burza"
-      >
+      <ul style={{ display: loading.isLoading ? "none" : "" }} className="list-burza">
         {pageData.map((burza, i) => {
           return (
             <li key={i} className="li-burza">
@@ -116,10 +124,7 @@ function BotList() {
                 {burza.boti.map((bot, i) => {
                   return (
                     <li key={i}>
-                      <p
-                        id="bot-meno"
-                        onClick={() => navigate("../bot-detail/3232")}
-                      >
+                      <p id="bot-meno" onClick={() => navigate("../bot-detail/3232")}>
                         {bot.bMeno}
                       </p>
                       <i id="bot-mena">
@@ -143,11 +148,7 @@ function BotList() {
                         }}
                         className="zmena"
                       >
-                        {bot.zmena.h24 >= 0 ? (
-                          <VscTriangleUp />
-                        ) : (
-                          <VscTriangleDown />
-                        )}
+                        {bot.zmena.h24 >= 0 ? <VscTriangleUp /> : <VscTriangleDown />}
                         {bot.zmena.h24}%
                       </span>
                       <span
@@ -156,11 +157,7 @@ function BotList() {
                         }}
                         className="zmena"
                       >
-                        {bot.zmena.d7 >= 0 ? (
-                          <VscTriangleUp />
-                        ) : (
-                          <VscTriangleDown />
-                        )}
+                        {bot.zmena.d7 >= 0 ? <VscTriangleUp /> : <VscTriangleDown />}
                         {bot.zmena.d7}%
                       </span>
                       <span
@@ -169,11 +166,7 @@ function BotList() {
                         }}
                         className="zmena"
                       >
-                        {bot.zmena.d30 >= 0 ? (
-                          <VscTriangleUp />
-                        ) : (
-                          <VscTriangleDown />
-                        )}
+                        {bot.zmena.d30 >= 0 ? <VscTriangleUp /> : <VscTriangleDown />}
                         {bot.zmena.d30}%
                       </span>
                       <span
@@ -182,11 +175,7 @@ function BotList() {
                         }}
                         className="zmena"
                       >
-                        {bot.zmena.cc >= 0 ? (
-                          <VscTriangleUp />
-                        ) : (
-                          <VscTriangleDown />
-                        )}
+                        {bot.zmena.cc >= 0 ? <VscTriangleUp /> : <VscTriangleDown />}
                         {bot.zmena.cc}%
                       </span>
                       <div className="list-graf">
@@ -212,9 +201,7 @@ function BotList() {
                       <i>
                         <BsCurrencyBitcoin />
                       </i>
-                      {formatCrypto(
-                        burza.boti.reduce((a, c) => a + c.cena.b, 0)
-                      )}
+                      {formatCrypto(burza.boti.reduce((a, c) => a + c.cena.b, 0))}
                     </p>
                   </i>
                   <p id="bot-par">---</p>

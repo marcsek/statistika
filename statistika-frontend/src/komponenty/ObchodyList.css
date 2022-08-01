@@ -79,7 +79,7 @@
 }
 
 .parameter-cont#datum {
-  width: 220px;
+  width: 250px;
 }
 
 .parameter-cont#datum input {
@@ -335,7 +335,7 @@ button svg {
 .nadpis-obdobie {
   position: absolute;
   top: -14px;
-  left: 50%;
+  left: 35%;
   width: 200px;
   height: 2px;
   background-color: rgba(255, 255, 255, 0.29);
@@ -361,9 +361,24 @@ button svg {
 }
 
 .calendar-button-open {
+  cursor: pointer;
   position: relative;
+  background-color: transparent;
+  border-radius: 4px;
+  outline: 0;
+  border: none;
+  padding: 0;
+  color: var(--pismo-biela);
   /* height: 50px;
   width: 50px; */
+}
+
+.calendar-button-open svg {
+  height: 23px;
+  width: 23px;
+}
+.calendar-button-open:hover {
+  filter: brightness(2);
 }
 
 .calendar-div {

@@ -11,6 +11,7 @@ import LoadingComponent from "./LoadingComponent";
 import { formatPrice } from "../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
 import CalendarComp from "./CalendarComp";
+import { TbCalendar } from "react-icons/tb";
 
 /* filtre oddelene do komponentu aby sa zbytocne nerendroval list */
 const FiltreBotList = ({ updateFilters, orderFilters }) => {
@@ -117,11 +118,11 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
             }
           }}
         ></input>
+        <button className="calendar-button-open" onClick={(e) => onDataButtonPress(button)}>
+          <TbCalendar />
+        </button>
       </div>
       <div style={{ position: "relative" }}>
-        <button className="calendar-button-open" onClick={(e) => onDataButtonPress(button)}>
-          Calendar
-        </button>
         <CalendarComp minDate={new Date(946684800)} display={button} ref={childRef} />
       </div>
       <button className="filtre-hladat-btn" onClick={onSearchPress}>

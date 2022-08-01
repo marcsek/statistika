@@ -64,7 +64,31 @@ const filtrujData = async (filters) => {
   return getPage(1);
 };
 
-var textValues = ["0.24", "434349", "Neviem", "434", "434", "434", "434", "434", "434", "434"];
+var textValues = {
+  desMiestaCen: "3",
+  desMiestaMnoz: "5",
+  desatina: "8",
+  feeCoin: true,
+  hodnota: "USDC",
+  maker: true,
+  meno: "",
+  minHod: "0.2",
+  minMnozstvo: "48",
+  minProfit: "430",
+  nazov: "ETH",
+  obPar: "ETH/USDT",
+  odchylka: "12",
+  percento: "89",
+  postOnly: true,
+  poznamka: "",
+  prepinac: true,
+  prepoc: true,
+  test: true,
+  testFee: "0.003",
+  zapnuty: true,
+  zdroj: true,
+  zvysTrad: "32",
+};
 
 const getTextValues = async () => {
   await sleep(400);
