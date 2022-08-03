@@ -17,7 +17,6 @@ import HighchartsReact from "highcharts-react-official";
 import DarkUnica from "highcharts/themes/dark-unica";
 import { TbCalendar } from "react-icons/tb";
 
-import Test from "./test";
 DarkUnica(Highcharts);
 
 Highcharts.theme = {
@@ -62,6 +61,7 @@ function MainGraf({ grafRequestData }) {
   Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin, zoomPlugin);
   Interaction.modes.interpolate = Interpolate;
   const childRef = useRef(null);
+  const mainRef = useRef(null);
 
   const getData1 = (newDataa) => {
     let newData = [[], [], []];
@@ -104,13 +104,12 @@ function MainGraf({ grafRequestData }) {
     onParentRequestEnd(filter);
   }, [filter, onParentRequestEnd]);
 
-  const handleCalClick = useCallback((state) => {
-    const value = childRef.current.dajData();
-    if (state === true && value[0] && value[1]) {
+  const onCalendarNewDate = useCallback((value) => {
+    if (value[0] && value[1]) {
       const newValues = { dateStart: value[0] ? value[0] : "", dateEnd: value[1] ? value[1] : "" };
       setFilter(newValues);
     }
-    clicked(!state);
+    clicked(false);
   }, []);
 
   const getRange = (string) => {
@@ -156,11 +155,6 @@ function MainGraf({ grafRequestData }) {
       return {
         chart: {
           height: 550,
-          events: {
-            selection: function (event) {
-              console.log(event);
-            },
-          },
         },
         rangeSelector: {
           enabled: false,
@@ -516,27 +510,50 @@ function MainGraf({ grafRequestData }) {
   return (
     <div className="main-chart-div">
       <div className="main-graf-filter" id="graf-filter">
-        <CalendarComp minDate={new Date(1627628652305)} maxDate={new Date()} display={button} ref={childRef} />
+        <CalendarComp minDate={new Date(1627628652305)} maxDate={new Date()} display={button} onCalendarClick={onCalendarNewDate} />
         <ul>
-          <li style={{ backgroundColor: filter === "1d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1d")}>
+          <li
+            style={{ backgroundColor: filter === "1d" && typeof filter !== "object" && "rgba(255, 255, 255, 0.29)" }}
+            onClick={() => setFilter("1d")}
+          >
             1D
           </li>
-          <li style={{ backgroundColor: filter === "7d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("7d")}>
+          <li
+            style={{ backgroundColor: filter === "7d" && typeof filter !== "object" && !button && "rgba(255, 255, 255, 0.29)" }}
+            onClick={() => setFilter("7d")}
+          >
             7D
           </li>
-          <li style={{ backgroundColor: filter === "1m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1m")}>
+          <li
+            style={{ backgroundColor: filter === "1m" && typeof filter !== "object" && !button && "rgba(255, 255, 255, 0.29)" }}
+            onClick={() => setFilter("1m")}
+          >
             1M
           </li>
-          <li style={{ backgroundColor: filter === "3m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("3m")}>
+          <li
+            style={{ backgroundColor: filter === "3m" && typeof filter !== "object" && !button && "rgba(255, 255, 255, 0.29)" }}
+            onClick={() => setFilter("3m")}
+          >
             3M
           </li>
-          <li style={{ backgroundColor: filter === "1y" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1y")}>
+          <li
+            style={{ backgroundColor: filter === "1y" && typeof filter !== "object" && !button && "rgba(255, 255, 255, 0.29)" }}
+            onClick={() => setFilter("1y")}
+          >
             1R
           </li>
-          <li style={{ backgroundColor: filter === "all" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("all")}>
+          <li
+            style={{ backgroundColor: filter === "all" && typeof filter !== "object" && "rgba(255, 255, 255, 0.29)" }}
+            onClick={() => setFilter("all")}
+          >
             All
           </li>
-          <li onClick={() => handleCalClick(button)}>
+          <li
+            style={{ backgroundColor: (typeof filter === "object" || button) && "rgba(255, 255, 255, 0.29)" }}
+            onClick={() => {
+              clicked(!button);
+            }}
+          >
             <TbCalendar />
           </li>
         </ul>

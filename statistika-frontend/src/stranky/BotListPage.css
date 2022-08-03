@@ -15,6 +15,89 @@
   align-items: center;
 }
 
+@media only screen and (max-height: 700px) {
+  .bot-novy-cont {
+    overflow-y: scroll;
+    overflow-x: auto;
+  }
+}
+@media only screen and (max-width: 700px) {
+  .flex-bot-novy-cont button#bot-parametre {
+    left: 95% !important;
+  }
+  .show-bot-button {
+    right: 5% !important;
+    bottom: 5% !important;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .list-burza {
+    overflow-x: scroll;
+    align-items: flex-start;
+  }
+  .bot-list-main-div .vypinac {
+    top: 85px !important;
+    left: 50%;
+    transform: translateX(-60%);
+  }
+  #bot-par {
+    margin-right: 0px !important;
+  }
+  #bot-mena {
+    margin-right: 0px !important;
+  }
+  #bot-meno {
+    width: 50px !important;
+  }
+  .bot-list li,
+  .bot-list div {
+    justify-content: space-evenly;
+  }
+
+  .flex-bot-novy-cont button#bot-parametre {
+    margin-left: 2px !important;
+    top: 0px !important;
+    left: 100%;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .bot-novy-cont {
+    max-width: 100% !important;
+    right: 0 !important;
+    margin: 0 10px;
+    padding: 0px !important;
+    overflow-y: scroll;
+    bottom: 180px !important;
+    overflow-x: hidden;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .bot-list-main-div .vypinac {
+    font-size: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    left: 90%;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+  }
+  .bot-list-main-div .vypinac svg {
+    padding-top: 10px;
+    width: 27px;
+    height: 27px;
+  }
+
+  .bot-extra-create-cont {
+    justify-content: center !important;
+  }
+}
+
 .li-burza {
   width: 100%;
   max-width: 1300px;
@@ -289,6 +372,7 @@ ol li:hover {
 }
 
 .vypinac svg {
+  pointer-events: none;
   margin-bottom: 2px;
   height: 23px;
   width: 23px;
@@ -312,14 +396,16 @@ ol li:hover {
   border: 2px solid rgba(255, 255, 255, 0.29);
   position: fixed;
   bottom: 150px;
-  max-height: 350px;
   max-width: 1150px;
   right: 150px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 50px;
+  align-items: flex-start;
+  padding: 0px 50px;
+  padding-top: 0px;
+  max-height: 70%;
   border-radius: 25px;
+  opacity: 1;
   /* background-color: rgba(0, 0, 0, 0.5); */
   /* display: flex;
   justify-content: center;
@@ -327,6 +413,20 @@ ol li:hover {
   z-index: 2;
   opacity: 0;
   transition: opacity 0.2s; */
+  transition: all 0.1s;
+}
+
+.bot-novy-cont#vis {
+  opacity: 1;
+}
+.bot-novy-cont#invi {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.flex-bot-novy-cont {
+  padding: 10px 0;
+  /* max-height: 70%; */
 }
 
 .show-bot-button {
@@ -343,6 +443,16 @@ ol li:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
+}
+
+.show-bot-button:hover {
+  filter: brightness(1.1);
+}
+
+.show-bot-button:active {
+  transition: all 0.05s;
+  transform: scale(0.95);
 }
 
 .show-bot-button svg {

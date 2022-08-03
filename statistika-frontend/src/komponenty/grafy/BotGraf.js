@@ -59,8 +59,8 @@ function BotGraf({ grafRequestData }) {
   }, [chartData]);
 
   const options = {
-    maintainAspectRatio: false,
-    aspectRatio: 600 / 400,
+    maintainAspectRatio: true,
+    aspectRatio: 600 / 350,
     type: "line",
     responsive: true,
     pointHoverRadius: 7,

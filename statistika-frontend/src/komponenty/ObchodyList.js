@@ -24,10 +24,10 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
   const childRef = useRef(null);
 
   const [filters, setFilters] = useState({
-    cislo: "",
+    buy: null,
     datum: "",
-    obPar: "",
-    ascend: { curType: "num", typeDate: false, typeNum: false },
+    maker: null,
+    ascend: { curType: "date", typeDate: false, typeNum: false },
     dateStart: initialStart,
     dateEnd: initialEnd,
   });
@@ -45,21 +45,18 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
     }));
   }, []);
 
-  const onDataButtonPress = useCallback((state) => {
-    const value = childRef.current.dajData();
-    if (state === true) {
-      const val1 = value[0];
-      const val2 = value[1];
-      if (val1 && val2) {
-        setDatePlaceholder(formatDate(value[0]) + " - " + formatDate(value[0]));
-        setFilters((prevValues) => ({
-          ...prevValues,
-          dateStart: val1 ? val1 : prevValues.dateStart,
-          dateEnd: val2 ? val2 : prevValues.dateEnd,
-        }));
-      }
+  const onDataButtonPress = useCallback((value) => {
+    const val1 = value[0];
+    const val2 = value[1];
+    if (val1 && val2) {
+      setDatePlaceholder(formatDate(value[0]) + " - " + formatDate(value[1]));
+      setFilters((prevValues) => ({
+        ...prevValues,
+        dateStart: val1 ? val1 : prevValues.dateStart,
+        dateEnd: val2 ? val2 : prevValues.dateEnd,
+      }));
     }
-    clicked(!state);
+    clicked(false);
   }, []);
 
   const onSearchPress = useCallback(() => {
@@ -68,8 +65,8 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
 
   const onResetPress = useCallback(() => {
     setDatePlaceholder(formatDate(initialStart) + " - " + formatDate(initialEnd));
-    setFilters({ ...filters, cislo: "", datum: "", obPar: "", dateStart: initialStart, dateEnd: initialEnd });
-    updateFilters({ ...filters, cislo: "", datum: "", obPar: "", dateStart: initialStart, dateEnd: initialEnd });
+    setFilters({ ...filters, buy: null, datum: "", maker: null, dateStart: initialStart, dateEnd: initialEnd });
+    updateFilters({ ...filters, buy: null, datum: "", maker: null, dateStart: initialStart, dateEnd: initialEnd });
   }, [filters, updateFilters]);
 
   useEffect(() => {
@@ -85,13 +82,27 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
       <button className="filtre-reset-btn" onClick={onResetPress}>
         <BiReset />
       </button>
-      <div className="parameter-cont">
-        <span>Číslo</span>
-        <input autoComplete="off" name="cislo" value={filters.cislo} onChange={(e) => onSetFilters(e, e.target.value)}></input>
+      <div className="input-nadpis-cont">
+        <button
+          className="prepinac-maly"
+          id="prepinac-lava-prava"
+          name="zdroj"
+          onClick={(e) => setFilters((prevValues) => ({ ...prevValues, buy: !prevValues.buy }))}
+        >
+          <div id={!filters.buy == null ? "selected" : filters.buy ? "selected" : "unselected"}>Buy</div>
+          <div id={!filters.buy == null ? "unselected" : !filters.buy ? "selected" : "unselected"}>Sell</div>
+        </button>
       </div>
-      <div className="parameter-cont">
-        <span>Ob. pár</span>
-        <input autoComplete="off" name="obPar" value={filters.obPar} onChange={(e) => onSetFilters(e, e.target.value)}></input>
+      <div className="input-nadpis-cont">
+        <button
+          className="prepinac-maly"
+          id="prepinac-lava-prava"
+          name="zdroj"
+          onClick={(e) => setFilters((prevValues) => ({ ...prevValues, maker: !prevValues.maker }))}
+        >
+          <div id={!filters.maker == null ? "selected" : filters.maker ? "selected" : "unselected"}>Maker</div>
+          <div id={!filters.maker == null ? "unselected" : !filters.maker ? "selected" : "unselected"}>Taker</div>
+        </button>
       </div>
       <div id="datum" className="parameter-cont">
         <div className="nadpis-obdobie">
@@ -118,12 +129,12 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
             }
           }}
         ></input>
-        <button className="calendar-button-open" onClick={(e) => onDataButtonPress(button)}>
-          <TbCalendar />
-        </button>
-      </div>
-      <div style={{ position: "relative" }}>
-        <CalendarComp minDate={new Date(946684800)} display={button} ref={childRef} />
+        <div className="calendar-div-parent">
+          <CalendarComp minDate={new Date(946684800)} maxDate={new Date()} display={button} onCalendarClick={onDataButtonPress} />
+          <button className="calendar-button-open" onClick={(e) => clicked(!button)}>
+            <TbCalendar />
+          </button>
+        </div>
       </div>
       <button className="filtre-hladat-btn" onClick={onSearchPress}>
         <BiSearchAlt></BiSearchAlt>
@@ -136,7 +147,7 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
 function ObchodyList() {
   const [listData, setListData] = useState({ totalItems: 0, data: [] });
   const [curPage, setCurPage] = useState(1);
-  const [orderFilter, setOrderFilter] = useState({ curType: "num", typeDate: false, typeNum: false, typePrice: false });
+  const [orderFilter, setOrderFilter] = useState({ curType: "date", typeDate: false, typeNum: false, typePrice: false });
 
   const [loading, setLoading] = useState({ isLoading: false, msg: "" });
 
@@ -161,7 +172,6 @@ function ObchodyList() {
     setCurPage(1);
     setLoading({ isLoading: true, msg: "" });
     const resData = await filtrujData({ ...filters });
-
     if (resData.totalItems === 0) {
       setLoading({ isLoading: true, msg: "Žiadna zhoda" });
     } else {
@@ -169,7 +179,6 @@ function ObchodyList() {
         return { ...prevState, isLoading: false };
       });
     }
-
     setListData(resData);
   }, []);
 
@@ -188,88 +197,95 @@ function ObchodyList() {
   /*   */
 
   return (
-    <div className="obchody-cont">
-      <FiltreBotList updateFilters={filterData} orderFilters={orderFilter} />
-      <div className="obchody-list-const">
-        <div className="legenda-obch">
-          <button
-            className="datum"
-            id="element"
-            name="ascend"
-            style={{ pointerEvents: loading.isLoading ? "none" : "" }}
-            onClick={(e) =>
-              onOrderFilterSet({ curType: "date", typeNum: orderFilter.typeNum, typeDate: !orderFilter.typeDate, typePrice: orderFilter.typePrice })
-            }
-          >
-            {orderFilter.typeDate ? <BiChevronsDown /> : <BiChevronsUp />}
-            Dátum a čas
-          </button>
-          <p className="cislo" id="element">
-            Buy/Sell
-          </p>
-          <button
-            className="cena"
-            id="element"
-            name="ascend"
-            style={{ pointerEvents: loading.isLoading ? "none" : "" }}
-            onClick={(e) =>
-              onOrderFilterSet({ curType: "price", typeNum: orderFilter.typeNum, typeDate: orderFilter.typeDate, typePrice: !orderFilter.typePrice })
-            }
-          >
-            {orderFilter.typePrice ? <BiChevronsDown /> : <BiChevronsUp />}
-            Cena
-          </button>
-          <button
-            className="mnozstvo"
-            id="element"
-            name="ascend"
-            style={{ pointerEvents: loading.isLoading ? "none" : "" }}
-            onClick={(e) =>
-              onOrderFilterSet({ curType: "num", typeNum: !orderFilter.typeNum, typeDate: orderFilter.typeDate, typePrice: orderFilter.typePrice })
-            }
-          >
-            {orderFilter.typeNum ? <BiChevronsDown /> : <BiChevronsUp />}
-            Množstvo
-          </button>
-          <p className="maker" id="element">
-            Maker/Taker
-          </p>
+    <div className="flex-obchody-cont">
+      <div className="obchody-cont">
+        <FiltreBotList updateFilters={filterData} orderFilters={orderFilter} />
+        <div className="obchody-list-const">
+          <div className="legenda-obch">
+            <button
+              className="datum"
+              id="element"
+              name="ascend"
+              style={{ pointerEvents: loading.isLoading ? "none" : "" }}
+              onClick={(e) =>
+                onOrderFilterSet({ curType: "date", typeNum: orderFilter.typeNum, typeDate: !orderFilter.typeDate, typePrice: orderFilter.typePrice })
+              }
+            >
+              {orderFilter.typeDate ? <BiChevronsDown /> : <BiChevronsUp />}
+              Dátum a čas
+            </button>
+            <p className="cislo" id="element">
+              Buy/Sell
+            </p>
+            <button
+              className="cena"
+              id="element"
+              name="ascend"
+              style={{ pointerEvents: loading.isLoading ? "none" : "" }}
+              onClick={(e) =>
+                onOrderFilterSet({
+                  curType: "price",
+                  typeNum: orderFilter.typeNum,
+                  typeDate: orderFilter.typeDate,
+                  typePrice: !orderFilter.typePrice,
+                })
+              }
+            >
+              {orderFilter.typePrice ? <BiChevronsDown /> : <BiChevronsUp />}
+              Cena
+            </button>
+            <button
+              className="mnozstvo"
+              id="element"
+              name="ascend"
+              style={{ pointerEvents: loading.isLoading ? "none" : "" }}
+              onClick={(e) =>
+                onOrderFilterSet({ curType: "num", typeNum: !orderFilter.typeNum, typeDate: orderFilter.typeDate, typePrice: orderFilter.typePrice })
+              }
+            >
+              {orderFilter.typeNum ? <BiChevronsDown /> : <BiChevronsUp />}
+              Množstvo
+            </button>
+            <p className="maker" id="element">
+              Maker/Taker
+            </p>
+          </div>
+          <ul className="bot-obchody-cont">
+            {listData.data.map((e, i) => {
+              let bgColor = i % 2 === 0 ? "#13131357" : "";
+              return (
+                <li key={i} style={{ backgroundColor: bgColor, display: loading.isLoading ? "none" : "" }}>
+                  <p className="datum" id="element">
+                    {formatDate(e.datum)}
+                  </p>
+                  <p className="cislo" id="element">
+                    {e.buy}
+                  </p>
+                  <p className="cena" id="element">
+                    <MdEuroSymbol className="euro-symbol" />
+                    {formatPrice(e.cena, ",")}
+                  </p>
+                  <p className="mnozstvo" id="element">
+                    {e.mnozstvo}
+                  </p>
+                  <p className="maker" id="element">
+                    {e.maker}
+                  </p>
+                </li>
+              );
+            })}
+            {loading.isLoading && <LoadingComponent background={true} error={loading.msg} />}
+          </ul>
         </div>
-        <ul className="bot-obchody-cont">
-          {listData.data.map((e, i) => {
-            let bgColor = i % 2 === 0 ? "#13131357" : "";
-            return (
-              <li key={i} style={{ backgroundColor: bgColor, display: loading.isLoading ? "none" : "" }}>
-                <p className="datum" id="element">
-                  {formatDate(e.datum)}
-                </p>
-                <p className="cislo" id="element">
-                  {e.cislo}
-                </p>
-                <p className="cena" id="element">
-                  <MdEuroSymbol className="euro-symbol" />
-                  {formatPrice(e.cena, ",")}
-                </p>
-                <p className="mnozstvo" id="element">
-                  {e.obPar}
-                </p>
-                <p className="maker" id="element">
-                  {e.obPar}
-                </p>
-              </li>
-            );
-          })}
-          {loading.isLoading && <LoadingComponent background={true} error={loading.msg} />}
-        </ul>
+        <Pagination
+          paginateFront={() => loadNextPage()}
+          paginateBack={() => loadPrevPage()}
+          postsPerPage={15}
+          totalPosts={listData.totalItems}
+          currentPage={curPage}
+          isLoading={loading.isLoading}
+        />
       </div>
-      <Pagination
-        paginateFront={() => loadNextPage()}
-        paginateBack={() => loadPrevPage()}
-        postsPerPage={15}
-        totalPosts={listData.totalItems}
-        currentPage={curPage}
-        isLoading={loading.isLoading}
-      />
     </div>
   );
 }

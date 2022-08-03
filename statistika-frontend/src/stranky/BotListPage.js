@@ -7,7 +7,7 @@ import { MdEuroSymbol } from "react-icons/md";
 import { BsCurrencyBitcoin } from "react-icons/bs";
 
 import ListGraf from "../komponenty/grafy/ListGraf";
-import { getFakeListData } from "../pomocky/fakeApi";
+import { getFakeListData, addBot } from "../pomocky/fakeApi";
 import { formatPrice, formatCrypto } from "../pomocky/cislovacky.js";
 import LoadingComponent from "../komponenty/LoadingComponent";
 import { MdOutlinePowerOff, MdOutlinePower } from "react-icons/md";
@@ -25,12 +25,33 @@ function ButtonComponent() {
   );
 }
 
-function NovyBotComp() {
+function NovyBotComp({ requestData }) {
   const [showNovyBot, setShowNovyBot] = useState(false);
+  const [loading, setLoading] = useState({
+    isLoading: false,
+    msg: "",
+    hasError: { status: false, msg: "" },
+  });
+
+  const onCreate = async (burza) => {
+    setLoading({ isLoading: true, msg: "Vytváram...", hasError: { status: false, msg: "" } });
+    addBot(burza);
+    let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    await sleep(500);
+    setLoading({ isLoading: false, msg: "Vytváram...", hasError: { status: false, msg: "" } });
+    setShowNovyBot(false);
+    requestData();
+  };
+
   return (
     <div>
-      <div className="bot-novy-cont" style={{ display: showNovyBot ? "" : "none" }}>
-        <ParametreEditor type="create"></ParametreEditor>
+      <div className="bot-novy-cont" id={showNovyBot ? "vis" : "invi"}>
+        <div className="flex-bot-novy-cont">
+          {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
+          <div style={{ display: loading.isLoading ? "none" : "" }}>
+            <ParametreEditor type="create" onCreate={onCreate}></ParametreEditor>
+          </div>
+        </div>
       </div>
       <button className="show-bot-button" onClick={(e) => setShowNovyBot(!showNovyBot)}>
         <BiUserPlus />
@@ -87,6 +108,9 @@ function BotList() {
       return { ...prevState, isLoading: true };
     });
     const res = await getFakeListData();
+    setLoading((prevState) => {
+      return { ...prevState, isLoading: false };
+    });
     setPageData(res);
   }, []);
 
@@ -99,7 +123,7 @@ function BotList() {
     <div className="bot-list-main-div">
       <ButtonComponent />
       {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
-      <NovyBotComp />
+      <NovyBotComp requestData={getFakeApiListData} />
       {/* list vsetkych burzi */}
       <ul style={{ display: loading.isLoading ? "none" : "" }} className="list-burza">
         {pageData.map((burza, i) => {

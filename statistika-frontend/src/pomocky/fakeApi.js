@@ -5,9 +5,13 @@ var dataGen = [];
 var dataFilter = [];
 for (let i = 1; i < 151; i++) {
   dataGen.push({
-    cislo: i.toString(),
+    mnozstvo: faker.datatype.number({
+      min: 10,
+      max: 1000,
+    }),
+    buy: Math.round(Math.random()) === 0 ? "Buy" : "Sell",
     datum: faker.datatype.datetime({ min: 1047500000000, max: 1658500000000 }),
-    obPar: Math.round(Math.random()) === 0 ? "ETH-USDT" : "LTC-USDT",
+    maker: Math.round(Math.random()) === 0 ? "Maker" : "Taker",
     cena: faker.datatype.float({
       min: 1000,
       max: 500000,
@@ -30,10 +34,11 @@ const getPage = async (number) => {
 };
 
 const filtrujData = async (filters) => {
+  console.log(filters);
   await sleep(500);
   let newData = [];
-  newData = dataGen.filter(({ obPar }) => obPar.toLowerCase().includes(filters.obPar.toLowerCase()));
-  newData = newData.filter(({ cislo }) => cislo.includes(filters.cislo));
+  newData = dataGen.filter(({ buy }) => buy.toLowerCase().includes(filters.buy === null ? "" : filters.buy ? "buy" : "sell"));
+  newData = newData.filter(({ maker }) => maker.toLowerCase().includes(filters.maker === null ? "" : filters.maker ? "maker" : "taker"));
   newData = newData.filter(({ datum }) => {
     let filterPass = true;
     const date = new Date(datum);
@@ -52,8 +57,9 @@ const filtrujData = async (filters) => {
   if (filters.ascend.curType === "date") {
     newData = newData.sort((a, b) => (filters.ascend.typeDate ? Number(a.datum) - Number(b.datum) : Number(b.datum) - Number(a.datum)));
   } else if (filters.ascend.curType === "num") {
+    console.log(newData);
     newData = newData.sort((a, b) =>
-      !filters.ascend.typeNum ? parseFloat(a.cislo) - parseFloat(b.cislo) : parseFloat(b.cislo) - parseFloat(a.cislo)
+      !filters.ascend.typeNum ? parseFloat(a.mnozstvo) - parseFloat(b.mnozstvo) : parseFloat(b.mnozstvo) - parseFloat(a.mnozstvo)
     );
   } else if (filters.ascend.curType === "price") {
     console.log(filters.ascend);
@@ -83,9 +89,9 @@ var textValues = {
   poznamka: "",
   prepinac: true,
   prepoc: true,
-  test: true,
+  test: false,
   testFee: "0.003",
-  zapnuty: true,
+  zapnuty: false,
   zdroj: true,
   zvysTrad: "32",
 };
@@ -112,53 +118,105 @@ const getCelkovyVyvinData = async () => {
   return celkovyVyvinData;
 };
 
-const getFakeListData = async () => {
-  let burzi = [];
-  for (let i = 0; i < 5; i++) {
-    let boti = [];
-    for (let i = 0; i < Math.floor(Math.random() * 5) + 1; i++) {
-      boti.push({
-        bMeno: `Bot ${i + 1}`,
-        cena: {
-          e: faker.datatype.float({
-            min: 1000,
-            max: 500000,
-          }),
-          b: faker.datatype.float({
-            min: 0.00025,
-            max: 10.0,
-            precision: 0.0001,
-          }),
-        },
-        botPar: Math.round(Math.random()) === 0 ? "ETH-USDT" : "LTC-USDT",
-        zmena: {
-          h24: faker.datatype.float({
-            min: -100,
-            max: 100.0,
-            precision: 0.01,
-          }),
-          d7: faker.datatype.float({
-            min: -100,
-            max: 100.0,
-            precision: 0.01,
-          }),
-          d30: faker.datatype.float({
-            min: -100,
-            max: 100.0,
-            precision: 0.01,
-          }),
-          cc: faker.datatype.float({
-            min: -100,
-            max: 100.0,
-            precision: 0.01,
-          }),
-        },
-        chart: Math.round(Math.random()),
-      });
+let burzi = [];
+for (let i = 0; i < 5; i++) {
+  let boti = [];
+  for (let i = 0; i < Math.floor(Math.random() * 5) + 1; i++) {
+    boti.push({
+      bMeno: `Bot ${i + 1}`,
+      cena: {
+        e: faker.datatype.float({
+          min: 1000,
+          max: 500000,
+        }),
+        b: faker.datatype.float({
+          min: 0.00025,
+          max: 10.0,
+          precision: 0.0001,
+        }),
+      },
+      botPar: Math.round(Math.random()) === 0 ? "ETH-USDT" : "LTC-USDT",
+      zmena: {
+        h24: faker.datatype.float({
+          min: -100,
+          max: 100.0,
+          precision: 0.01,
+        }),
+        d7: faker.datatype.float({
+          min: -100,
+          max: 100.0,
+          precision: 0.01,
+        }),
+        d30: faker.datatype.float({
+          min: -100,
+          max: 100.0,
+          precision: 0.01,
+        }),
+        cc: faker.datatype.float({
+          min: -100,
+          max: 100.0,
+          precision: 0.01,
+        }),
+      },
+      chart: Math.round(Math.random()),
+    });
+  }
+  burzi.push({ meno: `Burza ${i + 1}`, boti: [...boti] });
+}
+
+const novyBot = (i) => {
+  return {
+    bMeno: `Bot ${i + 1}`,
+    cena: {
+      e: faker.datatype.float({
+        min: 1000,
+        max: 500000,
+      }),
+      b: faker.datatype.float({
+        min: 0.00025,
+        max: 10.0,
+        precision: 0.0001,
+      }),
+    },
+    botPar: Math.round(Math.random()) === 0 ? "ETH-USDT" : "LTC-USDT",
+    zmena: {
+      h24: faker.datatype.float({
+        min: -100,
+        max: 100.0,
+        precision: 0.01,
+      }),
+      d7: faker.datatype.float({
+        min: -100,
+        max: 100.0,
+        precision: 0.01,
+      }),
+      d30: faker.datatype.float({
+        min: -100,
+        max: 100.0,
+        precision: 0.01,
+      }),
+      cc: faker.datatype.float({
+        min: -100,
+        max: 100.0,
+        precision: 0.01,
+      }),
+    },
+    chart: Math.round(Math.random()),
+  };
+};
+
+const addBot = async (burza) => {
+  for (const key in burzi) {
+    if (burzi[key].meno === burza) {
+      burzi[key].boti.push({ ...novyBot(burzi[key].boti.length) });
+      break;
     }
-    burzi.push({ meno: `Burza ${i + 1}`, boti: [...boti] });
   }
   return burzi;
 };
 
-export { getPage, filtrujData, getTextValues, setNewTextValues, getCelkovyVyvinData, getFakeListData };
+const getFakeListData = async () => {
+  return burzi;
+};
+
+export { getPage, filtrujData, getTextValues, setNewTextValues, getCelkovyVyvinData, getFakeListData, addBot };

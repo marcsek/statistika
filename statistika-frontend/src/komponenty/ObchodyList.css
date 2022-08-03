@@ -46,9 +46,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 540px;
 }
 
 .obchody-filtre {
+  width: fit-content;
   height: 55px;
   display: flex;
   justify-content: flex-start;
@@ -58,6 +60,109 @@
   border-radius: 10px;
   padding-left: 10px;
   margin-top: 60px;
+  gap: 10px;
+}
+
+@media only screen and (max-width: 900px) {
+  .obchody-filtre {
+    width: 100%;
+  }
+  .nadpis-obdobie {
+    height: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .filtre-hladat-btn {
+    margin: 0 !important;
+  }
+  .filtre-reset-btn {
+    margin: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 630px) {
+  .filtre-hladat-btn {
+    font-size: 0 !important;
+  }
+  .parameter-cont#datum input {
+    display: none;
+  }
+  .parameter-cont#datum {
+    margin: 0px;
+    border: none;
+    width: fit-content !important;
+  }
+  .nadpis-obdobie {
+    display: none;
+  }
+  .list-obchodov-div {
+    width: 100%;
+  }
+  .bot-obchody-cont {
+    /* overflow-x: scroll; */
+    width: 95%;
+    align-items: flex-start !important;
+    justify-content: flex-start;
+    overflow-x: hidden !important;
+  }
+  .pagi-cont {
+    width: 100% !important;
+    justify-content: center !important;
+    /* display: none !important; */
+  }
+  .pagi-text {
+    width: 58% !important;
+    justify-content: space-evenly !important;
+    font-size: 0.8rem !important;
+  }
+  .pagi-text .font-medium {
+    width: fit-content;
+  }
+
+  .obchody-filtre {
+    /* display: none !important; */
+  }
+
+  .obchody-list-const {
+    width: 95%;
+  }
+
+  .obchody-list-const li {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: flex-start; */
+    /* flex-direction: column; */
+    /* align-items: flex-start; */
+  }
+
+  .bot-main-cont {
+    align-items: flex-start;
+  }
+  .obchody-cont {
+    width: 100% !important;
+  }
+  .legenda-obch {
+    /* display: none !important; */
+    width: 95% !important;
+  }
+  .legenda-obch .cislo {
+    /* margin: 0 !important; */
+  }
+
+  .obchody-title {
+    width: 100%;
+    text-align: center !important;
+  }
+
+  .flex-obchody-cont {
+    overflow-x: scroll;
+  }
+
+  .calendar-div-parent .calendar-div {
+    left: 0 !important;
+    top: 130%;
+  }
 }
 
 .parameter-cont {
@@ -335,7 +440,6 @@ button svg {
 .nadpis-obdobie {
   position: absolute;
   top: -14px;
-  left: 35%;
   width: 200px;
   height: 2px;
   background-color: rgba(255, 255, 255, 0.29);
@@ -378,7 +482,14 @@ button svg {
   width: 23px;
 }
 .calendar-button-open:hover {
-  filter: brightness(2);
+  color: #ffffff;
+}
+
+.calendar-div-parent {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .calendar-div {
@@ -392,4 +503,13 @@ button svg {
 
 .react-calendar {
   background-color: transparent !important;
+}
+
+.obchody-filtre .input-nadpis-cont button div {
+  font-size: 0.9rem !important;
+  padding-bottom: 2px;
+}
+
+.obchody-filtre .input-nadpis-cont button {
+  height: 30px;
 }

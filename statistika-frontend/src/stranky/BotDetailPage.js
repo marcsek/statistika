@@ -23,60 +23,74 @@ const VyberComponent = () => {
   ]);
   const [priceValue, setPriceValue] = useState("");
   const [btnState, setBtnState] = useState(false);
+  const [loading, setLoading] = useState({
+    isLoading: false,
+    msg: "",
+    hasError: { status: false, msg: "" },
+  });
 
-  const onBtnClick = useCallback(() => {
+  const onBtnClick = useCallback(async () => {
     if (priceValue === "") {
       return;
     }
+    setLoading({ isLoading: true, msg: "Posielam...", hasError: { status: false, msg: "" } });
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    await sleep(500);
     setTranList([...tranList, { suma: priceValue, datum: new Date() }]);
     setPriceValue("");
+    setLoading((prevState) => {
+      return { ...prevState, isLoading: false };
+    });
   }, [priceValue, tranList]);
 
   return (
-    <div className="vyber-cont-main">
-      <div className="graf-bot-title-divider" id="devider"></div>
-      <span className="graf-bot-title" id="title">
+    <div className="vyber-cont-major">
+      <div className="vyber-bot-title-divider" id="devider"></div>
+      <span className="vyber-bot-title" id="title">
         Výber
       </span>
-      <div className="vyber-form-cont">
-        <div className="vyber-input-cont">
-          <input
-            className="vyber-input"
-            value={priceValue}
-            onChange={(e) => {
-              if (!isNaN(e.target.value.replace(/^\s+|\s+$/gm, ""))) {
-                setPriceValue(e.target.value.replace(/^\s+|\s+$/gm, ""));
-              }
-            }}
-          ></input>
-          <RiMoneyEuroCircleLine></RiMoneyEuroCircleLine>
+      {loading.isLoading && <LoadingComponent error={loading.hasError.msg} />}
+      <div style={{ display: loading.isLoading ? "none" : "" }} className="vyber-cont-main">
+        <div className="vyber-form-cont">
+          <div className="vyber-input-cont">
+            <input
+              className="vyber-input"
+              value={priceValue}
+              onChange={(e) => {
+                if (!isNaN(e.target.value.replace(/^\s+|\s+$/gm, ""))) {
+                  setPriceValue(e.target.value.replace(/^\s+|\s+$/gm, ""));
+                }
+              }}
+            ></input>
+            <RiMoneyEuroCircleLine></RiMoneyEuroCircleLine>
+          </div>
+          <button id={priceValue.length !== 0 ? "active" : "inactive"} className="vyber-button" onClick={(e) => onBtnClick()}>
+            Vybrať
+          </button>
         </div>
-        <button id={priceValue.length !== 0 ? "active" : "inactive"} className="vyber-button" onClick={(e) => onBtnClick()}>
-          Vybrať
-        </button>
-      </div>
-      <div className="cont-legenda-list">
-        <div className="vyber-legenda">
-          <span className="vyber-datum">Dátum</span>
-          <span className="vyber-suma">Výber</span>
-        </div>
-        <ul className="list-vyber">
-          {tranList.map((e, index) => (
-            <li key={index} style={{ backgroundColor: index % 2 === 0 ? "rgba(19, 19, 19, 0.34)" : "" }} className="element-list-vyber">
-              <span className="vyber-datum">{formatDate(e.datum)}</span>
-              <span className="vyber-suma">
-                <MdEuroSymbol></MdEuroSymbol>
-                {formatPrice(parseFloat(e.suma), ",")}
-              </span>
-            </li>
-          ))}
-        </ul>
-        <div id="footer" className="vyber-legenda">
-          <span className="vyber-nadpis">Vybraté spolu: </span>
-          <span className="vyber-suma">
-            <MdEuroSymbol></MdEuroSymbol>
-            {formatPrice("2312312", ",")}
-          </span>
+        <div className="cont-legenda-list">
+          <div className="vyber-legenda">
+            <span className="vyber-datum">Dátum</span>
+            <span className="vyber-suma">Výber</span>
+          </div>
+          <ul className="list-vyber">
+            {tranList.map((e, index) => (
+              <li key={index} style={{ backgroundColor: index % 2 === 0 ? "rgba(19, 19, 19, 0.34)" : "" }} className="element-list-vyber">
+                <span className="vyber-datum">{formatDate(e.datum)}</span>
+                <span className="vyber-suma">
+                  <MdEuroSymbol></MdEuroSymbol>
+                  {formatPrice(parseFloat(e.suma), ",")}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <div id="footer" className="vyber-legenda">
+            <span className="vyber-nadpis">Vybraté spolu: </span>
+            <span className="vyber-suma">
+              <MdEuroSymbol></MdEuroSymbol>
+              {formatPrice("2312312", ",")}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -103,17 +117,25 @@ function BotDetail() {
 
   return (
     <div className="bot-main-cont">
+      <div className="title-cont">
+        <p className="bot-title-main" id="title">
+          Bot {botId}
+        </p>
+      </div>
       <div className="bot-major-cont">
-        <p id="title">Bot {botId}</p>
-        <VyberComponent />
+        <div className="bot-vyber-major-cont">
+          <VyberComponent />
+        </div>
         <div className="divider-graf-para" id="devider"></div>
-        <div className="bot-graf-cont">
-          <div className="graf-bot-title-divider" id="devider"></div>
-          <span className="graf-bot-title" id="title">
-            Graf vývoja
-          </span>
-          <div className="bot-samotny-graf">
-            <BotGraf grafRequestData={chartRequestData} />
+        <div className="bot-graf-major-cont">
+          <div className="bot-graf-cont">
+            <div className="graf-bot-title-divider" id="devider"></div>
+            <span className="graf-bot-title" id="title">
+              Graf vývoja
+            </span>
+            <div className="bot-samotny-graf">
+              <BotGraf grafRequestData={chartRequestData} />
+            </div>
           </div>
         </div>
       </div>

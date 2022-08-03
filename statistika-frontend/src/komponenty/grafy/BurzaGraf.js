@@ -156,21 +156,24 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     let perc = getPercentageChange(chartData[0]?.y, chartData?.at(-1)?.y);
     let cena = formatPrice(chartData?.at(-1)?.y - chartData[0]?.y);
     return (
-      <div style={style} className="perc-zmena-chart-burza">
-        <p id="eur-zmena">
-          <MdEuroSymbol /> {(chartData?.at(-1)?.y - chartData[0]?.y < 0 ? "" : "+") + cena}
-        </p>
-        <span style={{ color: perc < 0 ? "#ea3943" : "" }} id="perc-zmena">
-          {perc < 0 ? <VscTriangleDown /> : <VscTriangleUp />} {Math.abs(perc)}%
-        </span>
+      <div style={{ position: "relative", ...style }}>
+        <div className="devider-burza-zmena" id="devider"></div>
+        <div className="perc-zmena-chart-burza">
+          <p id="eur-zmena">
+            <MdEuroSymbol /> {(chartData?.at(-1)?.y - chartData[0]?.y < 0 ? "" : "+") + cena}
+          </p>
+          <span style={{ color: perc < 0 ? "#ea3943" : "" }} id="perc-zmena">
+            {perc < 0 ? <VscTriangleDown /> : <VscTriangleUp />} {Math.abs(perc)}%
+          </span>
+        </div>
       </div>
     );
   };
 
   return (
     <div className="burza-chart-main">
-      <PercZmenaData style={{ visibility: loading.isLoading ? "hidden" : "" }} />
       {loading.isLoading && <LoadingComponent error={loading.hasError.msg} />}
+      <PercZmenaData style={{ visibility: loading.isLoading ? "hidden" : "" }} />
       <div className="burza-chart-div">
         <Line style={{ display: loading.isLoading ? "none" : "" }} ref={chartRef} options={options} data={data}></Line>
         <div className="burza-graf-filter" id="graf-filter">

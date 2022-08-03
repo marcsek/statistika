@@ -3,17 +3,19 @@ import "../stranky/BotDetailPage.css";
 
 import { getTextValues, setNewTextValues } from "../pomocky/fakeApi.js";
 import LoadingComponent from "./LoadingComponent.js";
-import { MdOutlinePowerOff } from "react-icons/md";
+import { MdOutlinePowerOff, MdOutlinePower } from "react-icons/md";
 import "./VyberComp.css";
 import { isPositiveInteger } from "../pomocky/cislovacky";
+import { TbCaretDown } from "react-icons/tb";
 
-const ParametreEditor = ({ type }) => {
+//ked bude api tak loading brat iba od parenta
+const ParametreEditor = ({ type, onCreate, loadingParent }) => {
   const [buttonState, setButtonState] = useState(false);
   const [textValues, setTextValues] = useState({
     obPar: { value: "ETH/USDT", init: "ETH/USDT" },
     poznamka: { value: "", init: "" },
     prepinac: { value: true, init: true },
-    zapnuty: { value: true, init: true },
+    zapnuty: { value: false, init: false },
     test: { value: true, init: false },
     maker: { value: true, init: false },
     feeCoin: { value: true, init: false },
@@ -33,6 +35,20 @@ const ParametreEditor = ({ type }) => {
     minProfit: { value: "430", init: "430" },
     zvysTrad: { value: "32", init: "32" },
   });
+
+  const [extraValues, setExtraValues] = useState({
+    burza: "Burza 1",
+    key: "",
+    secret: "",
+    password: "",
+  });
+
+  const [canShowbutton, setCanShowbutton] = useState(false);
+
+  const [drowDownClicked, setDropDownClick] = useState(false);
+
+  const burzi = ["Burza 1", "Burza 2", "Burza 3", "Burza 4", "Burza 5"];
+
   const [loading, setLoading] = useState({ isLoading: false, msg: "", hasError: { status: false, msg: "" } });
 
   const textValuesRequest = useCallback(async () => {
@@ -55,7 +71,7 @@ const ParametreEditor = ({ type }) => {
   }, []);
 
   const textValuesSend = useCallback(async (textValues) => {
-    setButtonState(false);
+    setCanShowbutton(false);
 
     setLoading({ isLoading: true, msg: "Posielam...", hasError: { status: false } });
     const valuesToSend = {};
@@ -91,25 +107,10 @@ const ParametreEditor = ({ type }) => {
       }
       // stateCopy.small[evt.target.name].v = evt.target.value;
       stateCopy[evt.target.name].value = value;
-
-      let oneChanged = false;
-      let error = false;
-
-      for (const key in stateCopy) {
-        if (
-          (key !== "poznamka" && typeof stateCopy[key].value !== "boolean" && stateCopy[key].value === "") ||
-          (key === "obPar" && stateCopy[key].value === "/")
-        ) {
-          error = true;
-          break;
-        } else if (stateCopy[key].value !== stateCopy[key].init) {
-          oneChanged = true;
-        }
-      }
-      setButtonState(error ? false : oneChanged);
+      checkError(stateCopy, extraValues);
       setTextValues({ ...stateCopy });
     },
-    [textValues]
+    [textValues, extraValues]
   );
 
   // const onSmallTextChange = useCallback((evt, id) => {
@@ -130,7 +131,7 @@ const ParametreEditor = ({ type }) => {
     (meno, baseText) => {
       if (textValues[meno].value === (baseText ? baseText : "")) {
         return "2px solid red";
-      } else if (textValues[meno].value !== textValues[meno].init) {
+      } else if (textValues[meno].value !== textValues[meno].init && type !== "create") {
         return "2px solid #2c53dd";
       }
       return "";
@@ -138,18 +139,137 @@ const ParametreEditor = ({ type }) => {
     [textValues]
   );
 
+  const onExtraTextChange = useCallback(
+    (evt, id) => {
+      let stateCopy = { ...extraValues };
+
+      // stateCopy.small[evt.target.name].v = evt.target.value;
+      stateCopy[evt.target.name] = evt.target.value;
+
+      checkError(textValues, stateCopy);
+      setExtraValues({ ...stateCopy });
+    },
+    [extraValues, textValues]
+  );
+
+  const checkError = useCallback((mainn, extraa) => {
+    let oneChanged = false;
+    let error = false;
+    let main = mainn ? mainn : textValues;
+    let extra = extraa ? extraa : extraValues;
+
+    for (const key in main) {
+      if ((key !== "poznamka" && typeof main[key].value !== "boolean" && main[key].value === "") || (key === "obPar" && main[key].value === "/")) {
+        error = true;
+        break;
+      } else if (main[key].value !== main[key].init) {
+        oneChanged = true;
+      }
+    }
+    for (const key in extra) {
+      if (extra[key] === "" && type === "create") {
+        error = true;
+        break;
+      }
+    }
+    setCanShowbutton(error ? false : type === "create" ? true : oneChanged);
+  });
+
+  const getInactiveStyle = useCallback((meno) => {
+    return { filter: !textValues[meno].value ? "brightness(0.5)" : "", pointerEvents: !textValues[meno].value ? "none" : "" };
+  });
+
   return (
-    <div className="bot-parametre-cont" style={{ height: loading.isLoading ? "300px" : "" }}>
+    <div className="bot-parametre-cont" style={{ height: loading.isLoading || loadingParent ? "300px" : "" }}>
       {/* <div className="parametre-title-divider" id="devider"></div>
         <span className="parametre-title" id="title">
           Paremetre
         </span> */}
-      {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
-      <div style={{ display: loading.isLoading ? "none" : "" }} className="bot-parametre">
+      <div style={{ display: type !== "create" || loadingParent ? "none" : "" }} className="bot-extra-create-cont">
+        <div
+          className="drop-down"
+          onClick={(e) => {
+            setDropDownClick(!drowDownClicked);
+          }}
+          id={drowDownClicked ? "active" : "inactive"}
+        >
+          <span>Burza</span>
+          <div className="drop-down-inside-text">
+            {extraValues.burza}
+            <TbCaretDown />
+          </div>
+
+          <div className="drop-down-menu" style={{ visibility: drowDownClicked ? "" : "hidden" }}>
+            {burzi.map((burza, index) => {
+              return (
+                <div key={index} className="drop-down-menu-item" onClick={(e) => setExtraValues({ ...extraValues, burza: burzi[index] })}>
+                  {burza}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div id="input-small" className="parametre-input-cont">
+          <div id="input-small" className="parametre-input">
+            <span>Key</span>
+            <input
+              id="ob-par-input"
+              autoComplete="off"
+              placeholder="Povinné"
+              value={extraValues.key}
+              name="key"
+              onChange={(e) => {
+                if (!/\s/.test(e.target.value) || e.target.value === "") onExtraTextChange(e);
+              }}
+            ></input>
+          </div>
+        </div>
+
+        <div id="input-small" className="parametre-input-cont">
+          <div id="input-small" className="parametre-input">
+            <span>Secret</span>
+            <input
+              id="ob-par-input"
+              autoComplete="off"
+              value={extraValues.secret}
+              placeholder="Povinné"
+              name="secret"
+              onChange={(e) => {
+                if (!/\s/.test(e.target.value) || e.target.value === "") onExtraTextChange(e);
+              }}
+            ></input>
+          </div>
+        </div>
+        <div id="input-small" className="parametre-input-cont">
+          <div id="input-small" className="parametre-input">
+            <span>Password</span>
+            <input
+              id="ob-par-input"
+              autoComplete="off"
+              value={extraValues.password}
+              placeholder="Povinné"
+              name="password"
+              onChange={(e) => {
+                if (/^[a-zA-Z/]+$/.test(e.target.value) || e.target.value === "") onExtraTextChange(e);
+              }}
+            ></input>
+          </div>
+        </div>
+      </div>
+      {(loading.isLoading || loadingParent) && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
+      <div style={{ display: loading.isLoading || loadingParent ? "none" : "" }} className="bot-parametre">
         <div className="important-parametre-cont">
-          <button id="bot-parametre" className="vypinac">
-            <MdOutlinePowerOff />
+          <button
+            id="bot-parametre"
+            className="vypinac"
+            style={{ backgroundColor: textValues.zapnuty.value ? "#2c53dd" : "#cc3333" }}
+            name="zapnuty"
+            onClick={(e) => onTextChange(e, true)}
+          >
+            {!textValues.zapnuty.value ? <MdOutlinePowerOff /> : <MdOutlinePower />}
           </button>
+          <div className="divider-parametre" id="devider"></div>
           <div className="important-para-input-cont">
             <div id="input-small" className="parametre-input-cont">
               <div id="input-small" className="parametre-input">
@@ -175,13 +295,13 @@ const ParametreEditor = ({ type }) => {
                 onClick={(e) => onTextChange(e, true)}
               >
                 <div
-                  style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init ? "#2c53dd" : "" }}
+                  style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init && type !== "create" ? "#2c53dd" : "" }}
                   id={textValues.prepinac.value ? "selected" : "unselected"}
                 >
                   ETH
                 </div>
                 <div
-                  style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init ? "#2c53dd" : "" }}
+                  style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init && type !== "create" ? "#2c53dd" : "" }}
                   id={!textValues.prepinac.value ? "selected" : "unselected"}
                 >
                   USDT
@@ -192,7 +312,9 @@ const ParametreEditor = ({ type }) => {
               placeholder="Poznámka"
               value={textValues.poznamka.value}
               name="poznamka"
-              style={{ border: textValues.poznamka.value !== textValues.poznamka.init ? "2px solid #2c53dd" : "" }}
+              style={{
+                border: textValues.poznamka.value !== textValues.poznamka.init && type !== "create" ? "2px solid #2c53dd" : "",
+              }}
               onChange={(e) => onTextChange(e)}
             ></textarea>
           </div>
@@ -200,15 +322,19 @@ const ParametreEditor = ({ type }) => {
             <button
               className="submit-button"
               onClick={(e) => {
-                textValuesSend(textValues);
+                if (type === "create") {
+                  onCreate(extraValues.burza);
+                  // textValuesSend(textValues);
+                } else {
+                  textValuesSend(textValues);
+                }
               }}
-              id={buttonState ? "active" : "inactive"}
+              id={canShowbutton ? "active" : "inactive"}
             >
               {type === "create" ? "Vytvoriť" : "Updatnuť"}
             </button>
           </div>
         </div>
-        <div className="divider-parametre" id="devider"></div>
         <div className="sub-parametre">
           <div className="small-input-cont">
             <div id="input-small" className="parametre-input-cont">
@@ -324,20 +450,26 @@ const ParametreEditor = ({ type }) => {
                 <div className="nadpis-podzlozka">
                   <span>Maker</span>
                 </div>
-                <input
-                  className="enable-podpolozku"
-                  type="checkbox"
-                  checked={textValues.maker.value}
-                  name="maker"
-                  onChange={(e) => onTextChange(e, true)}
-                ></input>
+                <label className="container">
+                  {/* <input type="checkbox" class="chb chb-1" id="chb-1" /> */}
+                  <input
+                    className="enable-podpolozku"
+                    type="checkbox"
+                    id={textValues.maker.value ? "active" : "inactive"}
+                    checked={textValues.maker.value}
+                    name="maker"
+                    onChange={(e) => onTextChange(e, true)}
+                  ></input>
+                  <span class="checkmark"></span>
+                </label>
+
                 <div className="input-nadpis-cont">
                   <span>% Bal. Maker</span>
                   <input
                     autoComplete="off"
                     name="percento"
                     value={textValues.percento.value}
-                    style={{ border: getBorderColor("percento"), filter: !textValues.maker.value ? "brightness(0.5)" : "" }}
+                    style={{ border: getBorderColor("percento"), ...getInactiveStyle("maker") }}
                     onChange={(e) => {
                       if ((isPositiveInteger(e.target.value) && parseInt(e.target.value) <= 100) || e.target.value === "") onTextChange(e);
                     }}
@@ -348,7 +480,7 @@ const ParametreEditor = ({ type }) => {
                   <input
                     autoComplete="off"
                     value={textValues.odchylka.value}
-                    style={{ border: getBorderColor("odchylka"), filter: !textValues.maker.value ? "brightness(0.5)" : "" }}
+                    style={{ border: getBorderColor("odchylka"), ...getInactiveStyle("maker") }}
                     name="odchylka"
                     onChange={(e) => {
                       if (isPositiveInteger(e.target.value)) onTextChange(e);
@@ -360,18 +492,24 @@ const ParametreEditor = ({ type }) => {
                   <button
                     className="prepinac-mensi"
                     id="prepinac-lava-prava"
-                    style={{ filter: !textValues.maker.value ? "brightness(0.5)" : "" }}
+                    style={{ ...getInactiveStyle("maker") }}
                     name="postOnly"
                     onClick={(e) => onTextChange(e, true)}
                   >
                     <div
-                      style={{ backgroundColor: textValues.postOnly.value !== textValues.postOnly.init ? "#2c53dd" : "" }}
+                      style={{
+                        backgroundColor:
+                          textValues.postOnly.value !== textValues.postOnly.init && type !== "create" ? "#2c53dd" : "" ? "#2c53dd" : "",
+                      }}
                       id={textValues.postOnly.value ? "selected" : "unselected"}
                     >
                       Áno
                     </div>
                     <div
-                      style={{ backgroundColor: textValues.postOnly.value !== textValues.postOnly.init ? "#2c53dd" : "" }}
+                      style={{
+                        backgroundColor:
+                          textValues.postOnly.value !== textValues.postOnly.init && type !== "create" ? "#2c53dd" : "" ? "#2c53dd" : "",
+                      }}
                       id={!textValues.postOnly.value ? "selected" : "unselected"}
                     >
                       Nie
@@ -389,6 +527,7 @@ const ParametreEditor = ({ type }) => {
                 <input
                   className="enable-podpolozku"
                   type="checkbox"
+                  id={textValues.feeCoin.value ? "active" : "inactive"}
                   checked={textValues.feeCoin.value}
                   name="feeCoin"
                   onChange={(e) => onTextChange(e, true)}
@@ -399,7 +538,7 @@ const ParametreEditor = ({ type }) => {
                     autoComplete="off"
                     value={textValues.nazov.value}
                     name="nazov"
-                    style={{ border: getBorderColor("nazov"), filter: !textValues.feeCoin.value ? "brightness(0.5)" : "" }}
+                    style={{ border: getBorderColor("nazov"), ...getInactiveStyle("feeCoin") }}
                     onChange={(e) => {
                       if (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value === "") onTextChange(e, false, true);
                     }}
@@ -411,7 +550,7 @@ const ParametreEditor = ({ type }) => {
                     autoComplete="off"
                     value={textValues.minMnozstvo.value}
                     name="minMnozstvo"
-                    style={{ border: getBorderColor("minMnozstvo"), filter: !textValues.feeCoin.value ? "brightness(0.5)" : "" }}
+                    style={{ border: getBorderColor("minMnozstvo"), ...getInactiveStyle("feeCoin") }}
                     onChange={(e) => {
                       if (isPositiveInteger(e.target.value)) onTextChange(e);
                     }}
@@ -423,7 +562,7 @@ const ParametreEditor = ({ type }) => {
                     autoComplete="off"
                     value={textValues.desatina.value}
                     name="desatina"
-                    style={{ border: getBorderColor("desatina"), filter: !textValues.feeCoin.value ? "brightness(0.5)" : "" }}
+                    style={{ border: getBorderColor("desatina"), ...getInactiveStyle("feeCoin") }}
                     onChange={(e) => {
                       if (isPositiveInteger(e.target.value)) onTextChange(e);
                     }}
@@ -439,8 +578,9 @@ const ParametreEditor = ({ type }) => {
                 <input
                   className="enable-podpolozku"
                   type="checkbox"
-                  name="prepoc"
+                  id={textValues.prepoc.value ? "active" : "inactive"}
                   checked={textValues.prepoc.value}
+                  name="prepoc"
                   onChange={(e) => onTextChange(e, true)}
                 ></input>
                 <div className="input-nadpis-cont">
@@ -449,7 +589,7 @@ const ParametreEditor = ({ type }) => {
                     autoComplete="off"
                     value={textValues.hodnota.value}
                     name="hodnota"
-                    style={{ border: getBorderColor("hodnota"), filter: !textValues.prepoc.value ? "brightness(0.5)" : "" }}
+                    style={{ border: getBorderColor("hodnota"), ...getInactiveStyle("prepoc") }}
                     onChange={(e) => {
                       if (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value === "") onTextChange(e, false, true);
                     }}
@@ -462,17 +602,21 @@ const ParametreEditor = ({ type }) => {
                     id="prepinac-lava-prava"
                     name="zdroj"
                     value={textValues.zdroj.value}
-                    style={{ filter: !textValues.prepoc.value ? "brightness(0.5)" : "" }}
+                    style={{ ...getInactiveStyle("prepoc") }}
                     onClick={(e) => onTextChange(e, true)}
                   >
                     <div
-                      style={{ backgroundColor: textValues.zdroj.value !== textValues.zdroj.init ? "#2c53dd" : "" }}
+                      style={{
+                        backgroundColor: textValues.zdroj.value !== textValues.zdroj.init && type !== "create" ? "#2c53dd" : "" ? "#2c53dd" : "",
+                      }}
                       id={textValues.zdroj.value ? "selected" : "unselected"}
                     >
                       Akt. Bur.
                     </div>
                     <div
-                      style={{ backgroundColor: textValues.zdroj.value !== textValues.zdroj.init ? "#2c53dd" : "" }}
+                      style={{
+                        backgroundColor: textValues.zdroj.value !== textValues.zdroj.init && type !== "create" ? "#2c53dd" : "" ? "#2c53dd" : "",
+                      }}
                       id={!textValues.zdroj.value ? "selected" : "unselected"}
                     >
                       Malá Bur.
@@ -483,10 +627,11 @@ const ParametreEditor = ({ type }) => {
             </div>
             <div className="test-paramter">
               <input
-                className="enable-test"
+                className="enable-podpolozku"
                 type="checkbox"
-                name="test"
+                id={textValues.test.value ? "active" : "inactive"}
                 checked={textValues.test.value}
+                name="test"
                 onChange={(e) => onTextChange(e, true)}
               ></input>
               <span className="checkmark">Test</span>
