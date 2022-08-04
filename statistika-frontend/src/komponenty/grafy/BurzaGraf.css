@@ -27,11 +27,6 @@
     min-width: 100%;
   }
 }
-@media only screen and (max-width: 420px) {
-  .burza-chart-div {
-    min-width: 300px;
-  }
-}
 
 .burza-graf-filter {
   top: 80px;

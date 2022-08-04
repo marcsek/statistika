@@ -34,7 +34,6 @@ const getPage = async (number) => {
 };
 
 const filtrujData = async (filters) => {
-  console.log(filters);
   await sleep(500);
   let newData = [];
   newData = dataGen.filter(({ buy }) => buy.toLowerCase().includes(filters.buy === null ? "" : filters.buy ? "buy" : "sell"));
@@ -57,14 +56,11 @@ const filtrujData = async (filters) => {
   if (filters.ascend.curType === "date") {
     newData = newData.sort((a, b) => (filters.ascend.typeDate ? Number(a.datum) - Number(b.datum) : Number(b.datum) - Number(a.datum)));
   } else if (filters.ascend.curType === "num") {
-    console.log(newData);
     newData = newData.sort((a, b) =>
       !filters.ascend.typeNum ? parseFloat(a.mnozstvo) - parseFloat(b.mnozstvo) : parseFloat(b.mnozstvo) - parseFloat(a.mnozstvo)
     );
   } else if (filters.ascend.curType === "price") {
-    console.log(filters.ascend);
     newData = newData.sort((a, b) => (!filters.ascend.typePrice ? a.cena - b.cena : b.cena - a.cena));
-    console.log(newData);
   }
   dataFilter = newData;
   return getPage(1);

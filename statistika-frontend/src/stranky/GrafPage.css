@@ -10,11 +10,23 @@
   width: 100%;
   max-width: 900px;
   min-width: 300px;
+  height: fit-content;
   /* height: 90px; */
   padding: 20px 0px;
   border-top: 1px solid rgba(255, 255, 255, 0.29);
   border-bottom: 1px solid rgba(255, 255, 255, 0.29);
   margin: 70px 0px 120px 0px;
+}
+
+.celkovy-cont-title {
+  width: 100%;
+  height: fit-content;
+  max-width: 1100px;
+  margin: 0px 100px;
+  min-width: 300px;
+  position: relative;
+  display: flex;
+  justify-content: center;
 }
 
 .celkovy-stav-cont ul {
@@ -100,7 +112,7 @@
 }
 
 .graf-burzy-cont {
-  width: 95%;
+  width: 100%;
   max-width: 1400px;
   min-width: 300px;
   margin-top: 100px;
@@ -147,8 +159,8 @@
 
 .vyvin-title {
   font-size: 1.6rem;
-  top: -45px;
-  left: -55px;
+  top: 26px;
+  left: 40px;
 }
 
 .graf-title {
@@ -177,11 +189,11 @@
 }
 
 .devider-vyvin {
-  top: -27px;
+  top: 44px;
   left: 50%;
   transform: translateX(-50%);
   height: 4px;
-  width: 400px;
+  width: 37%;
 }
 
 .devider-graf {
@@ -206,6 +218,11 @@
   text-align: left;
   color: var(--pismo-biela);
   font-weight: bolder;
+}
+
+@media only screen and (max-width: 700px) {
+  .devider-vyvin {
+  }
 }
 
 @media only screen and (max-width: 700px) {
@@ -290,6 +307,9 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .celkovy-cont-title {
+    margin: 0;
+  }
   .burza {
     padding: 0 !important;
     margin-bottom: 0 !important;
@@ -306,12 +326,17 @@
   }
 }
 
+@media only screen and (max-width: 500px) {
+  .burza-cont {
+    width: 100% !important;
+  }
+}
 @media only screen and (max-width: 420px) {
-  .burza {
+  /* .burza {
     height: 250px !important;
     margin-bottom: 30px !important;
   }
   .vyvin-title {
     width: fit-content !important;
-  }
+  } */
 }

@@ -165,8 +165,10 @@ function MainGraf({ grafRequestData }) {
           scrollbar: { enabled: false },
         },
         xAxis: {
-          lineColor: "rgba(255, 255, 255, 0.18)",
+          lineColor: "transparent",
           lineWidth: 1,
+          offset: 0,
+          tickHeight: 50,
           type: "datetime",
           dateTimeLabelFormats: {
             minute: {
@@ -175,7 +177,8 @@ function MainGraf({ grafRequestData }) {
           },
           tickColor: "transparent",
           crosshair: {
-            dashStyle: "shortdash",
+            color: "#bbbbbb",
+            // dashStyle: "shortdash",
           },
           max: chartData[0][chartData[0].length - 1].x.getTime(),
           min: chartData[0][0].x.getTime(),
@@ -207,7 +210,10 @@ function MainGraf({ grafRequestData }) {
 
         legend: {
           enabled: true,
+          // align: "top",
+          layout: "horizontal",
           align: "top",
+          verticalAlign: "right",
         },
         navigator: {
           series: {
@@ -280,7 +286,7 @@ function MainGraf({ grafRequestData }) {
           plotLines: [
             {
               value: 0,
-              width: 1,
+              width: 1.75,
               dashStyle: "dash",
             },
           ],
@@ -293,7 +299,13 @@ function MainGraf({ grafRequestData }) {
           series: {
             compare: "percent",
             // title:[...getData1(chartData)],
-            showInNavigator: true,
+            lineWidth: 2.5,
+            states: {
+              hover: {
+                enabled: true,
+                lineWidth: 3,
+              },
+            },
           },
         },
 
@@ -315,6 +327,7 @@ function MainGraf({ grafRequestData }) {
             },
             name: "Btc",
             data: getData1(chartData)[0],
+            // dashStyle: "dash",
           },
           {
             name: "Bot Eur",
@@ -327,6 +340,11 @@ function MainGraf({ grafRequestData }) {
         ],
       };
     }
+    return {
+      accessibility: {
+        enabled: false,
+      },
+    };
   }, [chartData]);
 
   // const data = useMemo(() => {

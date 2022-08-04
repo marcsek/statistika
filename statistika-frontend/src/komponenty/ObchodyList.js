@@ -37,7 +37,6 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
   }, []);
 
   const onSetDate = useCallback((value) => {
-    console.log(value);
     setFilters((prevValues) => ({
       ...prevValues,
       dateStart: value[0] ? value[0] : prevValues.dateStart,
@@ -168,7 +167,6 @@ function ObchodyList() {
   }, []);
 
   const filterData = useCallback(async (filters) => {
-    console.log(filters);
     setCurPage(1);
     setLoading({ isLoading: true, msg: "" });
     const resData = await filtrujData({ ...filters });
@@ -197,95 +195,107 @@ function ObchodyList() {
   /*   */
 
   return (
-    <div className="flex-obchody-cont">
-      <div className="obchody-cont">
-        <FiltreBotList updateFilters={filterData} orderFilters={orderFilter} />
-        <div className="obchody-list-const">
-          <div className="legenda-obch">
-            <button
-              className="datum"
-              id="element"
-              name="ascend"
-              style={{ pointerEvents: loading.isLoading ? "none" : "" }}
-              onClick={(e) =>
-                onOrderFilterSet({ curType: "date", typeNum: orderFilter.typeNum, typeDate: !orderFilter.typeDate, typePrice: orderFilter.typePrice })
-              }
-            >
-              {orderFilter.typeDate ? <BiChevronsDown /> : <BiChevronsUp />}
-              Dátum a čas
-            </button>
-            <p className="cislo" id="element">
-              Buy/Sell
-            </p>
-            <button
-              className="cena"
-              id="element"
-              name="ascend"
-              style={{ pointerEvents: loading.isLoading ? "none" : "" }}
-              onClick={(e) =>
-                onOrderFilterSet({
-                  curType: "price",
-                  typeNum: orderFilter.typeNum,
-                  typeDate: orderFilter.typeDate,
-                  typePrice: !orderFilter.typePrice,
-                })
-              }
-            >
-              {orderFilter.typePrice ? <BiChevronsDown /> : <BiChevronsUp />}
-              Cena
-            </button>
-            <button
-              className="mnozstvo"
-              id="element"
-              name="ascend"
-              style={{ pointerEvents: loading.isLoading ? "none" : "" }}
-              onClick={(e) =>
-                onOrderFilterSet({ curType: "num", typeNum: !orderFilter.typeNum, typeDate: orderFilter.typeDate, typePrice: orderFilter.typePrice })
-              }
-            >
-              {orderFilter.typeNum ? <BiChevronsDown /> : <BiChevronsUp />}
-              Množstvo
-            </button>
-            <p className="maker" id="element">
-              Maker/Taker
-            </p>
+    <div className="obchody-list-major-cont">
+      <FiltreBotList updateFilters={filterData} orderFilters={orderFilter} />
+      <div className="flex-obchody-cont">
+        <div className="obchody-cont">
+          <div className="obchody-list-const">
+            <div className="legenda-obch">
+              <button
+                className="datum"
+                id="element"
+                name="ascend"
+                style={{ pointerEvents: loading.isLoading ? "none" : "" }}
+                onClick={(e) =>
+                  onOrderFilterSet({
+                    curType: "date",
+                    typeNum: orderFilter.typeNum,
+                    typeDate: !orderFilter.typeDate,
+                    typePrice: orderFilter.typePrice,
+                  })
+                }
+              >
+                {orderFilter.typeDate ? <BiChevronsDown /> : <BiChevronsUp />}
+                Dátum a čas
+              </button>
+              <p className="cislo" id="element">
+                Buy/Sell
+              </p>
+              <button
+                className="cena"
+                id="element"
+                name="ascend"
+                style={{ pointerEvents: loading.isLoading ? "none" : "" }}
+                onClick={(e) =>
+                  onOrderFilterSet({
+                    curType: "price",
+                    typeNum: orderFilter.typeNum,
+                    typeDate: orderFilter.typeDate,
+                    typePrice: !orderFilter.typePrice,
+                  })
+                }
+              >
+                {orderFilter.typePrice ? <BiChevronsDown /> : <BiChevronsUp />}
+                Cena
+              </button>
+              <button
+                className="mnozstvo"
+                id="element"
+                name="ascend"
+                style={{ pointerEvents: loading.isLoading ? "none" : "" }}
+                onClick={(e) =>
+                  onOrderFilterSet({
+                    curType: "num",
+                    typeNum: !orderFilter.typeNum,
+                    typeDate: orderFilter.typeDate,
+                    typePrice: orderFilter.typePrice,
+                  })
+                }
+              >
+                {orderFilter.typeNum ? <BiChevronsDown /> : <BiChevronsUp />}
+                Množstvo
+              </button>
+              <p className="maker" id="element">
+                Maker/Taker
+              </p>
+            </div>
+            <ul className="bot-obchody-cont">
+              {listData.data.map((e, i) => {
+                let bgColor = i % 2 === 0 ? "#13131357" : "";
+                return (
+                  <li key={i} style={{ backgroundColor: bgColor, display: loading.isLoading ? "none" : "" }}>
+                    <p className="datum" id="element">
+                      {formatDate(e.datum)}
+                    </p>
+                    <p className="cislo" id="element">
+                      {e.buy}
+                    </p>
+                    <p className="cena" id="element">
+                      <MdEuroSymbol className="euro-symbol" />
+                      {formatPrice(e.cena, ",")}
+                    </p>
+                    <p className="mnozstvo" id="element">
+                      {e.mnozstvo}
+                    </p>
+                    <p className="maker" id="element">
+                      {e.maker}
+                    </p>
+                  </li>
+                );
+              })}
+              {loading.isLoading && <LoadingComponent background={true} error={loading.msg} />}
+            </ul>
           </div>
-          <ul className="bot-obchody-cont">
-            {listData.data.map((e, i) => {
-              let bgColor = i % 2 === 0 ? "#13131357" : "";
-              return (
-                <li key={i} style={{ backgroundColor: bgColor, display: loading.isLoading ? "none" : "" }}>
-                  <p className="datum" id="element">
-                    {formatDate(e.datum)}
-                  </p>
-                  <p className="cislo" id="element">
-                    {e.buy}
-                  </p>
-                  <p className="cena" id="element">
-                    <MdEuroSymbol className="euro-symbol" />
-                    {formatPrice(e.cena, ",")}
-                  </p>
-                  <p className="mnozstvo" id="element">
-                    {e.mnozstvo}
-                  </p>
-                  <p className="maker" id="element">
-                    {e.maker}
-                  </p>
-                </li>
-              );
-            })}
-            {loading.isLoading && <LoadingComponent background={true} error={loading.msg} />}
-          </ul>
         </div>
-        <Pagination
-          paginateFront={() => loadNextPage()}
-          paginateBack={() => loadPrevPage()}
-          postsPerPage={15}
-          totalPosts={listData.totalItems}
-          currentPage={curPage}
-          isLoading={loading.isLoading}
-        />
       </div>
+      <Pagination
+        paginateFront={() => loadNextPage()}
+        paginateBack={() => loadPrevPage()}
+        postsPerPage={15}
+        totalPosts={listData.totalItems}
+        currentPage={curPage}
+        isLoading={loading.isLoading}
+      />
     </div>
   );
 }

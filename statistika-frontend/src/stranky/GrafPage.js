@@ -35,62 +35,64 @@ const CelkovyVyvin = () => {
   }, [celkovyVyvinRequest]);
 
   return (
-    <div className="celkovy-stav-cont">
+    <div className="celkovy-cont-title">
       <div className="devider-vyvin" id="devider"></div>
       <p className="vyvin-title" id="title">
         Celkový vývin
       </p>
-      {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
-      <ul style={{ display: loading.isLoading ? "none" : "" }}>
-        <li className="stav-element">
-          <VscCircleFilled id="indikator" />
-          <p>Zmena 24H</p>
-          <span id="eur-zmena">
-            <MdEuroSymbol /> +{formatPrice(data.h24?.e, ",")}
-          </span>
-          <p id="btc-zmena">
-            <BsCurrencyBitcoin /> +{formatCrypto(data.h24?.b)}
-          </p>
-          <span id="perc-zmena">
-            <VscTriangleUp /> {data.h24?.p}%
-          </span>
-        </li>
-        <li className="stav-element">
-          <VscCircleFilled id="indikator" />
-          <p>Zmena 7D</p>
-          <span id="eur-zmena">
-            <MdEuroSymbol /> +{formatPrice(data.d7?.e, ",")}
-          </span>
-          <p id="btc-zmena">
-            <BsCurrencyBitcoin /> +{formatCrypto(data.d7?.b)}
-          </p>
-          <span id="perc-zmena">
-            <VscTriangleUp /> {data.d7?.p}%
-          </span>
-        </li>
-        <li className="stav-element">
-          <VscCircleFilled style={{ color: "#ea3943" }} id="indikator" />
-          <p>Zmena 3M</p>
-          <span id="eur-zmena">
-            <MdEuroSymbol /> {formatPrice(data.m3?.e, ",")}
-          </span>
-          <p id="btc-zmena">
-            <BsCurrencyBitcoin /> {formatCrypto(data.m3?.b)}
-          </p>
-          <span style={{ color: "#ea3943" }} id="perc-zmena">
-            <VscTriangleDown /> {data.m3?.p}%
-          </span>
-        </li>
-        <li className="stav-element">
-          <p>Celkové prostriedky</p>
-          <span id="eur-zmena">
-            <MdEuroSymbol /> {formatPrice(data.cc?.e, ",")}
-          </span>
-          <p id="btc-zmena">
-            <BsCurrencyBitcoin /> {formatCrypto(data.cc?.b)}
-          </p>
-        </li>
-      </ul>
+      <div className="celkovy-stav-cont">
+        {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
+        <ul style={{ display: loading.isLoading ? "none" : "" }}>
+          <li className="stav-element">
+            <VscCircleFilled id="indikator" />
+            <p>Zmena 24H</p>
+            <span id="eur-zmena">
+              <MdEuroSymbol /> +{formatPrice(data.h24?.e, ",")}
+            </span>
+            <p id="btc-zmena">
+              <BsCurrencyBitcoin /> +{formatCrypto(data.h24?.b)}
+            </p>
+            <span id="perc-zmena">
+              <VscTriangleUp /> {data.h24?.p}%
+            </span>
+          </li>
+          <li className="stav-element">
+            <VscCircleFilled id="indikator" />
+            <p>Zmena 7D</p>
+            <span id="eur-zmena">
+              <MdEuroSymbol /> +{formatPrice(data.d7?.e, ",")}
+            </span>
+            <p id="btc-zmena">
+              <BsCurrencyBitcoin /> +{formatCrypto(data.d7?.b)}
+            </p>
+            <span id="perc-zmena">
+              <VscTriangleUp /> {data.d7?.p}%
+            </span>
+          </li>
+          <li className="stav-element">
+            <VscCircleFilled style={{ color: "#ea3943" }} id="indikator" />
+            <p>Zmena 3M</p>
+            <span id="eur-zmena">
+              <MdEuroSymbol /> {formatPrice(data.m3?.e, ",")}
+            </span>
+            <p id="btc-zmena">
+              <BsCurrencyBitcoin /> {formatCrypto(data.m3?.b)}
+            </p>
+            <span style={{ color: "#ea3943" }} id="perc-zmena">
+              <VscTriangleDown /> {data.m3?.p}%
+            </span>
+          </li>
+          <li className="stav-element">
+            <p>Celkové prostriedky</p>
+            <span id="eur-zmena">
+              <MdEuroSymbol /> {formatPrice(data.cc?.e, ",")}
+            </span>
+            <p id="btc-zmena">
+              <BsCurrencyBitcoin /> {formatCrypto(data.cc?.b)}
+            </p>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

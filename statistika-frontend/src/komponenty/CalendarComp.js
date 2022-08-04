@@ -9,7 +9,6 @@ const CalendarComp = (props) => {
   const [dateRange, setDateRange] = useState("Spolu 000 dni");
 
   useEffect(() => {
-    console.log(value);
     if (value.length > 1) {
       const diffDays = (date, otherDate) => Math.ceil(Math.abs(date - otherDate) / (1000 * 60 * 60 * 24));
       let difference = diffDays(value[0], value[1]);

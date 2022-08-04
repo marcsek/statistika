@@ -27,6 +27,20 @@
   border-radius: 100px;
 }
 
+.flex-obchody-cont::-webkit-scrollbar {
+  height: 4px;
+}
+
+.flex-obchody-cont::-webkit-scrollbar-track {
+  border-radius: 100px;
+  background-color: rgba(255, 255, 255, 0.29);
+}
+
+.flex-obchody-cont::-webkit-scrollbar-thumb {
+  background-color: var(--pismo-biela);
+  border-radius: 100px;
+}
+
 .bot-obchody-cont li {
   width: 100%;
   height: 52px;
@@ -50,6 +64,7 @@
 }
 
 .obchody-filtre {
+  align-self: center;
   width: fit-content;
   height: 55px;
   display: flex;
@@ -84,7 +99,12 @@
 @media only screen and (max-width: 630px) {
   .filtre-hladat-btn {
     font-size: 0 !important;
+    width: fit-content !important;
   }
+  .obchody-filtre .input-nadpis-cont button {
+    width: 110px !important;
+  }
+
   .parameter-cont#datum input {
     display: none;
   }
@@ -101,7 +121,7 @@
   }
   .bot-obchody-cont {
     /* overflow-x: scroll; */
-    width: 95%;
+    /* width: 95%; */
     align-items: flex-start !important;
     justify-content: flex-start;
     overflow-x: hidden !important;
@@ -111,6 +131,11 @@
     justify-content: center !important;
     /* display: none !important; */
   }
+
+  .pagi-cont button {
+    transform: scale(0.75);
+  }
+
   .pagi-text {
     width: 58% !important;
     justify-content: space-evenly !important;
@@ -122,10 +147,11 @@
 
   .obchody-filtre {
     /* display: none !important; */
+    justify-content: center !important;
   }
 
   .obchody-list-const {
-    width: 95%;
+    /* width: 95%; */
   }
 
   .obchody-list-const li {
@@ -142,10 +168,6 @@
   .obchody-cont {
     width: 100% !important;
   }
-  .legenda-obch {
-    /* display: none !important; */
-    width: 95% !important;
-  }
   .legenda-obch .cislo {
     /* margin: 0 !important; */
   }
@@ -157,6 +179,10 @@
 
   .flex-obchody-cont {
     overflow-x: scroll;
+    /* width: 95%; */
+  }
+
+  .obchody-list-major-cont {
   }
 
   .calendar-div-parent .calendar-div {
@@ -318,6 +344,7 @@ svg.euro-symbol {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  align-self: center;
 }
 
 .pagi-text {
@@ -498,7 +525,7 @@ button svg {
   z-index: 5;
   background-color: #707070;
   position: absolute;
-  bottom: 40px;
+  top: 130%;
   left: 50%;
   transform: translate(-50%, 0%);
 }
@@ -514,4 +541,14 @@ button svg {
 
 .obchody-filtre .input-nadpis-cont button {
   height: 30px;
+}
+
+.obchody-list-major-cont {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
 }

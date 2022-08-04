@@ -14,7 +14,7 @@
 }
 
 .main-graf-filter {
-  top: 40px;
+  top: 18px;
   right: 0px;
   width: 300px;
   height: 37px;
@@ -73,5 +73,19 @@
 .heightchart-cont {
   height: 100%;
   width: 100%;
-  margin-top: 80px;
+  margin-top: 50px;
+}
+
+.highcharts-series-0 {
+  stroke-dasharray: 5, 5;
+}
+
+.highcharts-crosshair {
+  stroke-dasharray: 3, 3;
+  width: 1px;
+}
+
+.highcharts-plot-line {
+  stroke-dasharray: 7, 7;
+  height: 2px;
 }
