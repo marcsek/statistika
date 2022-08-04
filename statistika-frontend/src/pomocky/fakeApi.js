@@ -123,6 +123,7 @@ for (let i = 0; i < 5; i++) {
   let boti = [];
   for (let i = 0; i < Math.floor(Math.random() * 5) + 1; i++) {
     boti.push({
+      status: Math.round(Math.random()) === 0 ? false : true,
       bMeno: `Bot ${i + 1}`,
       cena: {
         e: faker.datatype.float({

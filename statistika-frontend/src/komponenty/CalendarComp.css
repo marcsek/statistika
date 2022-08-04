@@ -37,11 +37,12 @@
 }
 
 .calendar-div {
+  z-index: 1 !important;
   background-color: #161616e7 !important;
   border: 1px solid #3f3f3f !important;
   border-radius: 12px;
   padding: 5px;
-  /* backdrop-filter: blur(3px); */
+  backdrop-filter: blur(3px);
   border: none;
   width: 260px;
   height: fit-content;
@@ -56,6 +57,7 @@
 .calendar-div#hidden {
   transition: all 0.2s;
   opacity: 0;
+  pointer-events: none;
 }
 
 .react-calendar__tile--active {

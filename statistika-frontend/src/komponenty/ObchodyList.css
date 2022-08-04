@@ -239,6 +239,7 @@
 }
 
 .legenda-obch #element {
+  padding-right: 0;
   cursor: pointer;
   color: rgba(255, 255, 255, 0.4);
   font-weight: 600;
@@ -435,6 +436,7 @@ button svg {
 
 #dateStart {
   width: 100% !important;
+  font-size: 0.91rem;
 }
 
 .nadpis-obdobie {

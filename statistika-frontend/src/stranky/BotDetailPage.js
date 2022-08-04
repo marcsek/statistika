@@ -13,6 +13,7 @@ import "../komponenty/VyberComp.css";
 import { formatPrice, isPositiveInteger } from "../pomocky/cislovacky.js";
 import { RiMoneyEuroCircleLine } from "react-icons/ri";
 import ParametreEditor from "../komponenty/ParametreEditor.js";
+import { VscCircleFilled } from "react-icons/vsc";
 
 const VyberComponent = () => {
   const [tranList, setTranList] = useState([
@@ -57,8 +58,9 @@ const VyberComponent = () => {
               className="vyber-input"
               value={priceValue}
               onChange={(e) => {
-                if (!isNaN(e.target.value.replace(/^\s+|\s+$/gm, ""))) {
-                  setPriceValue(e.target.value.replace(/^\s+|\s+$/gm, ""));
+                let value = e.target.value.replace(/^\s+|\s+$/gm, "");
+                if (!isNaN(value) && value.split(".").length < 2 ? true : value.split(".")[1]?.length <= 2) {
+                  setPriceValue(value);
                 }
               }}
             ></input>
@@ -99,6 +101,7 @@ const VyberComponent = () => {
 
 function BotDetail() {
   const { botId } = useParams();
+  const [botActive, setBotActive] = useState(true);
 
   const chartRequestData = useCallback(async (duration) => {
     let requestParams = filterDate(duration);
@@ -121,6 +124,10 @@ function BotDetail() {
         <p className="bot-title-main" id="title">
           Bot {botId}
         </p>
+        <div className="bot-status-indicator">
+          <span>Status</span>
+          <VscCircleFilled style={{ color: botActive ? "rgb(22, 199, 132)" : "rgb(234, 57, 67)" }}></VscCircleFilled>
+        </div>
       </div>
       <div className="bot-major-cont">
         <div className="bot-vyber-major-cont">

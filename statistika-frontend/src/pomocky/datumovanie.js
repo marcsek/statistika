@@ -3,7 +3,7 @@ const filterDate = (duration) => {
 
   if (typeof duration === "object") {
     const newDuration = Math.abs(duration.dateEnd.getTime() - duration.dateStart.getTime());
-    requestData = { tick: "day", amount: Math.round(newDuration / (1000 * 3600 * 24)) - 1 };
+    requestData = { tick: "day", amount: Math.round(newDuration / (1000 * 3600 * 24)) };
     return requestData;
   }
 

@@ -2,7 +2,7 @@ import "./BotListPage.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
+import { VscTriangleUp, VscTriangleDown, VscCircleFilled } from "react-icons/vsc";
 import { MdEuroSymbol } from "react-icons/md";
 import { BsCurrencyBitcoin } from "react-icons/bs";
 
@@ -38,8 +38,8 @@ function NovyBotComp({ requestData }) {
     addBot(burza);
     let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(500);
-    setLoading({ isLoading: false, msg: "Vytváram...", hasError: { status: false, msg: "" } });
     setShowNovyBot(false);
+    setLoading({ isLoading: false, msg: "Vytváram...", hasError: { status: false, msg: "" } });
     requestData();
   };
 
@@ -133,6 +133,7 @@ function BotList() {
               <ol className="bot-list">
                 <div id="divider"></div>
                 <div className="legenda">
+                  {/* <p id="bot-status"></p> */}
                   <p id="bot-meno">Meno</p>
                   <p id="bot-mena">Hodnota</p>
                   <p id="bot-par">Ob. pár</p>
@@ -148,9 +149,16 @@ function BotList() {
                 {burza.boti.map((bot, i) => {
                   return (
                     <li key={i}>
+                      {/* <p id="bot-status">
+                        <VscCircleFilled style={{ color: bot.status ? "rgb(22, 199, 132)" : "rgb(234, 57, 67)" }}></VscCircleFilled>
+                      </p> */}
                       <p id="bot-meno" onClick={() => navigate("../bot-detail/3232")}>
-                        {bot.bMeno}
+                        <VscCircleFilled style={{ color: bot.status ? "rgb(22, 199, 132)" : "rgb(234, 57, 67)" }}></VscCircleFilled>
+                        {"" + bot.bMeno}
                       </p>
+                      {/* <p id="bot-status">
+                        <VscCircleFilled style={{ color: bot.status ? "rgb(22, 199, 132)" : "rgb(234, 57, 67)" }}></VscCircleFilled>
+                      </p> */}
                       <i id="bot-mena">
                         <p id="euro">
                           <i>
@@ -210,6 +218,7 @@ function BotList() {
                 })}
                 <div className="legenda" id="sucet">
                   <p id="sucet-text">Súčet</p>
+                  {/* <p id="bot-status"></p> */}
                   <p id="bot-meno">---</p>
                   <i id="bot-mena">
                     <p id="euro">

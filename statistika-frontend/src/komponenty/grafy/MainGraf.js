@@ -153,6 +153,9 @@ function MainGraf({ grafRequestData }) {
       // console.log(chartData[0][chartData[0].length - 1].x);
       // console.log(chartData[0][0].x);
       return {
+        accessibility: {
+          enabled: false,
+        },
         chart: {
           height: 550,
         },
@@ -241,16 +244,12 @@ function MainGraf({ grafRequestData }) {
           },
           outlineColor: "none",
           maskFill: "rgba(56, 98, 251, 0.08)",
-          margin: 5,
-          height: 45,
+          // margin: 5,
           handles: {
-            backgroundColor: "#323546",
-            borderColor: "#777C8F",
-            radius: 25,
-            borderRadius: 25,
+            symbols: ["url(/handles.svg)", "url(/handles.svg)"],
             lineWidth: 1,
-            width: 7,
-            height: 20,
+            width: 20,
+            height: 30,
             innerLines: {
               color: "#314B93",
               height: 5,

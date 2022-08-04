@@ -7,6 +7,7 @@ import { MdOutlinePowerOff, MdOutlinePower } from "react-icons/md";
 import "./VyberComp.css";
 import { isPositiveInteger } from "../pomocky/cislovacky";
 import { TbCaretDown } from "react-icons/tb";
+import { ImCheckmark } from "react-icons/im";
 
 //ked bude api tak loading brat iba od parenta
 const ParametreEditor = ({ type, onCreate, loadingParent }) => {
@@ -384,7 +385,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
             </div>
             <div id="input-small" className="parametre-input-cont">
               <div id="input-small" className="parametre-input">
-                <span>Testovana Fee</span>
+                <span>Testovaná Fee</span>
                 <input
                   id="choose-inacitve"
                   autoComplete="off"
@@ -452,19 +453,30 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                 </div>
                 <label className="container">
                   {/* <input type="checkbox" class="chb chb-1" id="chb-1" /> */}
-                  <input
-                    className="enable-podpolozku"
-                    type="checkbox"
+                  <button
+                    className="moj-checkmark"
                     id={textValues.maker.value ? "active" : "inactive"}
-                    checked={textValues.maker.value}
                     name="maker"
-                    onChange={(e) => onTextChange(e, true)}
-                  ></input>
-                  <span class="checkmark"></span>
+                    value={textValues.maker.value}
+                    onClick={(e) => {
+                      if (textValues.maker.value) {
+                        let children = [textValues.percento, textValues.odchylka, textValues.postOnly];
+                        children.forEach((child) => {
+                          if (child.value === "") {
+                            child.value = child.init;
+                          }
+                        });
+                      }
+
+                      onTextChange(e, true);
+                    }}
+                  >
+                    <ImCheckmark></ImCheckmark>
+                  </button>
                 </label>
 
                 <div className="input-nadpis-cont">
-                  <span>% Bal. Maker</span>
+                  <span style={{ color: !textValues.maker.value && "#737373" }}>% Bal. Maker</span>
                   <input
                     autoComplete="off"
                     name="percento"
@@ -476,7 +488,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                   ></input>
                 </div>
                 <div className="input-nadpis-cont">
-                  <span>Odchylka</span>
+                  <span style={{ color: !textValues.maker.value && "#737373" }}>Odchýlka</span>
                   <input
                     autoComplete="off"
                     value={textValues.odchylka.value}
@@ -488,7 +500,9 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                   ></input>
                 </div>
                 <div className="input-nadpis-cont" id="checkmark">
-                  <span id="nadpis-prepinac">Post Only</span>
+                  <span style={{ color: !textValues.maker.value && "#737373" }} id="nadpis-prepinac">
+                    Post Only
+                  </span>
                   <button
                     className="prepinac-mensi"
                     id="prepinac-lava-prava"
@@ -524,16 +538,27 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                 <div className="nadpis-podzlozka">
                   <span>Fee Coin</span>
                 </div>
-                <input
-                  className="enable-podpolozku"
-                  type="checkbox"
+                <button
+                  className="moj-checkmark"
                   id={textValues.feeCoin.value ? "active" : "inactive"}
-                  checked={textValues.feeCoin.value}
                   name="feeCoin"
-                  onChange={(e) => onTextChange(e, true)}
-                ></input>
+                  value={textValues.feeCoin.value}
+                  onClick={(e) => {
+                    if (textValues.feeCoin.value) {
+                      let children = [textValues.nazov, textValues.minMnozstvo, textValues.desatina];
+                      children.forEach((child) => {
+                        if (child.value === "") {
+                          child.value = child.init;
+                        }
+                      });
+                    }
+                    onTextChange(e, true);
+                  }}
+                >
+                  <ImCheckmark></ImCheckmark>
+                </button>
                 <div className="input-nadpis-cont">
-                  <span>Coin Názov</span>
+                  <span style={{ color: !textValues.feeCoin.value && "#737373" }}>Coin Názov</span>
                   <input
                     autoComplete="off"
                     value={textValues.nazov.value}
@@ -545,7 +570,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                   ></input>
                 </div>
                 <div className="input-nadpis-cont">
-                  <span>Min. Množstvo</span>
+                  <span style={{ color: !textValues.feeCoin.value && "#737373" }}>Min. Množstvo</span>
                   <input
                     autoComplete="off"
                     value={textValues.minMnozstvo.value}
@@ -557,7 +582,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                   ></input>
                 </div>
                 <div className="input-nadpis-cont">
-                  <span>Des. Miesta</span>
+                  <span style={{ color: !textValues.feeCoin.value && "#737373" }}>Des. Miesta</span>
                   <input
                     autoComplete="off"
                     value={textValues.desatina.value}
@@ -575,16 +600,27 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                 <div className="nadpis-podzlozka">
                   <span>Prepočítavanie</span>
                 </div>
-                <input
-                  className="enable-podpolozku"
-                  type="checkbox"
+                <button
+                  className="moj-checkmark"
                   id={textValues.prepoc.value ? "active" : "inactive"}
-                  checked={textValues.prepoc.value}
                   name="prepoc"
-                  onChange={(e) => onTextChange(e, true)}
-                ></input>
+                  value={textValues.prepoc.value}
+                  onClick={(e) => {
+                    if (textValues.prepoc.value) {
+                      let children = [textValues.hodnota, textValues.zdroj];
+                      children.forEach((child) => {
+                        if (child.value === "") {
+                          child.value = child.init;
+                        }
+                      });
+                    }
+                    onTextChange(e, true);
+                  }}
+                >
+                  <ImCheckmark></ImCheckmark>
+                </button>
                 <div className="input-nadpis-cont">
-                  <span>Prepo. Hodnota</span>
+                  <span style={{ color: !textValues.prepoc.value && "#737373" }}>Prepo. Hodnota</span>
                   <input
                     autoComplete="off"
                     value={textValues.hodnota.value}
@@ -596,7 +632,9 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                   ></input>
                 </div>
                 <div className="input-nadpis-cont">
-                  <span id="nadpis-prepinac">Zdroj Prepo.</span>
+                  <span id="nadpis-prepinac" style={{ color: !textValues.prepoc.value && "#737373" }}>
+                    Zdroj Prepo.
+                  </span>
                   <button
                     className="prepinac-maly"
                     id="prepinac-lava-prava"
@@ -626,14 +664,15 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
               </div>
             </div>
             <div className="test-paramter">
-              <input
-                className="enable-podpolozku"
-                type="checkbox"
+              <button
+                className="moj-checkmark"
                 id={textValues.test.value ? "active" : "inactive"}
-                checked={textValues.test.value}
                 name="test"
-                onChange={(e) => onTextChange(e, true)}
-              ></input>
+                value={textValues.test.value}
+                onClick={(e) => onTextChange(e, true)}
+              >
+                <ImCheckmark></ImCheckmark>
+              </button>
               <span className="checkmark">Test</span>
             </div>
           </div>

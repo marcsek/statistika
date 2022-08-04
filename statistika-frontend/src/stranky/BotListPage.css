@@ -29,6 +29,10 @@
     right: 5% !important;
     bottom: 5% !important;
   }
+
+  .bot-novy-cont {
+    bottom: 150px !important;
+  }
 }
 @media only screen and (max-width: 1000px) {
   .list-burza {
@@ -66,7 +70,7 @@
     max-width: 100% !important;
     right: 0 !important;
     margin: 0 10px;
-    padding: 0px !important;
+    padding: 10px 0px !important;
     overflow-y: scroll;
     bottom: 180px !important;
     overflow-x: hidden;
@@ -129,6 +133,12 @@ ol li {
   align-items: center;
   border-bottom: solid 1px var(--list-border);
   justify-content: space-around;
+}
+
+.legenda #bot-status {
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 600;
+  font-size: 0.87rem;
 }
 
 .legenda #bot-meno {
@@ -217,6 +227,14 @@ ol li:hover {
   min-width: 13px;
 }
 
+#bot-status {
+  color: #bbbbbb;
+  width: 0px;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
 #bot-meno {
   cursor: pointer;
   color: #bbbbbb;
@@ -224,7 +242,17 @@ ol li:hover {
   text-align: left;
   font-size: 1rem;
   font-weight: 600;
+  gap: 5px;
+  position: relative;
+  padding-left: 10px;
 }
+#bot-meno svg {
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 #bot-mena {
   color: var(--pismo-biela);
   margin-right: 40px;
@@ -402,7 +430,7 @@ ol li:hover {
   justify-content: center;
   align-items: flex-start;
   padding: 0px 50px;
-  padding-top: 0px;
+  /* padding-top: 0px; */
   max-height: 70%;
   border-radius: 25px;
   opacity: 1;
@@ -422,6 +450,25 @@ ol li:hover {
 .bot-novy-cont#invi {
   pointer-events: none;
   opacity: 0;
+}
+
+.bot-novy-cont::-webkit-scrollbar {
+  /* width: 4px; */
+  width: 20px;
+}
+
+.bot-novy-cont::-webkit-scrollbar-track {
+  border-radius: 100px;
+  /* background-color: rgba(255, 255, 255, 0.29); */
+}
+
+.bot-novy-cont::-webkit-scrollbar-thumb {
+  /* background-color: var(--pismo-biela);
+  border-radius: 100px; */
+  border: 8px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  border-radius: 9999px;
+  background-color: var(--pismo-biela);
 }
 
 .flex-bot-novy-cont {
