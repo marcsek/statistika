@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import BotGraf from "../komponenty/grafy/BotGraf.js";
 import axios from "axios";
@@ -6,11 +6,10 @@ import "./BotDetailPage.css";
 
 import { filterDate, formatDate } from "../pomocky/datumovanie";
 import ObchodyList from "../komponenty/ObchodyList.js";
-import { getTextValues, setNewTextValues } from "../pomocky/fakeApi.js";
 import LoadingComponent from "../komponenty/LoadingComponent.js";
-import { MdOutlinePowerOff, MdOutlinePower, MdEuroSymbol } from "react-icons/md";
+import { MdEuroSymbol } from "react-icons/md";
 import "../komponenty/VyberComp.css";
-import { formatPrice, isPositiveInteger } from "../pomocky/cislovacky.js";
+import { formatPrice } from "../pomocky/cislovacky.js";
 import { RiMoneyEuroCircleLine } from "react-icons/ri";
 import ParametreEditor from "../komponenty/ParametreEditor.js";
 import { VscCircleFilled } from "react-icons/vsc";
@@ -23,7 +22,6 @@ const VyberComponent = () => {
     { suma: "232434", datum: new Date() },
   ]);
   const [priceValue, setPriceValue] = useState("");
-  const [btnState, setBtnState] = useState(false);
   const [loading, setLoading] = useState({
     isLoading: false,
     msg: "",

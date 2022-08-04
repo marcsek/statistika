@@ -5,7 +5,7 @@ import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineEleme
 import { Line } from "react-chartjs-2";
 
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
-import { VscTriangleUp, VscTriangleDown, VscCircleFilled } from "react-icons/vsc";
+import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
 import LoadingComponent from "../LoadingComponent";

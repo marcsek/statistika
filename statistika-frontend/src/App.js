@@ -1,6 +1,6 @@
 import "./App.css";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Graf from "./stranky/GrafPage.js";

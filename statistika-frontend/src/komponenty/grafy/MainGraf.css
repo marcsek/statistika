@@ -15,7 +15,7 @@
 
 .main-graf-filter {
   top: 18px;
-  right: 0px;
+  right: 50px;
   width: 300px;
   height: 37px;
 }
@@ -83,9 +83,9 @@
 .highcharts-crosshair {
   stroke-dasharray: 3, 3;
   width: 1px;
+  stroke: #838383;
 }
 
 .highcharts-plot-line {
-  stroke-dasharray: 7, 7;
-  height: 2px;
+  stroke-dasharray: 1.5, 5;
 }

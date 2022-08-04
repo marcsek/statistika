@@ -11,7 +11,6 @@ import { ImCheckmark } from "react-icons/im";
 
 //ked bude api tak loading brat iba od parenta
 const ParametreEditor = ({ type, onCreate, loadingParent }) => {
-  const [buttonState, setButtonState] = useState(false);
   const [textValues, setTextValues] = useState({
     obPar: { value: "ETH/USDT", init: "ETH/USDT" },
     poznamka: { value: "", init: "" },
@@ -96,6 +95,32 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
     textValuesRequest();
   }, [textValuesRequest]);
 
+  const checkError = useCallback(
+    (mainn, extraa) => {
+      let oneChanged = false;
+      let error = false;
+      let main = mainn ? mainn : textValues;
+      let extra = extraa ? extraa : extraValues;
+
+      for (const key in main) {
+        if ((key !== "poznamka" && typeof main[key].value !== "boolean" && main[key].value === "") || (key === "obPar" && main[key].value === "/")) {
+          error = true;
+          break;
+        } else if (main[key].value !== main[key].init) {
+          oneChanged = true;
+        }
+      }
+      for (const key in extra) {
+        if (extra[key] === "" && type === "create") {
+          error = true;
+          break;
+        }
+      }
+      setCanShowbutton(error ? false : type === "create" ? true : oneChanged);
+    },
+    [extraValues, textValues, type]
+  );
+
   const onTextChange = useCallback(
     (evt, shouldSwap, upperCase) => {
       let stateCopy = { ...textValues };
@@ -111,22 +136,8 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
       checkError(stateCopy, extraValues);
       setTextValues({ ...stateCopy });
     },
-    [textValues, extraValues]
+    [textValues, extraValues, checkError]
   );
-
-  // const onSmallTextChange = useCallback((evt, id) => {
-  //   let stateCopy = { ...textValues };
-  //   stateCopy.small[id].value = evt.target.value;
-
-  //   setTextValues({ ...stateCopy });
-  // });
-
-  // const onPodTextChange = useCallback((evt, par, name) => {
-  //   let stateCopy = { ...textValues.pod };
-  //   // stateCopy[par][name].value = evt.target.value;
-  // });
-
-  const onOtherTextChange = useCallback((evt, id) => {});
 
   const getBorderColor = useCallback(
     (meno, baseText) => {
@@ -152,29 +163,6 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
     },
     [extraValues, textValues]
   );
-
-  const checkError = useCallback((mainn, extraa) => {
-    let oneChanged = false;
-    let error = false;
-    let main = mainn ? mainn : textValues;
-    let extra = extraa ? extraa : extraValues;
-
-    for (const key in main) {
-      if ((key !== "poznamka" && typeof main[key].value !== "boolean" && main[key].value === "") || (key === "obPar" && main[key].value === "/")) {
-        error = true;
-        break;
-      } else if (main[key].value !== main[key].init) {
-        oneChanged = true;
-      }
-    }
-    for (const key in extra) {
-      if (extra[key] === "" && type === "create") {
-        error = true;
-        break;
-      }
-    }
-    setCanShowbutton(error ? false : type === "create" ? true : oneChanged);
-  });
 
   const getInactiveStyle = useCallback((meno) => {
     return { filter: !textValues[meno].value ? "brightness(0.5)" : "", pointerEvents: !textValues[meno].value ? "none" : "" };

@@ -1,6 +1,6 @@
 import "./ObchodyList.css";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 import { formatDate, getCompatibleValue } from "../pomocky/datumovanie";
 import { getPage, filtrujData } from "../pomocky/fakeApi";
@@ -21,8 +21,6 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
   const [datePlaceholder, setDatePlaceholder] = useState(formatDate(initialStart) + " - " + formatDate(initialEnd));
   const [button, clicked] = useState(false);
 
-  const childRef = useRef(null);
-
   const [filters, setFilters] = useState({
     buy: null,
     datum: "",
@@ -32,9 +30,9 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
     dateEnd: initialEnd,
   });
 
-  const onSetFilters = useCallback((e, value) => {
-    setFilters((prevValues) => ({ ...prevValues, [e.target.name]: value }));
-  }, []);
+  // const onSetFilters = useCallback((e, value) => {
+  //   setFilters((prevValues) => ({ ...prevValues, [e.target.name]: value }));
+  // }, []);
 
   const onSetDate = useCallback((value) => {
     setFilters((prevValues) => ({

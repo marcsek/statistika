@@ -1,13 +1,7 @@
-import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import "./MainGraf.css";
 
-import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale } from "chart.js";
-import { Line } from "react-chartjs-2";
-
-import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
-import zoomPlugin from "chartjs-plugin-zoom";
-
-import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
+import { getPercentageChange } from "../../pomocky/cislovacky";
 import LoadingComponent from "../LoadingComponent";
 
 import CalendarComp from "../CalendarComp";
@@ -58,11 +52,6 @@ Highcharts.theme = {
 Highcharts.setOptions(Highcharts.theme);
 
 function MainGraf({ grafRequestData }) {
-  Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin, zoomPlugin);
-  Interaction.modes.interpolate = Interpolate;
-  const childRef = useRef(null);
-  const mainRef = useRef(null);
-
   const getData1 = (newDataa) => {
     let newData = [[], [], []];
 
@@ -112,46 +101,8 @@ function MainGraf({ grafRequestData }) {
     clicked(false);
   }, []);
 
-  const getRange = (string) => {
-    let requestData = { tick: null, amount: null };
-    switch (string) {
-      case typeof Object:
-        // console.log("object");
-        break;
-      case "1d":
-        requestData.tick = 86400000 / 24;
-        requestData.amount = 24;
-        break;
-      case "7d":
-        requestData.tick = 86400000 / 24;
-        requestData.amount = 168;
-        break;
-      case "1m":
-        requestData.tick = 86400000;
-        requestData.amount = 3;
-        break;
-      case "3m":
-        requestData.tick = 86400000;
-        requestData.amount = 90;
-        break;
-      case "1y":
-        requestData.tick = 86400000;
-        requestData.amount = 365;
-        break;
-      case "all":
-        requestData.tick = 86400000;
-        requestData.amount = 365;
-        break;
-      default:
-        break;
-    }
-    return requestData;
-  };
-
   const options = useMemo(() => {
     if (chartData.length > 0) {
-      // console.log(chartData[0][chartData[0].length - 1].x);
-      // console.log(chartData[0][0].x);
       return {
         accessibility: {
           enabled: false,
@@ -196,7 +147,6 @@ function MainGraf({ grafRequestData }) {
           barBorderRadius: 7,
           barBorderWidth: 0,
           barHeight: 0,
-          barBackgroundColor: "#2e2e2e",
           buttonBackgroundColor: "transparent",
           buttonArrowColor: "transparent",
           height: 0,
@@ -286,7 +236,7 @@ function MainGraf({ grafRequestData }) {
           plotLines: [
             {
               value: 0,
-              width: 1.75,
+              width: 1,
               dashStyle: "dash",
             },
           ],
@@ -347,183 +297,6 @@ function MainGraf({ grafRequestData }) {
     };
   }, [chartData]);
 
-  // const data = useMemo(() => {
-  //   return {
-  //     datasets: [
-  //       {
-  //         label: "Bitcoin",
-  //         data: chartData[0],
-  //         borderColor: "#ffbb1f",
-  //         borderDash: [5, 5],
-  //       },
-  //       {
-  //         backgroundColor: "#2c53dd",
-  //         label: "Bot Eur",
-  //         data: chartData[1],
-  //         borderColor: "#3861FB",
-  //       },
-  //       {
-  //         label: "Bot Btc",
-  //         data: chartData[2],
-  //         borderColor: "#00E5B0",
-  //       },
-  //     ],
-  //   };
-  // }, [chartData]);
-
-  // const options = {
-  //   type: "line",
-  //   maintainAspectRatio: false,
-  //   responsive: true,
-  //   pointHoverRadius: 7,
-  //   pointRadius: 0,
-  //   lineTension: 0,
-  //   interpolate: true,
-
-  //   interaction: {
-  //     mode: "index",
-  //     intersect: false,
-  //   },
-  //   scales: {
-  //     x: {
-  //       title: {
-  //         display: true,
-  //       },
-  //       type: "time",
-  //       display: true,
-  //       grid: {
-  //         color: "rgba(0, 0, 0, 0)",
-  //         borderWidth: 0,
-  //       },
-  //       ticks: {
-  //         color: "#bbbbbb",
-  //         autoSkip: true,
-  //         maxTicksLimit: 15,
-  //         // maxTicksLimit: 55,
-  //         // minTicksLimit: 55,
-  //         maxRotation: 0,
-  //         font: {
-  //           weight: 500,
-  //           family: "Open Sans",
-  //           size: 11,
-  //         },
-  //       },
-  //     },
-  //     y: {
-  //       type: "linear",
-  //       display: true,
-  //       grid: {
-  //         color: (context) => {
-  //           if (context.tick.value === 0) {
-  //             return "#ababab";
-  //           }
-  //           return "rgba(255, 255, 255, 0.18)";
-  //         },
-  //         borderColor: "rgba(255, 255, 255, 0.18)",
-  //         offset: false,
-  //         tickWidth: 0,
-  //       },
-
-  //       ticks: {
-  //         callback: function (value, index, ticks) {
-  //           return formatPrice(value, ",") + "%";
-  //         },
-  //         color: "#bbbbbb",
-  //         font: {
-  //           weight: 500,
-  //           family: "Open Sans",
-  //           size: 11,
-  //         },
-  //         beginAtZero: true,
-  //       },
-  //     },
-  //   },
-  //   plugins: {
-  //     zoom: {
-  //       limits: {
-  //         x: { min: "original" },
-  //       },
-  //       pan: {
-  //         enabled: false,
-
-  //         overScaleMode: "y",
-  //       },
-  //       zoom: {
-  //         onZoomStart: function ({ chart, event, point }) {
-  //           // console.log(Math.round(366 / chart.chart.getZoomLevel()));
-  //         },
-  //         wheel: {
-  //           enabled: false,
-  //         },
-  //         drag: {
-  //           enabled: true,
-  //           threshold: 100,
-  //         },
-  //         mode: "x",
-  //       },
-  //     },
-  //     legend: {
-  //       align: "start",
-  //       position: "top",
-  //       fullSize: false,
-  //       labels: {
-  //         // usePointStyle: true,
-  //         color: "#bbbbbb",
-  //         padding: 50,
-  //         font: {
-  //           size: 13,
-  //           weight: 550,
-  //         },
-  //       },
-  //     },
-  //     crosshair: {
-  //       enabled: true,
-  //       line: {
-  //         color: "#bbbbbb",
-  //         width: 1,
-  //         dashPattern: [3, 3],
-  //       },
-  //       sync: {
-  //         enabled: false,
-  //       },
-  //       pan: {
-  //         incrementer: 3,
-  //       },
-  //       zoom: {
-  //         enabled: false,
-  //       },
-  //       snap: {
-  //         enabled: true,
-  //       },
-  //       callbacks: function (start, end) {
-  //         // console.log(start.chart, end);
-  //       },
-  //     },
-  //     tooltip: {
-  //       // mode: "interpolate",
-  //       caretPadding: 12,
-  //       itemSort: function (a, b) {
-  //         return b.raw.y - a.raw.y;
-  //       },
-  //       callbacks: {
-  //         label: function (context) {
-  //           let label = context.dataset.label || "";
-
-  //           if (label) {
-  //             label += ": ";
-  //           }
-  //           if (context.parsed.y !== null) {
-  //             label += new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(context.raw.cena);
-  //             label += " (" + formatPrice(context.parsed.y) + " %)";
-  //           }
-  //           // label += " (" + formatPrice(getPercentageChange(context.dataset.data[0].y, context.parsed.y)) + "%)";
-  //           return label;
-  //         },
-  //       },
-  //     },
-  //   },
-  // };
-
   return (
     <div className="main-chart-div">
       <div className="main-graf-filter" id="graf-filter">
@@ -576,12 +349,9 @@ function MainGraf({ grafRequestData }) {
         </ul>
       </div>
       {loading.isLoading && <LoadingComponent error={loading.hasError.msg} />}
-      {/* <Line style={{ display: loading.isLoading ? "none" : "" }} options={options} data={data}></Line> */}
       <div className="heightchart-cont" style={{ display: loading.isLoading ? "none" : "" }}>
-        {/* <Test></Test> */}
         <HighchartsReact constructorType={"stockChart"} highcharts={Highcharts} options={options} />
       </div>
-      {/* {console.log(options)} */}
     </div>
   );
 }

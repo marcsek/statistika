@@ -27,7 +27,7 @@
 .bot-major-cont {
   margin: 0;
   /* padding: 30px 40px 0 40px; */
-  padding-top: 40px;
+  padding-top: 25px;
   position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
@@ -634,7 +634,7 @@ textarea {
   gap: 5px;
   position: absolute;
   bottom: 0;
-  right: 1%;
+  right: 5%;
 }
 
 .checkmark {

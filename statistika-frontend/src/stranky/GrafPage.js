@@ -6,7 +6,6 @@ import BurzaGraf from "../komponenty/grafy/BurzaGraf";
 
 import { VscTriangleUp, VscTriangleDown, VscCircleFilled } from "react-icons/vsc";
 
-import { faker } from "@faker-js/faker";
 import { filterDate } from "../pomocky/datumovanie";
 import { MdEuroSymbol } from "react-icons/md";
 import { BsCurrencyBitcoin } from "react-icons/bs";
