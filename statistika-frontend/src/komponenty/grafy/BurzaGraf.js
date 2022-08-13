@@ -42,17 +42,19 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     if (ctx != null) {
       ctx = ctx.canvas.getContext("2d");
       gradient = ctx.createLinearGradient(0, 0, 0, 300);
-      gradient.addColorStop(0, farbaCiary ? farbaCiary.g : "rgba(56,97,251, 0.34)");
-      gradient.addColorStop(1, "rgba(0, 0, 0, 0.01)");
+      gradient.addColorStop(0, farbaCiary ? farbaCiary.g : "rgba(	44, 122, 244, 0.2)");
+      // gradient.addColorStop(1, "rgba(0, 0, 0, 0.01)");
     }
     return {
       datasets: [
         {
           label: "Hodnota",
           data: chartData,
-          borderColor: farbaCiary ? farbaCiary.c : "#3861FB",
+          borderColor: farbaCiary ? farbaCiary.c : "#2C7AF4",
           backgroundColor: gradient,
           fill: true,
+          pointStyle: "cross",
+          pointHoverRadius: 10,
         },
       ],
     };
@@ -74,7 +76,7 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
 
     elements: {
       line: {
-        borderWidth: 2,
+        borderWidth: 1.5,
       },
     },
     scales: {
@@ -86,13 +88,13 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
           borderWidth: 0,
         },
         ticks: {
-          color: "#bbbbbb",
+          color: "#8c98a5",
           autoSkip: true,
           maxTicksLimit: 6,
           maxRotation: 0,
           font: {
-            weight: 550,
-            family: "Open Sans",
+            weight: 500,
+            family: "Roboto, sans-serif",
             size: 10,
           },
         },
@@ -101,8 +103,8 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
         type: "linear",
         display: true,
         grid: {
-          color: "rgba(255, 255, 255, 0.18)",
-          borderColor: "rgba(255, 255, 255, 0.18)",
+          color: "#3E4852",
+          borderColor: "transparent",
           offset: true,
 
           tickWidth: 0,
@@ -112,10 +114,10 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
           callback: function (value, index, ticks) {
             return "€ " + formatPrice(value, ",");
           },
-          color: "#bbbbbb",
+          color: "#8c98a5",
           font: {
-            weight: 550,
-            family: "Open Sans",
+            weight: 500,
+            family: "Roboto, sans-serif",
             size: 10,
           },
           maxTicksLimit: 8,
@@ -148,6 +150,10 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
       },
       tooltip: {
         caretPadding: 12,
+        usePointStyle: true,
+        backgroundColor: "#272933da",
+        titleColor: "#b5c6cc",
+        // bodyColor: "#b5c6cc",
       },
     },
   };
@@ -157,12 +163,12 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     let cena = formatPrice(chartData?.at(-1)?.y - chartData[0]?.y);
     return (
       <div style={{ position: "relative", ...style }}>
-        <div className="devider-burza-zmena" id="devider"></div>
+        {/* <div className="devider-burza-zmena" id="devider"></div> */}
         <div className="perc-zmena-chart-burza">
           <p id="eur-zmena">
             <MdEuroSymbol /> {(chartData?.at(-1)?.y - chartData[0]?.y < 0 ? "" : "+") + cena}
           </p>
-          <span style={{ color: perc < 0 ? "#ea3943" : "" }} id="perc-zmena">
+          <span style={{ color: perc < 0 ? "#f1556c" : "#0acf97", backgroundColor: perc > 0 ? "rgba(10,207,151,.18)" : "" }} id="perc-zmena">
             {perc < 0 ? <VscTriangleDown /> : <VscTriangleUp />} {Math.abs(perc)}%
           </span>
         </div>

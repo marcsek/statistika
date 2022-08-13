@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import "./MainGraf.css";
 
-import { getPercentageChange } from "../../pomocky/cislovacky";
+import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
+import { formatDate } from "../../pomocky/datumovanie";
 import LoadingComponent from "../LoadingComponent";
 
 import CalendarComp from "../CalendarComp";
@@ -41,7 +42,7 @@ Highcharts.theme = {
     itemStyle: {
       // font: "9pt Trebuchet MS, Verdana, sans-serif",
       // color: "black",
-      color: "white",
+      color: "#b5c6cc",
       fontSize: 12,
     },
     itemHoverStyle: {
@@ -109,6 +110,9 @@ function MainGraf({ grafRequestData }) {
         },
         chart: {
           height: 550,
+          style: {
+            fontFamily: "Rubik, sans-serif",
+          },
         },
         rangeSelector: {
           enabled: false,
@@ -137,7 +141,8 @@ function MainGraf({ grafRequestData }) {
           labels: {
             padding: 10,
             style: {
-              color: "#bbbbbb",
+              color: "#8c98a5",
+              fontSize: 11.2,
             },
           },
         },
@@ -164,6 +169,9 @@ function MainGraf({ grafRequestData }) {
           layout: "horizontal",
           align: "top",
           verticalAlign: "right",
+          style: {
+            color: "black",
+          },
         },
         navigator: {
           series: {
@@ -171,7 +179,7 @@ function MainGraf({ grafRequestData }) {
             lineWidth: 2,
             lineColor: "#4677FF",
             color: "rgb(27,31,49)",
-            fillOpacity: 0.5,
+            fillOpacity: 0.2,
             compare: "price",
           },
           xAxis: {
@@ -226,7 +234,9 @@ function MainGraf({ grafRequestData }) {
             padding: 10,
             x: 6,
             style: {
-              color: "#bbbbbb",
+              color: "#8c98a5",
+              fontWeight: 550,
+              fontSize: 11.2,
             },
             formatter: function () {
               return (this.value > 0 ? "+" : "") + this.value + "%";
@@ -260,19 +270,53 @@ function MainGraf({ grafRequestData }) {
         },
 
         tooltip: {
-          pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>€ {point.y}</b> ({point.change}%)<br/>',
+          hideDelay: 50,
+          useHTML: true,
+          formatter: function () {
+            // The first returned item is the header, subsequent items are the
+            // points
+            // <span style="color:{series.color}">{series.name}</span>: <b>€ {point.y}</b> ({point.change}%)<br/>'
+            return [`<div class="tooltip-cont-bot"><b>${formatDate(new Date(this.x))} </b></div>`].concat(
+              this.points
+                ? this.points.map(function (point) {
+                    return [
+                      `<div class="tooltip-cont"><span class="dot" style="background-color: ${
+                        point.series.color
+                      }"></span><span class="tooltip-name">${point.series.name}:</span> <b class="tooltip-price">€${formatPrice(
+                        point.y,
+                        ","
+                      )}</b> <b class="tooltip-perc">(${Math.round(point.point.change * 100) / 100}%)</b></div>`,
+                      // '<span class="dot" style="background-color:"' + point.series.color + "></span><b>" + point.series.name + "</b>: " + point.y,
+                    ];
+                  })
+                : []
+            );
+          },
           valueDecimals: 2,
-          padding: 8,
+          padding: 0,
           split: true,
           // backgroundColor: "transparent",
           borderWidth: 1,
           // backgroundColor: "red",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
-          borderRadius: 7,
+          // backgroundColor: "rgba(0, 0, 0, 0.8)",
+          // backgroundColor: "white",
+          borderRadius: 5,
+          // fontSize: 50,
+          style: {
+            fontSize: 20,
+          },
+          borderColor: "transparent",
+          // borderWidth: 1,
+          backgroundColor: "transparent",
+          shadow: false,
+          distance: 25,
         },
         series: [
           {
             tooltip: {
+              style: {
+                fontSize: 50,
+              },
               backgroundColor: "red", // Specific shape for series
             },
             name: "Btc",
@@ -299,6 +343,9 @@ function MainGraf({ grafRequestData }) {
 
   return (
     <div className="main-chart-div">
+      <p className="graf-title" id="title">
+        Graf vývoja
+      </p>
       <div className="main-graf-filter" id="graf-filter">
         <CalendarComp minDate={new Date(1627628652305)} maxDate={new Date()} display={button} onCalendarClick={onCalendarNewDate} />
         <ul>

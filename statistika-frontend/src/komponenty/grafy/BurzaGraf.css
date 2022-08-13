@@ -1,5 +1,5 @@
 .burza-chart-main {
-  width: 100%;
+  width: 97%;
   height: 100%;
   position: relative;
   display: flex;
@@ -9,11 +9,12 @@
 }
 
 .burza-chart-div {
+  margin-right: 30px;
   /* margin: auto; */
   /* position: absolute; */
   /* width: 500px; */
   width: 80%;
-  min-width: 500px;
+  min-width: 470px;
   height: 254px;
   height: fit-content;
   /* left: 45px; */
@@ -30,7 +31,7 @@
 
 .burza-graf-filter {
   top: 80px;
-  right: -10px;
+  right: 10px;
 }
 
 .burza-graf-filter ul {
@@ -47,11 +48,11 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  background-color: var(--pozadie);
+  background-color: #333644;
   border-radius: 5px;
   padding: 0px 25px;
   position: relative;
-  margin-left: 20px;
+  margin-left: 0px;
 }
 
 .perc-zmena-chart-burza p {
@@ -68,4 +69,18 @@
   background-color: var(--pozadie);
   /* margin: 10px 0; */
   border-radius: 25px;
+}
+
+.perc-zmena-chart-burza #eur-zmena {
+  font-size: 1.2rem;
+}
+
+.perc-zmena-chart-burza #perc-zmena {
+  font-size: 0.9rem;
+  margin-left: 20px;
+  margin-top: 3px;
+  padding: 1px 5px;
+  border-radius: 5px;
+  font-weight: 800;
+  background-color: rgba(241, 85, 108, 0.18);
 }

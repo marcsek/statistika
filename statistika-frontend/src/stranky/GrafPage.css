@@ -8,25 +8,26 @@
 .celkovy-stav-cont {
   position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: 100%;
   min-width: 300px;
   height: fit-content;
   /* height: 90px; */
   padding: 20px 0px;
-  border-top: 1px solid rgba(255, 255, 255, 0.29);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.29);
-  margin: 70px 0px 120px 0px;
+  /* border-top: 1px solid rgba(255, 255, 255, 0.29);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.29); */
 }
 
 .celkovy-cont-title {
   width: 100%;
-  height: fit-content;
-  max-width: 1100px;
+  /* height: fit-content; */
+  max-width: 1200px;
   margin: 0px 100px;
   min-width: 300px;
   position: relative;
   display: flex;
   justify-content: center;
+  /* background-color: #333644; */
+  margin: 0px 0px 10px 0px;
 }
 
 .celkovy-stav-cont ul {
@@ -34,33 +35,40 @@
   display: flex;
   flex-direction: row;
   list-style: none;
-  justify-content: space-evenly;
+  justify-content: center;
   height: 100%;
+  width: 100%;
   align-items: center;
   flex-wrap: wrap;
   row-gap: 30px;
+  column-gap: 25px;
 }
 
 .celkovy-stav-cont ul li {
   position: relative;
-  height: 100%;
-  min-width: 180px;
+  height: max-content;
+  min-width: 220px;
   padding-left: 18px;
   display: flex;
   flex-direction: column;
   justify-items: flex-start;
-  gap: 3px;
+  gap: 7px;
+
+  background-color: #333644;
+  padding: 15px 30px;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
 }
 
 .stav-element + .stav-element {
-  border-left: 1px solid rgba(255, 255, 255, 0.29);
+  /* border-left: 1px solid rgba(255, 255, 255, 0.29); */
 }
 
 .celkovy-stav-cont ul li p {
   font-size: 0.85rem;
-  color: rgb(141, 141, 141);
+  color: #8c98a5;
   text-align: left;
-  font-weight: 600;
+  font-weight: 550;
 }
 
 .celkovy-stav-cont ul li span {
@@ -70,18 +78,18 @@
 
 #perc-zmena {
   color: #16c784;
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.93rem;
+  font-weight: 600;
   align-items: center;
   display: flex;
   align-items: center;
 }
 
 #btc-zmena {
-  color: #2c53dd;
+  color: #ffbb1d;
   font-weight: 700;
-  font-size: 0.93rem;
-  filter: brightness(1.6);
+  font-size: 1rem;
+  /* filter: brightness(1.6); */
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -95,27 +103,28 @@
 
 #eur-zmena {
   margin-top: 6px;
-  font-weight: 600;
-  color: var(--pismo-biela);
+  font-weight: 700;
+  color: #b5c6cc;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 2px;
+  font-size: 1.4rem;
 }
 
 #indikator {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 10px;
+  top: 25px;
   font-size: 18px;
   color: rgb(22, 199, 132);
 }
 
 .graf-burzy-cont {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
   min-width: 300px;
-  margin-top: 100px;
+  margin-top: 25px;
 }
 
 .graf-burzy-cont ul {
@@ -139,7 +148,11 @@
   align-items: center;
   justify-content: center;
   height: 340px !important;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
+  /* background-color: #333644; */
+  border-radius: 0.25rem;
+  padding-top: 25px !important;
+  /* max-width: 600px; */
 }
 
 .burza-cont {
@@ -149,12 +162,18 @@
   min-width: 580px;
   position: relative;
   display: flex;
+  background-color: #333644;
+  padding-top: 25px !important;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
 }
 
 .burza-cont p {
-  font-size: 1.4rem;
-  margin-bottom: 10px;
+  font-size: 1.2rem;
+  /* margin-bottom: 10px; */
   position: relative;
+  color: #b5c6cc !important;
+  left: 4% !important;
 }
 
 .vyvin-title {
@@ -164,9 +183,10 @@
 }
 
 .graf-title {
-  font-size: 1.6rem;
-  left: 30px;
-  top: -20px;
+  font-size: 1.2rem;
+  color: #b5c6cc !important ;
+  left: 0px;
+  top: 0px;
 }
 
 #graf-burza-cont {
@@ -176,9 +196,13 @@
   align-items: center;
   position: relative;
   width: 100%;
-  max-width: 1330px;
+  max-width: 1200px;
   min-width: 300px;
   /* height: 600px; */
+  background-color: #333644;
+  padding: 20px 0;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
 }
 
 .devider {
@@ -206,7 +230,7 @@
 
 #devider {
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.29);
+  background-color: #8b98a579;
   border-radius: 25px;
 }
 
@@ -257,6 +281,7 @@
   }
 
   .burza {
+    background-color: #333644;
     /* width: fit-content; */
   }
   .burza-chart-main {
@@ -268,7 +293,7 @@
     position: relative !important;
     transform: none;
     top: 0 !important;
-    right: 0 important;
+    right: 10px !important;
     margin-top: 1%;
     /* display: none; */
     /* bottom: 0;
@@ -281,7 +306,7 @@
 
   .burza-cont #title {
     top: -25px;
-    /* left: -50px; */
+    left: 20px !important;
     transform: translateX(-50%);
   }
 
@@ -291,6 +316,12 @@
 
   .burza-cont {
     min-width: 0;
+    /* width: 100%; */
+    align-items: flex-end !important;
+    justify-content: flex-end !important;
+    max-width: none !important;
+    background-color: transparent !important;
+    padding-top: 0 !important;
   }
   .burza-chart-div {
     display: flex;
@@ -304,6 +335,10 @@
     justify-content: space-around !important;
     width: 100% !important;
   }
+  .graf-title {
+    left: 0 !important;
+    transform: none !important;
+  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -313,6 +348,7 @@
   .burza {
     padding: 0 !important;
     margin-bottom: 0 !important;
+    height: fit-content !important;
   }
 
   .graf-burzy-cont > ul:first-child {
@@ -324,11 +360,31 @@
     justify-content: flex-start;
     align-items: flex-start;
   }
+
+  .graf-page-title-div {
+    justify-content: center;
+  }
+
+  .title-hori {
+    padding-left: 0px !important;
+  }
 }
 
 @media only screen and (max-width: 500px) {
   .burza-cont {
-    width: 100% !important;
+    /* width: 100% !important; */
+  }
+  #graf-burza-cont {
+    padding-top: 50px !important;
+  }
+  .graf-title {
+    top: -25px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+  .main-graf-filter {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
   }
 }
 @media only screen and (max-width: 420px) {
@@ -339,4 +395,19 @@
   .vyvin-title {
     width: fit-content !important;
   } */
+}
+
+.title-hori {
+  font-size: 1.2rem;
+  color: #b5c6cc;
+  font-weight: 800;
+  position: relative;
+  padding-left: 25px;
+}
+
+.graf-page-title-div {
+  max-width: 1250px;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
 }

@@ -144,7 +144,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
       if (textValues[meno].value === (baseText ? baseText : "")) {
         return "2px solid red";
       } else if (textValues[meno].value !== textValues[meno].init && type !== "create") {
-        return "2px solid #2c53dd";
+        return "2px solid #2d7bf4";
       }
       return "";
     },
@@ -165,7 +165,11 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
   );
 
   const getInactiveStyle = useCallback((meno) => {
-    return { filter: !textValues[meno].value ? "brightness(0.5)" : "", pointerEvents: !textValues[meno].value ? "none" : "" };
+    return {
+      color: !textValues[meno].value ? "rgb(115, 115, 115)" : "",
+      filter: !textValues[meno].value ? "brightness(0.8)" : "",
+      pointerEvents: !textValues[meno].value ? "none" : "",
+    };
   });
 
   return (
@@ -252,7 +256,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
           <button
             id="bot-parametre"
             className="vypinac"
-            style={{ backgroundColor: textValues.zapnuty.value ? "#2c53dd" : "#cc3333" }}
+            style={{ backgroundColor: textValues.zapnuty.value ? "#2d7bf4" : "#cc3333" }}
             name="zapnuty"
             onClick={(e) => onTextChange(e, true)}
           >
@@ -284,13 +288,13 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                 onClick={(e) => onTextChange(e, true)}
               >
                 <div
-                  style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init && type !== "create" ? "#2c53dd" : "" }}
+                  style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init && type !== "create" ? "#2d7bf4" : "" }}
                   id={textValues.prepinac.value ? "selected" : "unselected"}
                 >
                   ETH
                 </div>
                 <div
-                  style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init && type !== "create" ? "#2c53dd" : "" }}
+                  style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init && type !== "create" ? "#2d7bf4" : "" }}
                   id={!textValues.prepinac.value ? "selected" : "unselected"}
                 >
                   USDT
@@ -302,7 +306,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
               value={textValues.poznamka.value}
               name="poznamka"
               style={{
-                border: textValues.poznamka.value !== textValues.poznamka.init && type !== "create" ? "2px solid #2c53dd" : "",
+                border: textValues.poznamka.value !== textValues.poznamka.init && type !== "create" ? "2px solid #2d7bf4" : "",
               }}
               onChange={(e) => onTextChange(e)}
             ></textarea>
@@ -501,7 +505,8 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                     <div
                       style={{
                         backgroundColor:
-                          textValues.postOnly.value !== textValues.postOnly.init && type !== "create" ? "#2c53dd" : "" ? "#2c53dd" : "",
+                          textValues.postOnly.value !== textValues.postOnly.init && type !== "create" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
+                        color: !textValues.maker.value && "rgb(115, 115, 115)",
                       }}
                       id={textValues.postOnly.value ? "selected" : "unselected"}
                     >
@@ -510,7 +515,8 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                     <div
                       style={{
                         backgroundColor:
-                          textValues.postOnly.value !== textValues.postOnly.init && type !== "create" ? "#2c53dd" : "" ? "#2c53dd" : "",
+                          textValues.postOnly.value !== textValues.postOnly.init && type !== "create" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
+                        color: !textValues.maker.value && "rgb(115, 115, 115)",
                       }}
                       id={!textValues.postOnly.value ? "selected" : "unselected"}
                     >
@@ -633,7 +639,8 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                   >
                     <div
                       style={{
-                        backgroundColor: textValues.zdroj.value !== textValues.zdroj.init && type !== "create" ? "#2c53dd" : "" ? "#2c53dd" : "",
+                        backgroundColor: textValues.zdroj.value !== textValues.zdroj.init && type !== "create" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
+                        color: !textValues.prepoc.value && "rgb(115, 115, 115)",
                       }}
                       id={textValues.zdroj.value ? "selected" : "unselected"}
                     >
@@ -641,7 +648,8 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                     </div>
                     <div
                       style={{
-                        backgroundColor: textValues.zdroj.value !== textValues.zdroj.init && type !== "create" ? "#2c53dd" : "" ? "#2c53dd" : "",
+                        backgroundColor: textValues.zdroj.value !== textValues.zdroj.init && type !== "create" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
+                        color: !textValues.prepoc.value && "rgb(115, 115, 115)",
                       }}
                       id={!textValues.zdroj.value ? "selected" : "unselected"}
                     >

@@ -42,8 +42,7 @@ function BotGraf({ grafRequestData }) {
     if (ctx != null) {
       ctx = ctx.canvas.getContext("2d");
       gradient = ctx.createLinearGradient(0, 0, 0, 450);
-      gradient.addColorStop(0, "rgba(56,97,251, 0.34)");
-      gradient.addColorStop(1, "rgba(0, 0, 0, 0.01)");
+      gradient.addColorStop(0, "rgba(	13, 207, 151, 0.2)");
     }
     return {
       datasets: [
@@ -51,8 +50,10 @@ function BotGraf({ grafRequestData }) {
           fill: true,
           label: "Hodnota",
           data: chartData,
-          borderColor: "#3861FB",
+          borderColor: "#0DCF97",
           backgroundColor: gradient,
+          pointStyle: "cross",
+          pointHoverRadius: 10,
         },
       ],
     };
@@ -68,7 +69,7 @@ function BotGraf({ grafRequestData }) {
     interpolate: true,
     elements: {
       line: {
-        borderWidth: 3,
+        borderWidth: 2,
       },
     },
 
@@ -84,13 +85,13 @@ function BotGraf({ grafRequestData }) {
           color: "rgba(0, 0, 0, 0)",
         },
         ticks: {
-          color: "#bbbbbb",
+          color: "#8c98a5",
           autoSkip: true,
           maxTicksLimit: 6,
           maxRotation: 0,
           font: {
-            weight: 550,
-            family: "Open Sans",
+            weight: 500,
+            family: "Roboto, sans-serif",
             size: 11,
           },
         },
@@ -99,8 +100,8 @@ function BotGraf({ grafRequestData }) {
         type: "linear",
         display: true,
         grid: {
-          color: "rgba(255, 255, 255, 0.18)",
-          borderColor: "rgba(255, 255, 255, 0.18)",
+          color: "#3E4852",
+          borderColor: "transparent",
           offset: true,
 
           tickWidth: 0,
@@ -110,10 +111,10 @@ function BotGraf({ grafRequestData }) {
           callback: function (value, index, ticks) {
             return "€ " + formatPrice(value, ",");
           },
-          color: "#bbbbbb",
+          color: "#8c98a5",
           font: {
-            weight: 550,
-            family: "Open Sans",
+            weight: 500,
+            family: "Roboto, sans-serif",
             size: 11,
           },
           maxTicksLimit: 8,
@@ -147,6 +148,9 @@ function BotGraf({ grafRequestData }) {
       tooltip: {
         // mode: "interpolate",
         caretPadding: 12,
+        usePointStyle: true,
+        backgroundColor: "#272933da",
+        titleColor: "#b5c6cc",
       },
     },
   };

@@ -13,6 +13,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 50px;
 }
 
 @media only screen and (max-height: 700px) {
@@ -75,6 +76,13 @@
     bottom: 180px !important;
     overflow-x: hidden;
   }
+  .bot-novy-cont-title {
+    width: 100% !important;
+    justify-content: center;
+  }
+  .novy-bot-title {
+    padding-left: 25px;
+  }
 }
 
 @media only screen and (max-width: 450px) {
@@ -106,15 +114,19 @@
   width: 100%;
   max-width: 1300px;
   min-width: 1000px;
-  padding-bottom: 3rem;
+  /* padding-bottom: 3rem; */
+  background-color: #333644;
+  padding: 20px 30px;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
 }
 
 #burza-meno {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   width: 150px;
   text-align: left;
-  color: var(--pismo-biela);
-  font-weight: bolder;
+  color: #b5c6cc;
+  font-weight: 800;
   margin-bottom: 10px;
 }
 
@@ -136,25 +148,25 @@ ol li {
 }
 
 .legenda #bot-status {
-  color: rgba(255, 255, 255, 0.4);
+  color: #8c98a5;
   font-weight: 600;
   font-size: 0.87rem;
 }
 
 .legenda #bot-meno {
-  color: rgba(255, 255, 255, 0.4);
+  color: #8c98a5;
   font-weight: 600;
   font-size: 0.87rem;
 }
 
 .legenda #bot-mena {
-  color: rgba(255, 255, 255, 0.4);
+  color: #8c98a5;
   font-weight: 600;
   font-size: 0.87rem;
 }
 
 .legenda #bot-par {
-  color: rgba(255, 255, 255, 0.4);
+  color: #8c98a5;
   font-weight: 600;
   font-size: 0.87rem;
 }
@@ -162,7 +174,7 @@ ol li {
 .legenda .zmena {
   font-weight: 600;
   font-size: 0.87rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: #8c98a5;
   display: inline;
 }
 
@@ -184,21 +196,22 @@ ol li {
 }
 .legenda#sucet {
   height: 63px;
-  border-top: solid 2px rgba(255, 255, 255, 0.29);
+  border-top: solid 2px var(--list-border);
+  border-bottom: none;
 }
 
 #sucet-text {
   left: 60px;
-  background-color: #252525;
+  background-color: #333644;
   padding: 1px 9px;
   border-radius: 6px;
-  border: 2px rgba(255, 255, 255, 0.4) solid;
+  border: 2px var(--list-border) solid;
   bottom: 48px;
   position: absolute;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--pismo-biela);
   text-align: center;
-  color: #bbbbbb;
+  color: #b5c6cc;
 }
 
 .legenda#sucet #bot-mena {
@@ -217,7 +230,7 @@ ol li {
   justify-content: center;
 }
 ol li:hover {
-  background-color: #252525;
+  background-color: #414556;
 }
 
 .zmena svg {
@@ -237,10 +250,10 @@ ol li:hover {
 
 #bot-meno {
   cursor: pointer;
-  color: #bbbbbb;
+  color: #b5c6cc;
   width: 100px;
   text-align: left;
-  font-size: 1rem;
+  font-size: 0.98rem;
   font-weight: 600;
   gap: 5px;
   position: relative;
@@ -288,7 +301,7 @@ ol li:hover {
 #btc {
   margin: 3px;
   border-radius: 20px;
-  background-color: #2c53dd;
+  background-color: #2d7bf4;
   padding: 0px 10px;
   display: flex;
   justify-content: center;
@@ -320,11 +333,11 @@ ol li:hover {
 }
 
 #bot-par {
-  color: #bbbbbb;
+  color: #b5c6cc;
   margin-right: 100px;
   width: 90px;
   text-align: left;
-  font-size: 1rem;
+  font-size: 0.98rem;
   font-weight: 600;
 }
 
@@ -344,6 +357,7 @@ ol li:hover {
 }
 
 .bot-list {
+  padding: 0 !important;
   position: relative;
 }
 
@@ -361,12 +375,12 @@ ol li:hover {
 .vypinac {
   z-index: 2;
   position: fixed;
-  width: 200px;
-  height: 40px;
-  top: 20px;
+  width: 190px;
+  height: 35px;
+  top: 10px;
   right: 0;
   transform: translate(-50%, 0%);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: white;
   border-radius: 7px;
   display: flex;
@@ -390,7 +404,7 @@ ol li:hover {
 }
 
 .vypinac:active {
-  top: 23px;
+  top: 13px;
   /* transform: scale(0.98); */
   transition: all 0.01s;
 }
@@ -421,10 +435,13 @@ ol li:hover {
 
 .bot-novy-cont {
   z-index: 2;
-  background-color: var(--pozadie);
-  border: 2px solid rgba(255, 255, 255, 0.29);
+  background-color: #353847;
+  border: 2px solid var(--border) !important;
+  box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
   position: fixed;
   bottom: 150px;
+  height: fit-content;
+  overflow-y: auto;
   max-width: 1150px;
   right: 150px;
   display: flex;
@@ -433,7 +450,7 @@ ol li:hover {
   padding: 0px 50px;
   /* padding-top: 0px; */
   max-height: 70%;
-  border-radius: 25px;
+  border-radius: 1rem;
   opacity: 1;
   /* background-color: rgba(0, 0, 0, 0.5); */
   /* display: flex;
@@ -443,6 +460,7 @@ ol li:hover {
   opacity: 0;
   transition: opacity 0.2s; */
   transition: all 0.1s;
+  backdrop-filter: blur(10px);
 }
 
 .bot-novy-cont#vis {
@@ -469,16 +487,35 @@ ol li:hover {
   border: 8px solid rgba(0, 0, 0, 0);
   background-clip: padding-box;
   border-radius: 9999px;
-  background-color: var(--pismo-biela);
+  background-color: rgba(255, 255, 255, 0.29);
 }
 
 .flex-bot-novy-cont {
   padding: 10px 0;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
   /* max-height: 70%; */
 }
 
+.bot-novy-cont-title {
+  width: 100%;
+  height: 0;
+  /* padding-top: 25px; */
+  display: flex;
+  align-items: flex-start;
+}
+
+.novy-bot-title {
+  font-size: 1.2rem !important;
+  color: #b5c6cc !important;
+  margin: 0 !important;
+  font-weight: 800;
+  padding-top: 25px;
+}
+
 .show-bot-button {
-  background-color: #2c53dd;
+  background-color: #2d7bf4;
   outline: none;
   border: none;
   height: 60px;

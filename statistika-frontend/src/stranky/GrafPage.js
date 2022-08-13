@@ -35,10 +35,10 @@ const CelkovyVyvin = () => {
 
   return (
     <div className="celkovy-cont-title">
-      <div className="devider-vyvin" id="devider"></div>
+      {/* <div className="devider-vyvin" id="devider"></div>
       <p className="vyvin-title" id="title">
         Celkový vývin
-      </p>
+      </p> */}
       <div className="celkovy-stav-cont">
         {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
         <ul style={{ display: loading.isLoading ? "none" : "" }}>
@@ -155,41 +155,44 @@ function Graf() {
 
   return (
     <div className="graf-page-div">
+      <div className="graf-page-title-div">
+        <p className="title-hori">Dashboard</p>
+      </div>
       <CelkovyVyvin />
       <div id="graf-burza-cont">
-        <div className="devider-graf" id="devider"></div>
+        {/* <div className="devider-graf" id="devider"></div>
         <p className="graf-title" id="title">
           Graf vývoja
-        </p>
+        </p> */}
         <MainGraf grafRequestData={mainGrafRequestData}></MainGraf>
       </div>
       <div className="graf-burzy-cont">
         <ul>
           <li className="burza">
             <div className="burza-cont">
-              <div className="devider" id="devider"></div>
+              {/* <div className="devider" id="devider"></div> */}
               <p id="title">Burza 1</p>
               <BurzaGraf grafRequestData={subChartRequestData} index={0}></BurzaGraf>
             </div>
           </li>
           <li className="burza">
             <div className="burza-cont">
-              <div className="devider" id="devider"></div>
+              {/* <div className="devider" id="devider"></div> */}
               <p id="title">Burza 2</p>
-              <BurzaGraf grafRequestData={subChartRequestData} farbaCiary={{ c: "#FF6384", g: "rgba(255,99,132, 0.34)" }} index={1}></BurzaGraf>
+              <BurzaGraf grafRequestData={subChartRequestData} farbaCiary={{ c: "#0DCF97", g: "rgba(	13, 207, 151, 0.20)" }} index={1}></BurzaGraf>
             </div>
           </li>
           <li className="burza">
             <div className="burza-cont">
-              <div className="devider" id="devider"></div>
+              {/* <div className="devider" id="devider"></div> */}
               <p id="title">Burza 3</p>
-              <BurzaGraf grafRequestData={subChartRequestData} farbaCiary={{ c: "#FF6384", g: "rgba(255,99,132, 0.34)" }} index={2}></BurzaGraf>
+              <BurzaGraf grafRequestData={subChartRequestData} farbaCiary={{ c: "#0DCF97", g: "rgba(	13, 207, 151, 0.2)" }} index={2}></BurzaGraf>
             </div>
           </li>
           <li className="burza">
             {" "}
             <div className="burza-cont">
-              <div className="devider" id="devider"></div>
+              {/* <div className="devider" id="devider"></div> */}
               <p id="title">Burza 4</p>
               <BurzaGraf grafRequestData={subChartRequestData} index={3}></BurzaGraf>
             </div>

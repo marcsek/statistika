@@ -259,7 +259,7 @@ function ObchodyList() {
             </div>
             <ul className="bot-obchody-cont">
               {listData.data.map((e, i) => {
-                let bgColor = i % 2 === 0 ? "#13131357" : "";
+                let bgColor = i % 2 === 0 ? "rgb(57, 60, 74)" : "";
                 return (
                   <li key={i} style={{ backgroundColor: bgColor, display: loading.isLoading ? "none" : "" }}>
                     <p className="datum" id="element">

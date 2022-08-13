@@ -44,7 +44,7 @@ const VyberComponent = () => {
 
   return (
     <div className="vyber-cont-major">
-      <div className="vyber-bot-title-divider" id="devider"></div>
+      {/* <div className="vyber-bot-title-divider" id="devider"></div> */}
       <span className="vyber-bot-title" id="title">
         Výber
       </span>
@@ -75,7 +75,7 @@ const VyberComponent = () => {
           </div>
           <ul className="list-vyber">
             {tranList.map((e, index) => (
-              <li key={index} style={{ backgroundColor: index % 2 === 0 ? "rgba(19, 19, 19, 0.34)" : "" }} className="element-list-vyber">
+              <li key={index} style={{ backgroundColor: index % 2 === 0 ? "#393c4a" : "" }} className="element-list-vyber">
                 <span className="vyber-datum">{formatDate(e.datum)}</span>
                 <span className="vyber-suma">
                   <MdEuroSymbol></MdEuroSymbol>
@@ -131,10 +131,10 @@ function BotDetail() {
         <div className="bot-vyber-major-cont">
           <VyberComponent />
         </div>
-        <div className="divider-graf-para" id="devider"></div>
+        {/* <div className="divider-graf-para" id="devider"></div> */}
         <div className="bot-graf-major-cont">
           <div className="bot-graf-cont">
-            <div className="graf-bot-title-divider" id="devider"></div>
+            {/* <div className="graf-bot-title-divider" id="devider"></div> */}
             <span className="graf-bot-title" id="title">
               Graf vývoja
             </span>
@@ -145,14 +145,14 @@ function BotDetail() {
         </div>
       </div>
       <div className="parametre-div" style={{ position: "relative" }}>
-        <div className="para-devider" id="devider"></div>
+        {/* <div className="para-devider" id="devider"></div> */}
         <span className="para-title" id="title">
           Parametre
         </span>
         <ParametreEditor />
       </div>
       <div className="list-obchodov-div" style={{ position: "relative" }}>
-        <div className="obchody-devider" id="devider"></div>
+        {/* <div className="obchody-devider" id="devider"></div> */}
         <span className="obchody-title" id="title">
           Zoznam obchodov
         </span>

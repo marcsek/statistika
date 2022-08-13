@@ -1,7 +1,7 @@
 .main-chart-div {
   margin: auto;
   position: relative;
-  width: 90%;
+  width: 96%;
   /* height: 100%; */
   height: 600px;
   /* margin-right: 20px; */
@@ -9,8 +9,63 @@
 
 #graf-filter {
   position: absolute;
-  background-color: #292929;
+  /* background-color: #292929; */
+  background-color: #3c3f50;
   border-radius: 10px;
+}
+.dot {
+  height: 12px;
+  width: 12px;
+  margin-right: 7px;
+  /* background-color: #bbb; */
+  border-radius: 50%;
+  display: inline-block;
+  outline: 2px solid white;
+}
+
+.tooltip-cont-bot {
+  margin-top: 5px;
+  padding: 5px;
+  padding-left: 2px;
+  padding-right: 4px;
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
+  background-color: #272933cf;
+  border-radius: 0rem;
+  font-size: 0.73rem;
+  color: #b5c6cc;
+  text-align: center;
+  backdrop-filter: blur(5px);
+}
+
+.tooltip-cont {
+  padding: 11px 5px;
+  /* padding-right: 0; */
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
+  background-color: #272933cf;
+  border-radius: 0.25rem;
+  text-align: center;
+  backdrop-filter: blur(5px);
+}
+.tooltip-name {
+  font-size: 0.85rem;
+  color: #8c98a5;
+  font-weight: 600;
+}
+
+.tooltip-perc {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #b5c6cc;
+}
+
+.tooltip-price {
+  font-size: 0.85rem;
+  /* color: #b5c6cc; */
+  font-weight: 700;
 }
 
 .main-graf-filter {

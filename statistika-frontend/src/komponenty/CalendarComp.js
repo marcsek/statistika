@@ -25,7 +25,7 @@ const CalendarComp = (props) => {
           {dateRange}
         </span>
         <button
-          style={{ backgroundColor: value.length > 1 ? "" : "#292929" }}
+          style={{ backgroundColor: value.length > 1 ? "" : "#3c3f50" }}
           className="calendar-button"
           onClick={(e) => props.onCalendarClick(value)}
         >

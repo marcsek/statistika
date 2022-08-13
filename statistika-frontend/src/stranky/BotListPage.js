@@ -48,6 +48,9 @@ function NovyBotComp({ requestData }) {
       <div className="bot-novy-cont" id={showNovyBot ? "vis" : "invi"}>
         <div className="flex-bot-novy-cont">
           {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
+          <div className="bot-novy-cont-title">
+            <p className="novy-bot-title">Vytvorenie bota</p>
+          </div>
           <div style={{ display: loading.isLoading ? "none" : "" }}>
             <ParametreEditor type="create" onCreate={onCreate}></ParametreEditor>
           </div>
@@ -131,7 +134,7 @@ function BotList() {
             <li key={i} className="li-burza">
               <p id="burza-meno">{burza.meno}</p>
               <ol className="bot-list">
-                <div id="divider"></div>
+                {/* <div id="divider"></div> */}
                 <div className="legenda">
                   {/* <p id="bot-status"></p> */}
                   <p id="bot-meno">Meno</p>
