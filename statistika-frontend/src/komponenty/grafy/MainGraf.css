@@ -3,7 +3,7 @@
   position: relative;
   width: 96%;
   /* height: 100%; */
-  height: 600px;
+  /* height: 600px; */
   /* margin-right: 20px; */
 }
 
@@ -126,7 +126,7 @@
 } */
 
 .heightchart-cont {
-  height: 100%;
+  /* height: 100%; */
   width: 100%;
   margin-top: 50px;
 }

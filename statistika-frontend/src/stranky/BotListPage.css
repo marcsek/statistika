@@ -7,13 +7,14 @@
 
 .list-burza {
   height: 100%;
-  width: 96%;
-  padding: 0;
+  width: 97.5%;
+  max-width: 1200px;
   list-style: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 50px;
+  padding: 0;
 }
 
 @media only screen and (max-height: 700px) {
@@ -34,11 +35,17 @@
   .bot-novy-cont {
     bottom: 150px !important;
   }
+  .flex-bot-novy-cont {
+    margin-left: 10px !important;
+  }
 }
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1150px) {
   .list-burza {
     overflow-x: scroll;
     align-items: flex-start;
+  }
+  .bot-list-main-div {
+    justify-content: flex-end;
   }
   .bot-list-main-div .vypinac {
     top: 85px !important;
@@ -79,6 +86,9 @@
   .bot-novy-cont-title {
     width: 100% !important;
     justify-content: center;
+  }
+  .novy-bot-title {
+    padding-left: 0px !important;
   }
   .novy-bot-title {
     padding-left: 25px;
@@ -126,7 +136,7 @@
   width: 150px;
   text-align: left;
   color: #b5c6cc;
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: 10px;
 }
 
@@ -435,7 +445,7 @@ ol li:hover {
 
 .bot-novy-cont {
   z-index: 2;
-  background-color: #353847;
+  background-color: #333644;
   border: 2px solid var(--border) !important;
   box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
   position: fixed;
@@ -460,7 +470,6 @@ ol li:hover {
   opacity: 0;
   transition: opacity 0.2s; */
   transition: all 0.1s;
-  backdrop-filter: blur(10px);
 }
 
 .bot-novy-cont#vis {
@@ -495,6 +504,7 @@ ol li:hover {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
+
   /* max-height: 70%; */
 }
 
@@ -510,7 +520,7 @@ ol li:hover {
   font-size: 1.2rem !important;
   color: #b5c6cc !important;
   margin: 0 !important;
-  font-weight: 800;
+  font-weight: 700;
   padding-top: 25px;
 }
 

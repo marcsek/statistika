@@ -65,6 +65,30 @@ function MainGraf({ grafRequestData }) {
     return newData;
   };
 
+  const [windowIsSmall, setWindowIsSmall] = useState(false);
+
+  useEffect(() => {
+    function handleWindowResize() {
+      let windowSize = getWindowSize();
+      if (windowSize.innerWidth < 850) {
+        setWindowIsSmall(true);
+      } else {
+        setWindowIsSmall(false);
+      }
+    }
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+
+  function getWindowSize() {
+    const { innerWidth, innerHeight } = window;
+    return { innerWidth, innerHeight };
+  }
+
   const [button, clicked] = useState(false);
   const [filter, setFilter] = useState("1y");
   const [chartData, setChartData] = useState([]);
@@ -109,7 +133,7 @@ function MainGraf({ grafRequestData }) {
           enabled: false,
         },
         chart: {
-          height: 550,
+          height: windowIsSmall ? 400 : 550,
           style: {
             fontFamily: "Rubik, sans-serif",
           },
@@ -339,7 +363,7 @@ function MainGraf({ grafRequestData }) {
         enabled: false,
       },
     };
-  }, [chartData]);
+  }, [chartData, windowIsSmall]);
 
   return (
     <div className="main-chart-div">
@@ -395,9 +419,9 @@ function MainGraf({ grafRequestData }) {
           </li>
         </ul>
       </div>
-      {loading.isLoading && <LoadingComponent error={loading.hasError.msg} />}
+      {loading.isLoading && <LoadingComponent error={loading.hasError.msg} height={windowIsSmall ? 450 : 600} />}
       <div className="heightchart-cont" style={{ display: loading.isLoading ? "none" : "" }}>
-        <HighchartsReact constructorType={"stockChart"} highcharts={Highcharts} options={options} />
+        <HighchartsReact containerProps={{ style: { height: "100%" } }} constructorType={"stockChart"} highcharts={Highcharts} options={options} />
       </div>
     </div>
   );

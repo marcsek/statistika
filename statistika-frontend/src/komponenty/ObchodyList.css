@@ -33,11 +33,11 @@
 
 .flex-obchody-cont::-webkit-scrollbar-track {
   border-radius: 100px;
-  background-color: rgba(255, 255, 255, 0.29);
+  background-color: #3b3e4e;
 }
 
 .flex-obchody-cont::-webkit-scrollbar-thumb {
-  background-color: var(--pismo-biela);
+  background-color: rgba(255, 255, 255, 0.29);
   border-radius: 100px;
 }
 
@@ -162,9 +162,6 @@
     /* align-items: flex-start; */
   }
 
-  .bot-main-cont {
-    align-items: flex-start;
-  }
   .obchody-cont {
     width: 100% !important;
   }

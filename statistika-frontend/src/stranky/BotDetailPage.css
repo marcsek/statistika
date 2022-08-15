@@ -35,7 +35,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   /* padding-top: 100px; */
-  width: 100%;
+  width: 95%;
   max-width: 1200px;
   /* min-width: 1000px; */
   /* height: 500px; */
@@ -55,7 +55,7 @@
     background-color: #333644;
   }
   .bot-vyber-major-cont {
-    background-color: transparent !important;
+    /* background-color: transparent !important; */
   }
 
   .vyber-bot-title {
@@ -63,7 +63,7 @@
   }
 
   .vyber-bot-title-divider {
-    left: 50% !important;
+    /* left: 50% !important; */
     transform: translateX(-50%);
   }
 
@@ -92,10 +92,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #333644;
+  /* background-color: #333644; */
   height: 100%;
-  border-radius: 0.25rem;
-  box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
 }
 
 .bot-graf-major-cont {
@@ -115,7 +113,7 @@
   max-width: 650px;
   height: 450px;
   background-color: #333644;
-  padding: 0px 20px;
+  padding: 0px 27px;
   border-radius: 0.25rem;
   box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
   /* margin-right: 50px; */
@@ -163,6 +161,10 @@
   .bot-graf-cont {
     width: 95%;
     padding-bottom: 60px;
+    height: fit-content;
+  }
+  .bot-status-indicator {
+    margin-left: 0 !important;
   }
 }
 
@@ -186,6 +188,7 @@
   .bot-graf-cont {
     justify-content: center !important;
     align-items: flex-end;
+    padding-right: 0 !important;
   }
   .bot-graf-filter {
     top: 100% !important;
@@ -245,7 +248,7 @@
   margin-top: 30px;
   margin-bottom: 30px;
   max-width: 1200px;
-  width: 100%;
+  width: 95%;
   min-height: 400px;
   height: fit-content;
   background-color: #333644;
@@ -393,6 +396,7 @@
 
 .parametre-title {
   font-size: 1.4rem;
+  font-weight: 700 !important;
 }
 
 .parametre-title-divider {
@@ -440,7 +444,7 @@
 
 .graf-bot-title {
   font-size: 1.2rem;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   top: 20px;
   right: 3%;
   color: #b5c6cc !important;
@@ -478,7 +482,7 @@
 }
 
 .list-obchodov-div {
-  width: 90%;
+  width: 95%;
   max-width: 1200px;
   background-color: #333644;
   border-radius: 0.25rem;
@@ -802,7 +806,7 @@ textarea::placeholder {
 .para-title {
   font-size: 1.2rem;
   color: #b5c6cc !important;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   top: 20px;
   left: 20px;
   /* left: -50px; */

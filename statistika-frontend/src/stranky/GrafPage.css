@@ -121,7 +121,7 @@
 }
 
 .graf-burzy-cont {
-  width: 100%;
+  width: 95%;
   max-width: 1200px;
   min-width: 300px;
   margin-top: 25px;
@@ -171,6 +171,7 @@
 .burza-cont p {
   font-size: 1.2rem;
   /* margin-bottom: 10px; */
+  font-weight: 700 !important;
   position: relative;
   color: #b5c6cc !important;
   left: 4% !important;
@@ -184,6 +185,7 @@
 
 .graf-title {
   font-size: 1.2rem;
+  font-weight: 700 !important;
   color: #b5c6cc !important ;
   left: 0px;
   top: 0px;
@@ -195,7 +197,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 100%;
+  width: 95%;
   max-width: 1200px;
   min-width: 300px;
   /* height: 600px; */
@@ -250,6 +252,9 @@
 }
 
 @media only screen and (max-width: 700px) {
+  #graf-burza-cont {
+    margin-bottom: 30px !important;
+  }
   .celkovy-stav-cont {
     padding: 30px 0px;
   }
@@ -358,7 +363,6 @@
 
   .graf-page-div {
     justify-content: flex-start;
-    align-items: flex-start;
   }
 
   .graf-page-title-div {
@@ -400,7 +404,7 @@
 .title-hori {
   font-size: 1.2rem;
   color: #b5c6cc;
-  font-weight: 800;
+  font-weight: 700 !important;
   position: relative;
   padding-left: 25px;
 }

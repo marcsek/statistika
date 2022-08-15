@@ -79,9 +79,12 @@
 
 .vyber-cont-major {
   position: relative;
-  height: 440px;
+  height: 100%;
   width: 100%;
   max-width: 800px;
+  background-color: #333644;
+  box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
+  border-radius: 0.25rem;
 }
 
 .vyber-cont-main {
