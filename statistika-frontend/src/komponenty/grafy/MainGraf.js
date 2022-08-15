@@ -15,7 +15,7 @@ import { TbCalendar } from "react-icons/tb";
 DarkUnica(Highcharts);
 
 Highcharts.theme = {
-  colors: ["#ffbb1f", "#3861FB", "#00E5B0", "#DDDF00", "#24CBE5", "#64E572", "#FF9655", "#FFF263", "#6AF9C4"],
+  colors: ["#ffbb1f", "#2C7AF4", "#0DCF97", "#DDDF00", "#24CBE5", "#64E572", "#FF9655", "#FFF263", "#6AF9C4"],
   chart: {
     backgroundColor: "transparent",
     style: {

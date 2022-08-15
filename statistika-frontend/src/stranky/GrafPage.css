@@ -88,7 +88,7 @@
 #btc-zmena {
   color: #ffbb1d;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
   /* filter: brightness(1.6); */
   display: flex;
   justify-content: flex-start;
@@ -97,8 +97,9 @@
 }
 
 #btc-zmena svg {
-  height: 16px;
-  width: 16px;
+  height: 17px;
+  width: 17px;
+  padding-bottom: 2px;
 }
 
 #eur-zmena {

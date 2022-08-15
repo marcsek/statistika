@@ -177,6 +177,8 @@
 @media only screen and (max-width: 850px) {
   .test-paramter {
     position: relative !important;
+    bottom: 0% !important;
+    right: 0% !important;
   }
 }
 
@@ -989,7 +991,7 @@ textarea::placeholder {
   width: fit-content;
   padding: 3px 5px;
   border-radius: 25px;
-  font-size: 0.7rem;
+  font-size: 0.71rem;
   font-weight: 600;
   color: #8c98a5;
 }
