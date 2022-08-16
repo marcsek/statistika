@@ -72,9 +72,11 @@
 }
 
 .vyber-input-cont svg {
-  height: 100%;
-  width: 34px;
-  padding: 2px;
+  height: 90%;
+  width: 30px;
+  padding: 4px;
+  margin-right: 6px;
+  filter: invert(90%);
 }
 
 .vyber-cont-major {
@@ -187,9 +189,15 @@
 .element-list-vyber .vyber-suma {
   color: var(--pismo-biela);
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  text-align: end;
   width: 120px;
+}
+
+.vyber-mena {
+  width: fit-content !important;
+  padding-left: 8px;
 }
 
 .element-list-vyber .vyber-suma svg {

@@ -291,13 +291,13 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                   style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init && type !== "create" ? "#2d7bf4" : "" }}
                   id={textValues.prepinac.value ? "selected" : "unselected"}
                 >
-                  ETH
+                  {textValues.obPar.value.split("/")[0]}
                 </div>
                 <div
                   style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init && type !== "create" ? "#2d7bf4" : "" }}
                   id={!textValues.prepinac.value ? "selected" : "unselected"}
                 >
-                  USDT
+                  {textValues.obPar.value.split("/")[1]}
                 </div>
               </button>
             </div>

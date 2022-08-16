@@ -9,17 +9,19 @@ import ObchodyList from "../komponenty/ObchodyList.js";
 import LoadingComponent from "../komponenty/LoadingComponent.js";
 import { MdEuroSymbol } from "react-icons/md";
 import "../komponenty/VyberComp.css";
-import { formatPrice } from "../pomocky/cislovacky.js";
+import { formatCrypto, formatPrice } from "../pomocky/cislovacky.js";
 import { RiMoneyEuroCircleLine } from "react-icons/ri";
 import ParametreEditor from "../komponenty/ParametreEditor.js";
 import { VscCircleFilled } from "react-icons/vsc";
+import { getTextValues } from "../pomocky/fakeApi.js";
+import { GrMoney } from "react-icons/gr";
 
 const VyberComponent = () => {
   const [tranList, setTranList] = useState([
-    { suma: "232434.32", datum: new Date() },
-    { suma: "232434", datum: new Date() },
-    { suma: "232434", datum: new Date() },
-    { suma: "232434", datum: new Date() },
+    { mena: "ETH", suma: "34.3223", datum: new Date() },
+    { mena: "USDT", suma: "0.6523", datum: new Date() },
+    { mena: "ETH", suma: "0.2", datum: new Date() },
+    { mena: "ETH", suma: "3.243", datum: new Date() },
   ]);
   const [priceValue, setPriceValue] = useState("");
   const [loading, setLoading] = useState({
@@ -33,9 +35,12 @@ const VyberComponent = () => {
       return;
     }
     setLoading({ isLoading: true, msg: "Posielam...", hasError: { status: false, msg: "" } });
+    const textValue = await getTextValues();
+    const mena = textValue.obPar.split("/")[!textValue.prepinac | 0];
+    console.log(textValue.obPar.split("/"));
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(500);
-    setTranList([...tranList, { suma: priceValue, datum: new Date() }]);
+    setTranList([{ mena: mena, suma: priceValue, datum: new Date() }, ...tranList]);
     setPriceValue("");
     setLoading((prevState) => {
       return { ...prevState, isLoading: false };
@@ -57,12 +62,12 @@ const VyberComponent = () => {
               value={priceValue}
               onChange={(e) => {
                 let value = e.target.value.replace(/^\s+|\s+$/gm, "");
-                if (!isNaN(value) && value.split(".").length < 2 ? true : value.split(".")[1]?.length <= 2) {
+                if (isNaN(value) && value.split(".").length > 2 ? false : value.length === 1 && value === "." ? false : true) {
                   setPriceValue(value);
                 }
               }}
             ></input>
-            <RiMoneyEuroCircleLine></RiMoneyEuroCircleLine>
+            <GrMoney />
           </div>
           <button id={priceValue.length !== 0 ? "active" : "inactive"} className="vyber-button" onClick={(e) => onBtnClick()}>
             Vybrať
@@ -78,8 +83,8 @@ const VyberComponent = () => {
               <li key={index} style={{ backgroundColor: index % 2 === 0 ? "#393c4a" : "" }} className="element-list-vyber">
                 <span className="vyber-datum">{formatDate(e.datum)}</span>
                 <span className="vyber-suma">
-                  <MdEuroSymbol></MdEuroSymbol>
-                  {formatPrice(parseFloat(e.suma), ",")}
+                  {formatCrypto(parseFloat(e.suma), 7)}
+                  <span className="vyber-mena">{e.mena}</span>
                 </span>
               </li>
             ))}

@@ -4,8 +4,16 @@ const formatPrice = (price, separator) => {
   return numberWithSpaces(rounded, separator);
 };
 
-const formatCrypto = (amount) => {
-  return Math.round((amount + Number.EPSILON) * 10000) / 10000;
+const formatCrypto = (amount, decimal) => {
+  let numberOfDecimals = 1;
+  if (decimal) {
+    for (let i = 0; i < decimal; i++) {
+      numberOfDecimals *= 10;
+    }
+  } else {
+    numberOfDecimals = 10000;
+  }
+  return Math.round((amount + Number.EPSILON) * numberOfDecimals) / numberOfDecimals;
 };
 
 const numberWithSpaces = (number, separator) => {

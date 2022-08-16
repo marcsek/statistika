@@ -64,7 +64,7 @@
 
 .tooltip-price {
   font-size: 0.85rem;
-  /* color: #b5c6cc; */
+  color: var(--pismo-biela);
   font-weight: 700;
 }
 

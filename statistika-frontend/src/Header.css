@@ -2,62 +2,220 @@
   position: fixed;
   top: 0;
   width: 100%;
-  height: 55px;
-  background-color: rgb(22, 22, 22);
-  background-color: #333644;
-  box-shadow: 1px 2px 3px var(--pozadie);
+  /* height: 55px; */
   z-index: 2;
 
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 100px;
 
   border-bottom: var(--list-border) 1px solid;
 }
-.header button {
+
+.upper-header {
+  height: 70px;
+  width: 100%;
+  background-color: var(--pozadie);
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  padding: 0px 24px;
+  transition: all 0.1s ease-out;
+  left: 0;
+  right: 0;
+}
+
+.upper-fluid {
+  /* max-width: 90%; */
+  width: 87.5%;
+  padding: 0;
+  margin-left: auto;
+  margin-right: auto;
+  color: #8f9eaf;
+  cursor: pointer;
+}
+
+.account-box {
+  padding: 0px 10px;
+  position: relative;
+  float: right;
+  line-height: 70px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 14px;
+  font-weight: 600;
+  user-select: none;
+}
+
+.account-box .user {
+  height: 32px;
+  width: 32px;
+  margin-right: 3px;
+}
+
+.account-box .drop {
+  height: 22px;
+  width: 22px;
+}
+
+.account-dropdown {
+  box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
+  display: flex;
+  position: absolute;
+  bottom: -50%;
+  line-height: 14px;
+  left: calc(50% - 110px / 2);
+  gap: 5px;
+  padding: 7px 20px;
+  background-color: #353847;
+  border: 1px solid #3e4253;
+  border-radius: 0.25rem;
+  color: #b5c6cc;
+  line-height: 18px;
+  transform: translateY(0px);
+  transition: transform 0.15s ease-in;
+}
+
+.account-dropdown svg {
+  height: 18px;
+  width: 18px;
+}
+
+.account-box#clicked {
+  background-color: rgba(243, 247, 249, 0.03);
+}
+
+.account-dropdown#invisible {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+.account-dropdown:hover {
+  background-color: #3c3f50;
+  color: #d9e3e9;
+}
+
+.logo-box {
+  height: 70px;
+  transition: all 0.1s ease-out;
+  top: 0;
+  z-index: 1;
+  width: auto;
+  padding-right: 50px;
+  float: left;
+  position: relative;
+  background-color: transparent;
+  display: block;
+}
+
+@media only screen and (max-width: 1370px) {
+  .upper-fluid {
+    width: 100%;
+    padding: 0 20px;
+  }
+  .sub-fluid {
+    width: 100% !important;
+    padding: 0 20px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .logo-box {
+    width: 70px !important;
+    padding-right: 0 !important;
+  }
+
+  .logo-box .logo-sm {
+    display: block !important;
+  }
+}
+
+.logo-lg {
+  line-height: 70px;
+  display: block;
+}
+
+.logo-lg img {
+  height: 22px;
+}
+
+.logo-sm {
+  display: block;
+  line-height: 70px;
+  text-align: center;
+}
+
+.logo-sm img {
+  height: 24px;
+}
+
+img {
+  vertical-align: middle;
+  border-style: none;
+}
+
+.sub-header {
+  background-color: #333644;
+  width: 100%;
+  height: 55px;
+  gap: 100px;
+  padding: 0px 12px;
+}
+
+.sub-fluid {
+  width: 87.5%;
+  height: 100%;
+  gap: 33.6px;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.sub-header button {
+  font-family: Rubik, sans-serif;
   position: relative;
   /* margin-left: 3rem; */
-  margin-top: 0.2rem;
-  height: 30px;
-  width: 100px;
+  /* margin-top: 0.2rem; */
+  height: 100%;
+  /* width: 100px; */
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3px;
+  gap: 7px;
   outline: 0;
   border: 0;
   cursor: pointer;
   /* padding: 7px 15px 10px; */
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-size: 0.9375rem;
+  font-weight: 600;
   line-height: 1;
   background: transparent;
-  color: rgb(219, 219, 219);
-  border-bottom: 2px solid var(--border);
-  transition: all 0.2s ease-in-out;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0;
 }
 
-.header button svg {
+.sub-header button svg {
   width: 20px;
   height: 20px;
   margin-bottom: 2px;
 }
 
-.header button:hover {
-  color: white;
+.sub-header button:hover {
+  color: rgba(255, 255, 255, 1);
 }
 
-.header button#active {
-  color: white;
-  border-bottom: 2px solid #2d7bf4;
-  font-size: 0;
-  /* margin-top: 5rem; */
+.sub-header button#active {
+  color: rgba(255, 255, 255, 1);
 }
 
-.header button#active svg {
-  width: 30px;
-  height: 30px;
+.sub-header button#active svg {
+  /* width: 30px;
+  height: 30px; */
   /* margin-top: 5rem; */
 }

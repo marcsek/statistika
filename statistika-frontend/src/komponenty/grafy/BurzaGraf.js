@@ -9,6 +9,7 @@ import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
 import LoadingComponent from "../LoadingComponent";
+import NastaveniaBurzaGrafu from "./grafNastavenia/BurzaGrafNastavenia";
 
 function BurzaGraf({ grafRequestData, farbaCiary, index }) {
   Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin, Filler);
@@ -16,10 +17,10 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
 
   const [filter, setFilter] = useState("all");
   const [chartData, setChartData] = useState([]);
-  const chartRef = useRef(null);
   const [loading, setLoading] = useState({ isLoading: true, hasError: { status: false, msg: "" } });
+  const burzaChartRef = useRef(null);
 
-  const onParentRequestEnd = useCallback(
+  const getDataFromParent = useCallback(
     async (filter, index) => {
       setLoading((prevState) => {
         return { ...prevState, isLoading: true };
@@ -33,26 +34,26 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
   );
 
   useEffect(() => {
-    onParentRequestEnd(filter, index);
-  }, [filter, index, onParentRequestEnd]);
+    getDataFromParent(filter, index);
+  }, [filter, index, getDataFromParent]);
 
+  //stateful chartjs data
   const data = useMemo(() => {
-    let ctx = chartRef.current;
-    let gradient = null;
-    if (ctx != null) {
-      ctx = ctx.canvas.getContext("2d");
-      gradient = ctx.createLinearGradient(0, 0, 0, 300);
-      gradient.addColorStop(0, farbaCiary ? farbaCiary.g : "rgba(	44, 122, 244, 0.2)");
-      // gradient.addColorStop(1, "rgba(0, 0, 0, 0.01)");
+    let chartContext = burzaChartRef.current;
+    let subChartLineGradient = null;
+    if (chartContext != null) {
+      chartContext = chartContext.canvas.getContext("2d");
+      subChartLineGradient = chartContext.createLinearGradient(0, 0, 0, 1000);
+      subChartLineGradient.addColorStop(0, farbaCiary ? farbaCiary.g : "rgba(	44, 122, 244, 0.2)");
     }
     return {
       datasets: [
         {
+          fill: true,
           label: "Hodnota",
           data: chartData,
           borderColor: farbaCiary ? farbaCiary.c : "#2C7AF4",
-          backgroundColor: gradient,
-          fill: true,
+          backgroundColor: subChartLineGradient,
           pointStyle: "cross",
           pointHoverRadius: 10,
         },
@@ -60,110 +61,12 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     };
   }, [chartData, farbaCiary]);
 
-  const options = {
-    type: "line",
-    responsive: true,
-    pointHoverRadius: 7,
-    keepAspectRatio: false,
-    pointRadius: 0,
-    lineTension: 0,
-    interpolate: true,
-
-    interaction: {
-      mode: "index",
-      intersect: false,
-    },
-
-    elements: {
-      line: {
-        borderWidth: 1.5,
-      },
-    },
-    scales: {
-      x: {
-        type: "time",
-        display: true,
-        grid: {
-          color: "rgba(0, 0, 0, 0)",
-          borderWidth: 0,
-        },
-        ticks: {
-          color: "#8c98a5",
-          autoSkip: true,
-          maxTicksLimit: 6,
-          maxRotation: 0,
-          font: {
-            weight: 500,
-            family: "Roboto, sans-serif",
-            size: 10,
-          },
-        },
-      },
-      y: {
-        type: "linear",
-        display: true,
-        grid: {
-          color: "#3E4852",
-          borderColor: "transparent",
-          offset: true,
-
-          tickWidth: 0,
-        },
-
-        ticks: {
-          callback: function (value, index, ticks) {
-            return "€ " + formatPrice(value, ",");
-          },
-          color: "#8c98a5",
-          font: {
-            weight: 500,
-            family: "Roboto, sans-serif",
-            size: 10,
-          },
-          maxTicksLimit: 8,
-          minTickLimit: 8,
-        },
-      },
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-      crosshair: {
-        line: {
-          color: "#bbbbbb",
-          width: 0,
-          dashPattern: [3, 3],
-        },
-        sync: {
-          enabled: false,
-        },
-        pan: {
-          incrementer: 3,
-        },
-        zoom: {
-          enabled: false,
-        },
-        snap: {
-          enabled: true,
-        },
-      },
-      tooltip: {
-        caretPadding: 12,
-        usePointStyle: true,
-        backgroundColor: "#272933da",
-        titleColor: "#b5c6cc",
-        // bodyColor: "#b5c6cc",
-      },
-    },
-  };
-
+  //component infa o zmene nad grafom
   const PercZmenaData = ({ style }) => {
     let perc = getPercentageChange(chartData[0]?.y, chartData?.at(-1)?.y);
     let cena = formatPrice(chartData?.at(-1)?.y - chartData[0]?.y);
     return (
       <div style={{ position: "relative", ...style }}>
-        {/* <div className="devider-burza-zmena" id="devider"></div> */}
         <div className="perc-zmena-chart-burza">
           <p id="eur-zmena">
             <MdEuroSymbol /> {(chartData?.at(-1)?.y - chartData[0]?.y < 0 ? "" : "+") + cena}
@@ -176,24 +79,31 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     );
   };
 
+  //helper funkcia na style filterov
+  const getFilterElementBGColor = (filterType) => {
+    if (filter === filterType && typeof filter !== "object") {
+      return "rgba(255, 255, 255, 0.29)";
+    }
+  };
+
   return (
     <div className="burza-chart-main">
       {loading.isLoading && <LoadingComponent error={loading.hasError.msg} />}
       <PercZmenaData style={{ visibility: loading.isLoading ? "hidden" : "" }} />
       <div className="burza-chart-div">
-        <Line style={{ display: loading.isLoading ? "none" : "" }} ref={chartRef} options={options} data={data}></Line>
+        <Line style={{ display: loading.isLoading ? "none" : "" }} ref={burzaChartRef} options={NastaveniaBurzaGrafu} data={data}></Line>
         <div className="burza-graf-filter" id="graf-filter">
           <ul>
-            <li style={{ backgroundColor: filter === "1d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("1d")}>
+            <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>
               1D
             </li>
-            <li style={{ backgroundColor: filter === "7d" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("7d")}>
+            <li style={{ backgroundColor: getFilterElementBGColor("7d") }} onClick={() => setFilter("7d")}>
               7D
             </li>
-            <li style={{ backgroundColor: filter === "3m" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("3m")}>
+            <li style={{ backgroundColor: getFilterElementBGColor("3m") }} onClick={() => setFilter("3m")}>
               3M
             </li>
-            <li style={{ backgroundColor: filter === "all" && "rgba(255, 255, 255, 0.29)" }} onClick={() => setFilter("all")}>
+            <li style={{ backgroundColor: getFilterElementBGColor("all") }} onClick={() => setFilter("all")}>
               All
             </li>
           </ul>
