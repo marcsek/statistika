@@ -34,6 +34,7 @@ function Header() {
         setWindowIsSmall(false);
       }
     }
+    handleWindowResize();
     window.addEventListener("resize", handleWindowResize);
 
     return () => {
@@ -42,7 +43,7 @@ function Header() {
   }, []);
 
   return (
-    <div className="header">
+    <div className="header" style={{ display: location.pathname === "/login" && "none" }}>
       <div className="upper-header">
         <div className="upper-fluid">
           <div className="logo-box">
@@ -54,7 +55,14 @@ function Header() {
             <HiOutlineUserCircle className="user"></HiOutlineUserCircle>
             <span>Účet</span>
             <RiArrowDropDownLine className="drop"></RiArrowDropDownLine>
-            <div className="account-dropdown" id={dropdown ? "visible" : "invisible"}>
+            <div
+              className="account-dropdown"
+              id={dropdown ? "visible" : "invisible"}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/login");
+              }}
+            >
               <FiLogOut /> Odhlásiť
             </div>
           </div>

@@ -13,6 +13,8 @@ import { BsCurrencyBitcoin } from "react-icons/bs";
 import { getCelkovyVyvinData } from "../pomocky/fakeApi";
 import LoadingComponent from "../komponenty/LoadingComponent.js";
 import { formatCrypto, formatPrice } from "../pomocky/cislovacky";
+import { Icon, Icond, Icona } from "./Icon";
+import { ImStack } from "react-icons/im";
 
 const CelkovyVyvin = () => {
   const [data, setData] = useState({});
@@ -43,7 +45,7 @@ const CelkovyVyvin = () => {
         {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
         <ul style={{ display: loading.isLoading ? "none" : "" }}>
           <li className="stav-element">
-            <VscCircleFilled id="indikator" />
+            <Icon id="indikator" />
             <p>Zmena 24H</p>
             <span id="eur-zmena">
               <MdEuroSymbol /> +{formatPrice(data.h24?.e, ",")}
@@ -51,12 +53,12 @@ const CelkovyVyvin = () => {
             <p id="btc-zmena">
               <BsCurrencyBitcoin /> +{formatCrypto(data.h24?.b)}
             </p>
-            <span id="perc-zmena">
+            <span id="perc-zmena" style={{ backgroundColor: "rgba(10,207,151,.18)" }}>
               <VscTriangleUp /> {data.h24?.p}%
             </span>
           </li>
           <li className="stav-element">
-            <VscCircleFilled id="indikator" />
+            <Icond id="indikator" />
             <p>Zmena 7D</p>
             <span id="eur-zmena">
               <MdEuroSymbol /> +{formatPrice(data.d7?.e, ",")}
@@ -64,12 +66,12 @@ const CelkovyVyvin = () => {
             <p id="btc-zmena">
               <BsCurrencyBitcoin /> +{formatCrypto(data.d7?.b)}
             </p>
-            <span id="perc-zmena">
+            <span id="perc-zmena" style={{ backgroundColor: "rgba(10,207,151,.18)" }}>
               <VscTriangleUp /> {data.d7?.p}%
             </span>
           </li>
           <li className="stav-element">
-            <VscCircleFilled style={{ color: "#ea3943" }} id="indikator" />
+            <Icona style={{ color: "#ea3943" }} id="indikator" />
             <p>Zmena 3M</p>
             <span id="eur-zmena">
               <MdEuroSymbol /> {formatPrice(data.m3?.e, ",")}
@@ -82,6 +84,7 @@ const CelkovyVyvin = () => {
             </span>
           </li>
           <li className="stav-element">
+            <ImStack className="h" />
             <p>Celkové prostriedky</p>
             <span id="eur-zmena">
               <MdEuroSymbol /> {formatPrice(data.cc?.e, ",")}

@@ -4,7 +4,7 @@ const NastaveniaBurzaGrafu = {
   type: "line",
   responsive: true,
   pointHoverRadius: 7,
-  keepAspectRatio: false,
+  maintainAspectRatio: false,
   pointRadius: 0,
   lineTension: 0,
   interpolate: true,

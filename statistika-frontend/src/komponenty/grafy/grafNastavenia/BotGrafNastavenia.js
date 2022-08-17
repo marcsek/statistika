@@ -1,8 +1,8 @@
 import { formatPrice } from "../../../pomocky/cislovacky";
 
 const NastaveniaBotGrafu = {
-  maintainAspectRatio: true,
-  aspectRatio: 600 / 350,
+  maintainAspectRatio: false,
+  // aspectRatio: 600 / 350,
   type: "line",
   responsive: true,
   pointHoverRadius: 7,

@@ -2,18 +2,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   min-height: calc(100vh - 200px);
+  /* padding-top: 15px; */
+}
+
+.bot-page-title-div {
+  width: 87.5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-bottom: 20px;
 }
 
 .list-burza {
   height: 100%;
-  width: 97.5%;
-  max-width: 1200px;
+  width: 87.5%;
+  /* max-width: 1200px; */
   list-style: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 50px;
+  gap: 30px;
   padding: 0;
 }
 
@@ -40,17 +51,22 @@
   }
 }
 @media only screen and (max-width: 1150px) {
+  .bot-page-title-div {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+  .list-burza {
+    width: 100% !important;
+  }
   .list-burza {
     overflow-x: scroll;
     align-items: flex-start;
   }
   .bot-list-main-div {
-    justify-content: flex-end;
-  }
-  .bot-list-main-div .vypinac {
-    top: 140px !important;
-    left: 50%;
-    transform: translateX(-60%);
+    justify-content: flex-start;
+    width: 98%;
+    margin-left: auto;
+    /* padding-left: 20px; */
   }
   #bot-par {
     margin-right: 0px !important;
@@ -107,7 +123,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    left: 90%;
+    /* left: 90%; */
     flex-direction: column;
     display: flex;
     align-items: center;
@@ -126,9 +142,22 @@
   }
 }
 
+@media only screen and (max-width: 1370px) {
+  .list-burza {
+    width: 96%;
+  }
+  .bot-page-title-div {
+    box-sizing: border-box;
+    width: 96%;
+    margin-left: 4%;
+    margin-right: 4%;
+  }
+}
+
 .li-burza {
+  box-sizing: border-box;
   width: 100%;
-  max-width: 1300px;
+  /* max-width: 1300px; */
   min-width: 1000px;
   /* padding-bottom: 3rem; */
   background-color: #333644;
@@ -389,13 +418,13 @@ ol li:hover {
 }
 
 .vypinac {
-  z-index: 2;
-  position: fixed;
+  z-index: 1;
+  position: relative;
   width: 190px;
   height: 35px;
-  top: 80px;
-  right: 0;
-  transform: translate(-50%, 0%);
+  /* top: 140px; */
+  /* right: 0; */
+  /* transform: translate(-50%, 0%); */
   font-size: 1.05rem;
   color: white;
   border-radius: 7px;
@@ -406,7 +435,6 @@ ol li:hover {
   transition: top 0.15s;
   font-weight: 600;
   cursor: pointer;
-  margin: 0 20px;
   outline: none;
   border: none;
 }
@@ -420,7 +448,7 @@ ol li:hover {
 }
 
 .vypinac:active {
-  top: 83px;
+  transform: translateY(3px);
   /* transform: scale(0.98); */
   transition: all 0.01s;
 }

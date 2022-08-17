@@ -131,6 +131,10 @@
   .logo-box .logo-sm {
     display: block !important;
   }
+
+  .upper-fluid {
+    padding: 0 12px;
+  }
 }
 
 .logo-lg {
@@ -146,6 +150,7 @@
   display: block;
   line-height: 70px;
   text-align: center;
+  width: 45px;
 }
 
 .logo-sm img {

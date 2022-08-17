@@ -62,7 +62,7 @@ const VyberComponent = () => {
               value={priceValue}
               onChange={(e) => {
                 let value = e.target.value.replace(/^\s+|\s+$/gm, "");
-                if (isNaN(value) && value.split(".").length > 2 ? false : value.length === 1 && value === "." ? false : true) {
+                if (isNaN(value) || value.split(".").length > 2 ? false : value.length === 1 && value === "." ? false : true) {
                   setPriceValue(value);
                 }
               }}

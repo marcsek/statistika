@@ -3,12 +3,16 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 100%;
+  max-width: 87.5%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  /* padding: 0 24px; */
 }
 
 .celkovy-stav-cont {
   position: relative;
   width: 100%;
-  max-width: 100%;
   min-width: 300px;
   height: fit-content;
   /* height: 90px; */
@@ -20,7 +24,6 @@
 .celkovy-cont-title {
   width: 100%;
   /* height: fit-content; */
-  max-width: 1200px;
   margin: 0px 100px;
   min-width: 300px;
   position: relative;
@@ -39,15 +42,26 @@
   height: 100%;
   width: 100%;
   align-items: center;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   row-gap: 30px;
-  column-gap: 25px;
+  /* column-gap: 25px; */
+}
+
+.stav-element + .stav-element {
+  margin-left: 30px;
 }
 
 .celkovy-stav-cont ul li {
   position: relative;
-  height: 104px;
+  height: 134px;
   min-width: 220px;
+  display: block;
+  flex: 0 0 25%;
+  max-width: calc(25% - 22px);
+  padding: 20px 10px;
+  box-sizing: border-box;
+  /* flex: 0 0 25%; */
+  width: 25%;
   padding-left: 18px;
   display: flex;
   flex-direction: column;
@@ -79,6 +93,11 @@
   align-items: center;
   display: flex;
   align-items: center;
+  background: rgba(241, 85, 108, 0.18);
+  width: fit-content;
+  box-sizing: border-box;
+  padding: 1px 5px;
+  border-radius: 5px;
 }
 
 #btc-zmena {
@@ -109,17 +128,27 @@
   font-size: 1.4rem;
 }
 
+.h {
+  padding: 0;
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  box-sizing: border-box;
+  color: #8c98a5;
+}
 #indikator {
   position: absolute;
   right: 10px;
   top: 25px;
   font-size: 18px;
   color: rgb(22, 199, 132);
+  box-sizing: border-box;
 }
 
 .graf-burzy-cont {
-  width: 95%;
-  max-width: 1200px;
+  width: 100%;
   min-width: 300px;
   margin-top: 25px;
 }
@@ -127,7 +156,7 @@
 .graf-burzy-cont ul {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(580px, 1fr));
+  grid-template-columns: 1fr 1fr;
   padding: 0;
   grid-gap: 20px 2%;
   /* column-gap: 20px; */
@@ -135,9 +164,7 @@
 
 .graf-burzy-cont ul li {
   list-style: none;
-  padding: 10px;
   padding-bottom: 20px;
-  padding-top: 0px;
 }
 
 .burza {
@@ -154,8 +181,7 @@
 
 .burza-cont {
   height: 100%;
-  width: 90%;
-  max-width: 580px;
+  width: 100%;
   min-width: 580px;
   position: relative;
   display: flex;
@@ -194,8 +220,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 95%;
-  max-width: 1200px;
+  width: 100%;
   min-width: 300px;
   /* height: 600px; */
   background-color: #333644;
@@ -244,7 +269,13 @@
 }
 
 @media only screen and (max-width: 700px) {
-  .devider-vyvin {
+  .burza-chart-div {
+    min-width: 100% !important;
+    margin: 0 auto;
+  }
+
+  .burza-chart-main {
+    margin: 0 auto;
   }
 }
 
@@ -307,8 +338,8 @@
   }
 
   .burza-cont #title {
-    top: -25px;
-    left: 20px !important;
+    top: 0px;
+    left: 50px !important;
     transform: translateX(-50%);
   }
 
@@ -348,14 +379,13 @@
     margin: 0;
   }
   .burza {
-    padding: 0 !important;
+    /* padding: 0 !important; */
     margin-bottom: 0 !important;
-    height: fit-content !important;
   }
 
   .graf-burzy-cont > ul:first-child {
     /* grid-template-columns: repeat(auto-fit, minmax(100%, 1fr)); */
-    gap: 50px !important;
+    gap: 30px !important;
   }
 
   .graf-page-div {
@@ -368,6 +398,20 @@
 
   .title-hori {
     padding-left: 0px !important;
+  }
+
+  .stav-element + .stav-element {
+    margin-left: 0px !important;
+  }
+
+  .celkovy-stav-cont ul li {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    gap: 7px;
+  }
+  .burza-chart-main {
+    align-items: flex-end !important;
   }
 }
 
@@ -398,16 +442,45 @@
   } */
 }
 
+@media only screen and (max-width: 1300px) {
+  .graf-burzy-cont ul {
+    grid-template-columns: 100%;
+  }
+}
+@media only screen and (max-width: 1370px) {
+  .graf-page-div {
+    max-width: 96% !important;
+  }
+
+  .celkovy-stav-cont ul {
+    flex-wrap: wrap;
+    /* column-gap: 0; */
+  }
+  .stav-element + .stav-element {
+    margin-left: 30px;
+  }
+
+  .celkovy-stav-cont ul li:nth-child(3) {
+    margin-left: 0px;
+  }
+
+  .celkovy-stav-cont ul li {
+    flex: 0 0 50%;
+    max-width: calc(50% - 15px);
+    box-sizing: border-box;
+    gap: 7px;
+  }
+}
+
 .title-hori {
   font-size: 1.2rem;
   color: #b5c6cc;
   font-weight: 700 !important;
   position: relative;
-  padding-left: 25px;
 }
 
 .graf-page-title-div {
-  max-width: 1250px;
+  /* max-width: 1250px; */
   width: 100%;
   display: flex;
   align-items: flex-start;

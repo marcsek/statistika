@@ -124,7 +124,10 @@ function BotList() {
 
   return (
     <div className="bot-list-main-div">
-      <ButtonComponent />
+      <div className="bot-page-title-div">
+        <p className="title-hori">Bot List</p>
+        <ButtonComponent />
+      </div>
       {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
       <NovyBotComp requestData={getFakeApiListData} />
       {/* list vsetkych burzi */}

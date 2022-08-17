@@ -10,6 +10,10 @@ import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
 import CrosshairPlugin from "chartjs-plugin-crosshair";
 import LoadingComponent from "../LoadingComponent";
 
+import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
+import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
+import { MdEuroSymbol } from "react-icons/md";
+
 function BotGraf({ grafRequestData }) {
   Chart.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin);
 
@@ -59,6 +63,24 @@ function BotGraf({ grafRequestData }) {
     };
   }, [chartData]);
 
+  //component infa o zmene nad grafom
+  const PercZmenaData = ({ style }) => {
+    let perc = getPercentageChange(chartData[0]?.y, chartData?.at(-1)?.y);
+    let cena = formatPrice(chartData?.at(-1)?.y - chartData[0]?.y);
+    return (
+      <div style={{ position: "relative", ...style }}>
+        <div className="perc-zmena-chart-burza">
+          <p id="eur-zmena">
+            <MdEuroSymbol /> {(chartData?.at(-1)?.y - chartData[0]?.y < 0 ? "" : "+") + cena}
+          </p>
+          <span style={{ color: perc < 0 ? "#f1556c" : "#0acf97", backgroundColor: perc > 0 ? "rgba(10,207,151,.18)" : "" }} id="perc-zmena">
+            {perc < 0 ? <VscTriangleDown /> : <VscTriangleUp />} {Math.abs(perc)}%
+          </span>
+        </div>
+      </div>
+    );
+  };
+
   //helper funkcia na style filterov
   const getFilterElementBGColor = (filterType) => {
     if (filter === filterType && typeof filter !== "object") {
@@ -67,31 +89,34 @@ function BotGraf({ grafRequestData }) {
   };
 
   return (
-    <div className="bot-chart-div">
-      <div className="bot-graf-filter" id="graf-filter">
-        <ul>
-          <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>
-            1D
-          </li>
-          <li style={{ backgroundColor: getFilterElementBGColor("7d") }} onClick={() => setFilter("7d")}>
-            7D
-          </li>
-          <li style={{ backgroundColor: getFilterElementBGColor("1m") }} onClick={() => setFilter("1m")}>
-            1M
-          </li>
-          <li style={{ backgroundColor: getFilterElementBGColor("3m") }} onClick={() => setFilter("3m")}>
-            3M
-          </li>
-          <li style={{ backgroundColor: getFilterElementBGColor("1y") }} onClick={() => setFilter("1y")}>
-            1R
-          </li>
-          <li style={{ backgroundColor: getFilterElementBGColor("all") }} onClick={() => setFilter("all")}>
-            All
-          </li>
-        </ul>
+    <div className="bot-chart-main">
+      {loading.isLoading && <LoadingComponent height={550} error={loading.hasError.msg} />}
+      <PercZmenaData style={{ visibility: loading.isLoading ? "hidden" : "" }} />
+      <div className="bot-chart-div" style={{ display: loading.isLoading ? "none" : "" }}>
+        <Line style={{ display: loading.isLoading ? "none" : "" }} ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>
+        <div className="bot-graf-filter" id="graf-filter">
+          <ul>
+            <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>
+              1D
+            </li>
+            <li style={{ backgroundColor: getFilterElementBGColor("7d") }} onClick={() => setFilter("7d")}>
+              7D
+            </li>
+            <li style={{ backgroundColor: getFilterElementBGColor("1m") }} onClick={() => setFilter("1m")}>
+              1M
+            </li>
+            <li style={{ backgroundColor: getFilterElementBGColor("3m") }} onClick={() => setFilter("3m")}>
+              3M
+            </li>
+            <li style={{ backgroundColor: getFilterElementBGColor("1y") }} onClick={() => setFilter("1y")}>
+              1R
+            </li>
+            <li style={{ backgroundColor: getFilterElementBGColor("all") }} onClick={() => setFilter("all")}>
+              All
+            </li>
+          </ul>
+        </div>
       </div>
-      {loading.isLoading && <LoadingComponent error={loading.hasError.msg} />}
-      <Line style={{ display: loading.isLoading ? "none" : "" }} ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>
     </div>
   );
 }

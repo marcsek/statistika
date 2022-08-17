@@ -181,11 +181,6 @@
 
   .obchody-list-major-cont {
   }
-
-  .calendar-div-parent .calendar-div {
-    left: 0 !important;
-    top: 130%;
-  }
 }
 
 .parameter-cont {
@@ -519,8 +514,8 @@ button svg {
   background-color: #707070;
   position: absolute;
   top: 130%;
-  left: 50%;
-  transform: translate(-50%, 0%);
+  right: 0%;
+  /* transform: translate(-100%, 0%); */
 }
 
 .react-calendar {

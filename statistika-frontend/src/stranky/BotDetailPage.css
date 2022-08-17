@@ -1,17 +1,26 @@
 .bot-main-cont {
   width: 100%;
+  max-width: 87.5%;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   position: relative;
+  box-sizing: border-box;
   /* overflow-x: hidden; */
+}
+
+@media only screen and (max-width: 1370px) {
+  .bot-main-cont {
+    max-width: 96% !important;
+  }
 }
 
 .bot-title-main {
   /* position: absolute; */
   position: relative !important;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: #b5c6cc !important;
   margin: 0 !important;
   font-weight: 800;
@@ -19,8 +28,7 @@
 
 .title-cont {
   position: relative;
-  width: 98%;
-  max-width: 1200px;
+  width: 100%;
   height: fit-content;
   display: flex;
   flex-direction: row;
@@ -30,13 +38,13 @@
 .bot-major-cont {
   margin: 0;
   /* padding: 30px 40px 0 40px; */
-  padding-top: 25px;
+  padding-top: 20px;
   position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  grid-template-columns: 1fr 1fr;
   /* padding-top: 100px; */
-  width: 95%;
-  max-width: 1200px;
+  width: 100%;
+  /* max-width: 1200px; */
   /* min-width: 1000px; */
   /* height: 500px; */
   /* width: 1300px; */
@@ -51,15 +59,18 @@
 
 @media only screen and (max-width: 1143px) {
   .vyber-cont-major {
-    max-width: 690px !important;
     background-color: #333644;
   }
   .bot-vyber-major-cont {
     /* background-color: transparent !important; */
   }
 
+  .bot-major-cont {
+    grid-template-columns: 100%;
+  }
+
   .vyber-bot-title {
-    left: 10% !important;
+    left: 20px !important;
   }
 
   .vyber-bot-title-divider {
@@ -72,7 +83,7 @@
   }
   .graf-bot-title {
     /* right: 50% !important; */
-    left: 5%;
+    left: 20px;
   }
   .bot-graf-cont {
     margin-right: 0px !important;
@@ -110,16 +121,18 @@
   align-items: center;
   position: relative;
   width: 100%;
-  max-width: 650px;
   height: 450px;
   background-color: #333644;
-  padding: 0px 27px;
+  padding: 0px 60px 0 27px;
   border-radius: 0.25rem;
   box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
   /* margin-right: 50px; */
 }
 
 @media only screen and (max-width: 700px) {
+  .bot-chart-main {
+    align-items: flex-end !important;
+  }
   .title-cont {
     align-items: center;
     flex-direction: column !important;
@@ -130,7 +143,8 @@
   }
   .graf-bot-title {
     /* right: 50% !important; */
-    left: 50% !important;
+    /* left: 50% !important; */
+    left: 70px !important;
     width: fit-content;
   }
   .vyber-bot-title {
@@ -193,10 +207,13 @@
     padding-right: 0 !important;
   }
   .bot-graf-filter {
+    transform: none !important;
     top: 100% !important;
-    right: 0px;
-    width: 300px;
-    height: 37px;
+    width: 80% !important;
+    transform: translateX(-10%) !important;
+  }
+  .bot-graf-filter ul {
+    flex-direction: row !important	;
   }
   .bot-chart-div {
     height: fit-content !important;
@@ -207,12 +224,6 @@
   }
   .parametre-div {
     margin-top: 30px !important;
-  }
-
-  .bot-graf-filter {
-    width: 80% !important;
-    left: 50%;
-    transform: translateX(-45%);
   }
 }
 
@@ -249,8 +260,7 @@
 .parametre-div {
   margin-top: 30px;
   margin-bottom: 30px;
-  max-width: 1200px;
-  width: 95%;
+  width: 100%;
   min-height: 400px;
   height: fit-content;
   background-color: #333644;
@@ -276,6 +286,7 @@
   /* height: 100%; */
   /* display: grid; */
   grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
   /* grid-auto-flow: dense; */
   /* row-gap: 40px; */
   /* column-gap: 30px; */
@@ -351,6 +362,7 @@
   align-items: center;
   justify-content: center;
   max-width: 300px;
+  width: 100%;
 }
 
 .parametre-input#podzlozka {
@@ -453,9 +465,10 @@
 }
 
 .bot-samotny-graf {
-  margin-top: 60px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   width: 100%;
-  margin-right: 20px;
+  /* margin-right: 20px; */
 }
 
 .graf-bot-title-divider {
@@ -484,8 +497,7 @@
 }
 
 .list-obchodov-div {
-  width: 95%;
-  max-width: 1200px;
+  width: 100%;
   background-color: #333644;
   border-radius: 0.25rem;
   box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
@@ -578,7 +590,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 90%;
   flex-wrap: wrap;
   column-gap: 50px;
   row-gap: 50px;
@@ -591,6 +603,46 @@
   justify-content: space-between;
   gap: 50px;
   grid-column: span 2;
+}
+@media only screen and (min-width: 2476px) {
+  .test-paramter {
+    bottom: -100% !important;
+    right: 50% !important;
+    transform: translateX(50%);
+  }
+}
+@media only screen and (min-width: 1732px) {
+  .sub-parametre {
+    justify-content: flex-start;
+    gap: 70px;
+  }
+  /* .test-paramter {
+    bottom: -100% !important;
+    /* right: 0% !important; */
+  /* transform: translateX(50%); */
+  /* }  */
+  .parametre-input-cont {
+    max-width: 400px;
+  }
+  .parametre-input#input-small input {
+    width: 200px;
+  }
+
+  .important-parametre-cont .parametre-input-cont .parametre-input {
+    width: 300px !important;
+  }
+  .prepinac-velky {
+    width: 310px !important;
+  }
+  .submit-button {
+    width: 280px !important;
+  }
+  .prepinac-mensi {
+    width: 140px !important;
+  }
+  .prepinac-maly {
+    width: 200px !important;
+  }
 }
 
 .important-parametre-cont {
@@ -605,7 +657,8 @@
 .vypinac#bot-parametre {
   position: absolute;
   top: -20px;
-  right: -38px;
+  right: 0px;
+  transform: translateX(45%);
   height: 40px;
   width: 40px;
   border-radius: 50%;
@@ -624,7 +677,7 @@
 }
 
 .important-parametre-cont .parametre-input-cont .parametre-input {
-  width: 200px !important;
+  /* width: 200px !important; */
 }
 
 #ob-par-input {
