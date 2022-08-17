@@ -256,7 +256,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
           <button
             id="bot-parametre"
             className="vypinac"
-            style={{ backgroundColor: textValues.zapnuty.value ? "#2d7bf4" : "#cc3333" }}
+            style={{ backgroundColor: textValues.zapnuty.value ? "#2d7bf4" : "#f1556c" }}
             name="zapnuty"
             onClick={(e) => onTextChange(e, true)}
           >

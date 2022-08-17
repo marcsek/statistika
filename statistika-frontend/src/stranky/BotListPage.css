@@ -10,10 +10,10 @@
 .bot-page-title-div {
   width: 87.5%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   flex-direction: row;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 
 .list-burza {
@@ -421,7 +421,7 @@ ol li:hover {
   z-index: 1;
   position: relative;
   width: 190px;
-  height: 35px;
+  height: 34px;
   /* top: 140px; */
   /* right: 0; */
   /* transform: translate(-50%, 0%); */
@@ -444,7 +444,7 @@ ol li:hover {
 }
 
 .vypinac#red {
-  background: #cc3333;
+  background: #f1556c;
 }
 
 .vypinac:active {
@@ -455,7 +455,7 @@ ol li:hover {
 
 .vypinac#green {
   /* #23c552 */
-  background: #2c53dd;
+  background: #2d7bf4;
 }
 
 .vypinac svg {

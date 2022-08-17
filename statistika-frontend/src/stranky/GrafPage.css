@@ -130,19 +130,19 @@
 
 .h {
   padding: 0;
-  height: 35px;
-  width: 35px;
+  height: 25px;
+  width: 25px;
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 25px;
+  right: 25px;
   box-sizing: border-box;
   color: #8c98a5;
 }
 #indikator {
   position: absolute;
-  right: 10px;
+  right: 25px;
   top: 25px;
-  font-size: 18px;
+  font-size: 25px;
   color: rgb(22, 199, 132);
   box-sizing: border-box;
 }

@@ -159,7 +159,7 @@ function BotList() {
                         <VscCircleFilled style={{ color: bot.status ? "rgb(22, 199, 132)" : "rgb(234, 57, 67)" }}></VscCircleFilled>
                       </p> */}
                       <p id="bot-meno" onClick={() => navigate("../bot-detail/3232")}>
-                        <VscCircleFilled style={{ color: bot.status ? "rgb(22, 199, 132)" : "rgb(234, 57, 67)" }}></VscCircleFilled>
+                        <VscCircleFilled style={{ color: bot.status ? "rgb(22, 199, 132)" : "#f1556c" }}></VscCircleFilled>
                         {"" + bot.bMeno}
                       </p>
                       {/* <p id="bot-status">
@@ -182,7 +182,7 @@ function BotList() {
                       <p id="bot-par">{bot.botPar}</p>
                       <span
                         style={{
-                          color: bot.zmena.h24 >= 0 ? "#16c784" : "#ea3943",
+                          color: bot.zmena.h24 >= 0 ? "#16c784" : "#f1556c",
                         }}
                         className="zmena"
                       >
@@ -191,7 +191,7 @@ function BotList() {
                       </span>
                       <span
                         style={{
-                          color: bot.zmena.d7 >= 0 ? "#16c784" : "#ea3943",
+                          color: bot.zmena.d7 >= 0 ? "#16c784" : "#f1556c",
                         }}
                         className="zmena"
                       >
@@ -200,7 +200,7 @@ function BotList() {
                       </span>
                       <span
                         style={{
-                          color: bot.zmena.d30 >= 0 ? "#16c784" : "#ea3943",
+                          color: bot.zmena.d30 >= 0 ? "#16c784" : "#f1556c",
                         }}
                         className="zmena"
                       >
@@ -209,7 +209,7 @@ function BotList() {
                       </span>
                       <span
                         style={{
-                          color: bot.zmena.cc >= 0 ? "#16c784" : "#ea3943",
+                          color: bot.zmena.cc >= 0 ? "#16c784" : "#f1556c",
                         }}
                         className="zmena"
                       >
@@ -252,7 +252,7 @@ function BotList() {
                     <VscTriangleUp />
                     2.44%
                   </span>
-                  <span style={{ color: "#ea3943" }} className="zmena">
+                  <span style={{ color: "#f1556c" }} className="zmena">
                     <VscTriangleDown />
                     5.07545%
                   </span>

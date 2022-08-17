@@ -15,6 +15,7 @@ import LoadingComponent from "../komponenty/LoadingComponent.js";
 import { formatCrypto, formatPrice } from "../pomocky/cislovacky";
 import { Icon, Icond, Icona } from "./Icon";
 import { ImStack } from "react-icons/im";
+import { BiChevronDownCircle, BiChevronUpCircle } from "react-icons/bi";
 
 const CelkovyVyvin = () => {
   const [data, setData] = useState({});
@@ -45,7 +46,7 @@ const CelkovyVyvin = () => {
         {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
         <ul style={{ display: loading.isLoading ? "none" : "" }}>
           <li className="stav-element">
-            <Icon id="indikator" />
+            <BiChevronUpCircle id="indikator" />
             <p>Zmena 24H</p>
             <span id="eur-zmena">
               <MdEuroSymbol /> +{formatPrice(data.h24?.e, ",")}
@@ -58,7 +59,7 @@ const CelkovyVyvin = () => {
             </span>
           </li>
           <li className="stav-element">
-            <Icond id="indikator" />
+            <BiChevronUpCircle id="indikator" />
             <p>Zmena 7D</p>
             <span id="eur-zmena">
               <MdEuroSymbol /> +{formatPrice(data.d7?.e, ",")}
@@ -71,7 +72,7 @@ const CelkovyVyvin = () => {
             </span>
           </li>
           <li className="stav-element">
-            <Icona style={{ color: "#ea3943" }} id="indikator" />
+            <BiChevronDownCircle style={{ color: "#f1556c" }} id="indikator" />
             <p>Zmena 3M</p>
             <span id="eur-zmena">
               <MdEuroSymbol /> {formatPrice(data.m3?.e, ",")}
@@ -79,7 +80,7 @@ const CelkovyVyvin = () => {
             <p id="btc-zmena">
               <BsCurrencyBitcoin /> {formatCrypto(data.m3?.b)}
             </p>
-            <span style={{ color: "#ea3943" }} id="perc-zmena">
+            <span style={{ color: "#f1556c" }} id="perc-zmena">
               <VscTriangleDown /> {data.m3?.p}%
             </span>
           </li>

@@ -88,7 +88,7 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
 
   return (
     <div className="burza-chart-main">
-      {loading.isLoading && <LoadingComponent error={loading.hasError.msg} />}
+      {loading.isLoading && <LoadingComponent height={300} error={loading.hasError.msg} />}
       <PercZmenaData style={{ visibility: loading.isLoading ? "hidden" : "" }} />
       <div className="burza-chart-div">
         <Line style={{ display: loading.isLoading ? "none" : "" }} ref={burzaChartRef} options={NastaveniaBurzaGrafu} data={data}></Line>
