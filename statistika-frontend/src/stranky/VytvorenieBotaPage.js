@@ -10,7 +10,10 @@ import { saveTextValues } from "../pomocky/fakeApi";
 import { FaRegSave } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { BiBadgeCheck } from "react-icons/bi";
+import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { MdKeyboardReturn } from "react-icons/md";
+import { TbRobot } from "react-icons/tb";
 
 function VytvorenieBotaPage() {
   const navigate = useNavigate();
@@ -63,11 +66,18 @@ function VytvorenieBotaPage() {
         <div style={{ display: loading.isLoading || renderPost ? "none" : "" }}>
           <ParametreEditor ref={childRef} type="create" onCreate={onCreate} onSave={onSave}></ParametreEditor>
         </div>
-        <div className="post-bot-create-cont" style={{ display: !renderPost ? "none" : "" }}>
+        <div
+          className="post-bot-create-cont"
+          style={{ height: !renderPost ? "0px" : "", visibility: !renderPost ? "hidden" : "", overflow: !renderPost ? "hidden" : "" }}
+        >
           <h1>Bota Sa Podarilo Vytvoriť</h1>
-          <IoMdCheckmarkCircleOutline className="checkmark" />
-          <a onClick={(e) => navigate("/bot-detail/3232")}>Detail vytvoreného bota</a>
+          <IoCheckmarkDoneSharp className="checkmark" id={renderPost ? "active" : "inactive"} />
+          <button className="bot-button" onClick={(e) => navigate("/bot-detail/3232")}>
+            {" "}
+            <TbRobot /> Detail vytvoreného bota
+          </button>
           <button
+            className="return-button"
             onClick={(e) => {
               e.preventDefault();
               setRenderPost(false);

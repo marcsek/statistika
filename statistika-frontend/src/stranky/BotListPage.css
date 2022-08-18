@@ -450,9 +450,9 @@ ol li:hover {
 }
 
 .vypinac:active {
-  transform: translateY(3px);
+  transition: 0.05s ease-in-out;
+  transform: scale(0.95);
   /* transform: scale(0.98); */
-  transition: all 0.01s;
 }
 
 .vypinac#green {

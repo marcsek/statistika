@@ -82,16 +82,41 @@
   width: 80px;
   height: 80px;
   color: #16c784;
+  transform: translateY(-50px);
+  transition: all 0.5s ease-out;
 }
 
-.post-bot-create-cont a {
+.post-bot-create-cont .checkmark#inactive {
+  transform: translateY(-50px);
+}
+
+.post-bot-create-cont .checkmark#active {
+  transition: all 0.3s ease-in-out;
+  transform: translateY(0px);
+}
+
+.post-bot-create-cont .bot-button {
   font-size: 1.3rem;
   font-weight: 600;
-  color: #02c0ce;
   cursor: pointer;
-  text-decoration: underline;
-  margin-top: 20px;
+  color: white;
+  margin-top: 40px;
   margin-bottom: 10px;
+  background-color: #2d7bf4;
+  border-radius: 7px;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  border: none;
+  gap: 10px;
+}
+
+.post-bot-create-cont .bot-button svg {
+  width: 33px;
+  height: 33px;
+  box-sizing: border-box;
+  margin-bottom: 2px;
 }
 
 .post-bot-create-cont a:hover {
@@ -99,7 +124,7 @@
   color: var(--pismo-biela);
 }
 
-.post-bot-create-cont button {
+.post-bot-create-cont .return-button {
   display: flex;
   gap: 7px;
   box-sizing: border-box;
@@ -122,7 +147,7 @@
   transform: scale(0.95);
 }
 
-.post-bot-create-cont button svg {
+.post-bot-create-cont .return-button svg {
   height: 20px;
   width: 20px;
   padding-top: 1px;
