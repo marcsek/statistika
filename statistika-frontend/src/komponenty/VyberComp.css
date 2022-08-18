@@ -10,7 +10,7 @@
   grid-column: span 1;
   border: none;
   cursor: pointer;
-  color: var(--pismo-biela);
+  color: rgba(255, 255, 255, 0.7);
   border-radius: 0.15rem;
   font-size: 0.95rem;
   font-weight: 600;
@@ -23,6 +23,7 @@
 
 .vyber-button#active {
   background-color: #2d7bf4 !important;
+  color: var(--pismo-biela);
 }
 
 .vyber-button#active {
@@ -76,7 +77,11 @@
   width: 30px;
   padding: 4px;
   margin-right: 6px;
-  filter: invert(90%);
+  /* filter: invert(80%); */
+}
+
+.vyber-input-cont svg path {
+  stroke: #b5c6cc !important;
 }
 
 .vyber-cont-major {
@@ -178,7 +183,7 @@
   padding-bottom: 31px;
   position: relative;
   height: 60%;
-  width: 85%;
+  width: 90%;
 }
 
 .vyber-cont-main .graf-bot-title {

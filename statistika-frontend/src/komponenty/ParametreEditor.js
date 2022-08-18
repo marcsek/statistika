@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, forwardRef, useRef, useImperativeHandle } from "react";
 import "../stranky/BotDetailPage.css";
 
-import { getTextValues, setNewTextValues } from "../pomocky/fakeApi.js";
+import { getTextValues, setNewTextValues, getSavedTextValues } from "../pomocky/fakeApi.js";
 import LoadingComponent from "./LoadingComponent.js";
 import { MdOutlinePowerOff, MdOutlinePower } from "react-icons/md";
 import "./VyberComp.css";
@@ -10,7 +10,7 @@ import { TbCaretDown } from "react-icons/tb";
 import { ImCheckmark } from "react-icons/im";
 
 //ked bude api tak loading brat iba od parenta
-const ParametreEditor = ({ type, onCreate, loadingParent }) => {
+const ParametreEditor = forwardRef((props, ref) => {
   const [textValues, setTextValues] = useState({
     obPar: { value: "ETH/USDT", init: "ETH/USDT" },
     poznamka: { value: "", init: "" },
@@ -55,7 +55,26 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
     setLoading((prevState) => {
       return { ...prevState, isLoading: true };
     });
-    const textValuess = await getTextValues();
+    const textValuess = await (props.type === "create" ? getSavedTextValues() : getTextValues());
+    setLoading((prevState) => {
+      return { ...prevState, isLoading: false };
+    });
+
+    setTextValues((prevState) => {
+      const stateCopy = { ...prevState };
+      for (const key in textValues) {
+        stateCopy[key].value = textValuess[key];
+        stateCopy[key].init = textValuess[key];
+      }
+      return stateCopy;
+    });
+  }, []);
+
+  const textValuesRequestTwo = useCallback(async () => {
+    setLoading((prevState) => {
+      return { ...prevState, isLoading: true };
+    });
+    const textValuess = await getSavedTextValues();
     setLoading((prevState) => {
       return { ...prevState, isLoading: false };
     });
@@ -91,6 +110,20 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
     setTextValues(stateCopy);
   }, []);
 
+  useImperativeHandle(ref, () => ({
+    getTextValues() {
+      const valuesToSend = {};
+      for (const key in textValues) {
+        valuesToSend[key] = textValues[key].value;
+      }
+      return valuesToSend;
+    },
+
+    setTextValues() {
+      // textValuesRequestTwo();
+    },
+  }));
+
   useEffect(() => {
     textValuesRequest();
   }, [textValuesRequest]);
@@ -111,14 +144,14 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
         }
       }
       for (const key in extra) {
-        if (extra[key] === "" && type === "create") {
+        if (extra[key] === "" && props.type === "create") {
           error = true;
           break;
         }
       }
-      setCanShowbutton(error ? false : type === "create" ? true : oneChanged);
+      setCanShowbutton(error ? false : props.type === "create" ? true : oneChanged);
     },
-    [extraValues, textValues, type]
+    [extraValues, textValues, props.type]
   );
 
   const onTextChange = useCallback(
@@ -143,7 +176,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
     (meno, baseText) => {
       if (textValues[meno].value === (baseText ? baseText : "")) {
         return "2px solid red";
-      } else if (textValues[meno].value !== textValues[meno].init && type !== "create") {
+      } else if (textValues[meno].value !== textValues[meno].init && props.type !== "create") {
         return "2px solid #2d7bf4";
       }
       return "";
@@ -173,12 +206,12 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
   });
 
   return (
-    <div className="bot-parametre-cont" style={{ height: loading.isLoading || loadingParent ? "300px" : "" }}>
+    <div className="bot-parametre-cont" style={{ height: loading.isLoading || props.loadingParent ? "300px" : "" }}>
       {/* <div className="parametre-title-divider" id="devider"></div>
         <span className="parametre-title" id="title">
           Paremetre
         </span> */}
-      <div style={{ display: type !== "create" || loadingParent ? "none" : "" }} className="bot-extra-create-cont">
+      <div style={{ display: props.type !== "create" || props.loadingParent ? "none" : "" }} className="bot-extra-create-cont">
         <div
           className="drop-down"
           onClick={(e) => {
@@ -250,8 +283,8 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
           </div>
         </div>
       </div>
-      {(loading.isLoading || loadingParent) && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
-      <div style={{ display: loading.isLoading || loadingParent ? "none" : "" }} className="bot-parametre">
+      {(loading.isLoading || props.loadingParent) && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
+      <div style={{ display: loading.isLoading || props.loadingParent ? "none" : "" }} className="bot-parametre">
         <div className="important-parametre-cont">
           <button
             id="bot-parametre"
@@ -288,13 +321,13 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                 onClick={(e) => onTextChange(e, true)}
               >
                 <div
-                  style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init && type !== "create" ? "#2d7bf4" : "" }}
+                  style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init && props.type !== "create" ? "#2d7bf4" : "" }}
                   id={textValues.prepinac.value ? "selected" : "unselected"}
                 >
                   {textValues.obPar.value.split("/")[0]}
                 </div>
                 <div
-                  style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init && type !== "create" ? "#2d7bf4" : "" }}
+                  style={{ backgroundColor: textValues.prepinac.value !== textValues.prepinac.init && props.type !== "create" ? "#2d7bf4" : "" }}
                   id={!textValues.prepinac.value ? "selected" : "unselected"}
                 >
                   {textValues.obPar.value.split("/")[1]}
@@ -306,7 +339,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
               value={textValues.poznamka.value}
               name="poznamka"
               style={{
-                border: textValues.poznamka.value !== textValues.poznamka.init && type !== "create" ? "2px solid #2d7bf4" : "",
+                border: textValues.poznamka.value !== textValues.poznamka.init && props.type !== "create" ? "2px solid #2d7bf4" : "",
               }}
               onChange={(e) => onTextChange(e)}
             ></textarea>
@@ -315,8 +348,8 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
             <button
               className="submit-button"
               onClick={(e) => {
-                if (type === "create") {
-                  onCreate(extraValues.burza);
+                if (props.type === "create") {
+                  props.onCreate(extraValues.burza);
                   // textValuesSend(textValues);
                 } else {
                   textValuesSend(textValues);
@@ -324,7 +357,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
               }}
               id={canShowbutton ? "active" : "inactive"}
             >
-              {type === "create" ? "Vytvoriť" : "Updatnuť"}
+              {props.type === "create" ? "Vytvoriť" : "Updatnuť"}
             </button>
           </div>
         </div>
@@ -444,7 +477,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                   <span>Maker</span>
                 </div>
                 <label className="container">
-                  {/* <input type="checkbox" class="chb chb-1" id="chb-1" /> */}
+                  {/* <input props.type="checkbox" class="chb chb-1" id="chb-1" /> */}
                   <button
                     className="moj-checkmark"
                     id={textValues.maker.value ? "active" : "inactive"}
@@ -505,7 +538,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                     <div
                       style={{
                         backgroundColor:
-                          textValues.postOnly.value !== textValues.postOnly.init && type !== "create" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
+                          textValues.postOnly.value !== textValues.postOnly.init && props.type !== "create" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
                         color: !textValues.maker.value && "rgb(115, 115, 115)",
                       }}
                       id={textValues.postOnly.value ? "selected" : "unselected"}
@@ -515,7 +548,7 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                     <div
                       style={{
                         backgroundColor:
-                          textValues.postOnly.value !== textValues.postOnly.init && type !== "create" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
+                          textValues.postOnly.value !== textValues.postOnly.init && props.type !== "create" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
                         color: !textValues.maker.value && "rgb(115, 115, 115)",
                       }}
                       id={!textValues.postOnly.value ? "selected" : "unselected"}
@@ -639,7 +672,8 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                   >
                     <div
                       style={{
-                        backgroundColor: textValues.zdroj.value !== textValues.zdroj.init && type !== "create" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
+                        backgroundColor:
+                          textValues.zdroj.value !== textValues.zdroj.init && props.type !== "create" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
                         color: !textValues.prepoc.value && "rgb(115, 115, 115)",
                       }}
                       id={textValues.zdroj.value ? "selected" : "unselected"}
@@ -648,7 +682,8 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
                     </div>
                     <div
                       style={{
-                        backgroundColor: textValues.zdroj.value !== textValues.zdroj.init && type !== "create" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
+                        backgroundColor:
+                          textValues.zdroj.value !== textValues.zdroj.init && props.type !== "create" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
                         color: !textValues.prepoc.value && "rgb(115, 115, 115)",
                       }}
                       id={!textValues.zdroj.value ? "selected" : "unselected"}
@@ -676,6 +711,6 @@ const ParametreEditor = ({ type, onCreate, loadingParent }) => {
       </div>
     </div>
   );
-};
+});
 
 export default ParametreEditor;

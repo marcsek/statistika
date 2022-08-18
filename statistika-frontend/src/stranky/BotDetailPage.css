@@ -8,6 +8,7 @@
   flex-direction: column;
   position: relative;
   box-sizing: border-box;
+  margin-bottom: 30px;
   /* overflow-x: hidden; */
 }
 
@@ -169,12 +170,12 @@
     grid-template-columns: repeat(auto-fill, minmax(90%, 1fr));
   }
   .vypinac#bot-parametre {
-    right: 15px !important;
+    right: 8% !important;
     top: -50px !important;
   }
 
   .bot-graf-cont {
-    width: 95%;
+    /* width: 95%; */
     padding-bottom: 60px;
     height: fit-content;
   }
@@ -226,6 +227,9 @@
   .parametre-div {
     margin-top: 30px !important;
   }
+  .graf-bot-title {
+    line-height: 33px;
+  }
 }
 
 @media only screen and (max-width: 950px) {
@@ -254,8 +258,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 50px;
+  gap: 90px;
   /* padding-bottom: 25px; */
+}
+
+.vyt-bot-content .bot-parametre-cont {
+  margin-top: 60px;
 }
 
 .parametre-div {
@@ -352,7 +360,7 @@
 
 .parametre-input {
   position: relative;
-  width: fit-content;
+  width: 100%;
   height: 50px;
   /* padding-bottom: 20px; */
 }
@@ -376,6 +384,7 @@
   /* width: 80px; */
   padding: 3px 0px;
   font-size: 0.85rem;
+  min-width: 80px;
 }
 
 .nadpis-podzlozka span {
@@ -394,7 +403,7 @@
 
 .nadpis-podzlozka {
   position: absolute;
-  top: -13px;
+  top: -15px;
   left: 50%;
   transform: translateX(-50%);
   width: 80%;
@@ -595,6 +604,7 @@
   flex-wrap: wrap;
   column-gap: 50px;
   row-gap: 50px;
+  margin-bottom: 20px;
 }
 
 .sub-parametre {
@@ -607,7 +617,7 @@
 }
 @media only screen and (min-width: 2476px) {
   .test-paramter {
-    bottom: -100% !important;
+    bottom: -120% !important;
     right: 50% !important;
     transform: translateX(50%);
   }
@@ -615,7 +625,7 @@
 @media only screen and (min-width: 1732px) {
   .sub-parametre {
     justify-content: flex-start;
-    gap: 70px;
+    gap: 75px;
   }
   /* .test-paramter {
     bottom: -100% !important;
@@ -643,6 +653,38 @@
   }
   .prepinac-maly {
     width: 200px !important;
+  }
+  .bot-extra-create-cont .parametre-input-cont {
+    width: 25% !important;
+    flex: 0 0 20% !important;
+  }
+  .drop-down {
+    width: 25% !important;
+    flex: 0 0 20% !important;
+  }
+  .drop-down-inside-text {
+    /* gap: 30% !important; */
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 23px;
+  }
+  .drop-down-inside-text svg {
+    position: absolute;
+    right: 5px;
+    padding: 0 !important;
+  }
+  .small-input-cont {
+    row-gap: 40px;
+  }
+  .podzlozka-cont {
+    row-gap: 60px;
+    margin-bottom: 20px;
+  }
+  .important-para-input-cont {
+    gap: 25px !important;
+  }
+  .prepinac-velky {
+    height: 30px !important;
   }
 }
 
@@ -706,6 +748,7 @@ textarea {
   /* background-color: #292929; */
   background-color: #3c3f50;
   resize: none;
+  max-width: 410px;
 }
 textarea::placeholder {
   color: #8c98a5;
@@ -744,7 +787,7 @@ textarea::placeholder {
 
 .checkmark {
   font-size: 0.9rem;
-  color: #bbbbbb;
+  color: #b5c6cc;
   font-weight: 600;
 }
 
@@ -885,7 +928,7 @@ textarea::placeholder {
   column-gap: 3%;
   align-items: center;
   justify-content: center;
-  padding-bottom: 20px;
+  padding-bottom: 60px;
   border-bottom: 2px solid #8b98a579;
 }
 
@@ -897,13 +940,15 @@ textarea::placeholder {
   border: 2px solid var(--border);
   border-radius: 5px;
   height: 13px;
-  padding: 3px 1px 3px 1px;
+  padding: 7px 1px 7px 1px;
   transition: all 0.1s;
   text-align: center;
-  font-size: 0.85rem !important;
+  font-size: 1rem !important;
   font-weight: 600;
-  max-width: 170px;
+  max-width: 500px;
+  /* width: 25% !important; */
   letter-spacing: 0px;
+  min-width: 175px;
 }
 
 .bot-extra-create-cont #ob-par-input:focus {
@@ -914,28 +959,31 @@ textarea::placeholder {
 
 .bot-extra-create-cont #ob-par-input::placeholder {
   color: #8c98a5;
+  font-size: 0.9rem;
 }
 
 .drop-down {
-  outline: none;
-  border: 2px solid var(--border);
-  max-width: 170px;
-  width: 100%;
+  outline: 2px solid var(--border);
+  /* border: 2px solid var(--border); */
+  max-width: 500px;
   height: 20px;
-  padding: 3px 5px 5px 1px;
+  padding: 7px 5px 7px 1px;
   border-radius: 5px;
   text-align: center;
   z-index: 2;
   cursor: pointer;
   position: relative;
   font-weight: 600;
+  min-width: 215px;
+  z-index: 2;
 }
 
 .drop-down-inside-text {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 23%;
+  gap: 25%;
+  user-select: none;
 }
 
 .drop-down#active svg {
@@ -961,19 +1009,30 @@ textarea::placeholder {
   width: 100%;
   margin-top: 5px;
   background-color: transparent;
-  background-color: #202020 !important;
+  background-color: #353847;
   border-radius: 0px 0px 5px 5px;
   overflow: hidden;
   box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
+  border: 1px solid #3e4253;
+  border-radius: 5px;
+  color: #b5c6cc;
+  transform: translateY(20px);
+  user-select: none;
 }
 
 .drop-down-menu-item {
   padding: 7px 0px;
   font-size: 0.9rem;
   font-weight: 600;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.29);
+  border-bottom: 1px solid #414557;
   /* background-color: rgba(14, 14, 14, 0.795) !important; */
-  background-color: var(--pozadie) !important;
+  background-color: #353847 !important;
+  user-select: none;
+}
+
+.drop-down#active .drop-down-menu {
+  transition: 0.2s ease-in;
+  transform: translateY(3px);
 }
 
 .drop-down span {
@@ -1000,7 +1059,7 @@ textarea::placeholder {
   pointer-events: all;
   visibility: visible;
   position: absolute;
-  top: -21px;
+  top: -23px;
   left: 5px;
   background-color: #2d7bf4;
   border-radius: 20%;

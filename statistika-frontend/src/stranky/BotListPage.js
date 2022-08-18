@@ -26,37 +26,11 @@ function ButtonComponent() {
 }
 
 function NovyBotComp({ requestData }) {
-  const [showNovyBot, setShowNovyBot] = useState(false);
-  const [loading, setLoading] = useState({
-    isLoading: false,
-    msg: "",
-    hasError: { status: false, msg: "" },
-  });
-
-  const onCreate = async (burza) => {
-    setLoading({ isLoading: true, msg: "Vytváram...", hasError: { status: false, msg: "" } });
-    addBot(burza);
-    let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    await sleep(500);
-    setShowNovyBot(false);
-    setLoading({ isLoading: false, msg: "Vytváram...", hasError: { status: false, msg: "" } });
-    requestData();
-  };
+  const navigate = useNavigate();
 
   return (
     <div>
-      <div className="bot-novy-cont" id={showNovyBot ? "vis" : "invi"}>
-        <div className="flex-bot-novy-cont">
-          {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
-          <div className="bot-novy-cont-title">
-            <p className="novy-bot-title">Vytvorenie bota</p>
-          </div>
-          <div style={{ display: loading.isLoading ? "none" : "" }}>
-            <ParametreEditor type="create" onCreate={onCreate}></ParametreEditor>
-          </div>
-        </div>
-      </div>
-      <button className="show-bot-button" onClick={(e) => setShowNovyBot(!showNovyBot)}>
+      <button className="show-bot-button" onClick={(e) => navigate("/vytvorenie-bota")}>
         <BiUserPlus />
       </button>
     </div>

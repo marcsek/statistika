@@ -103,6 +103,40 @@ const setNewTextValues = async (newTextValues) => {
   return textValues;
 };
 
+var textValuesTwo = {
+  desMiestaCen: "3",
+  desMiestaMnoz: "5",
+  desatina: "8",
+  feeCoin: true,
+  hodnota: "USDC",
+  maker: true,
+  meno: "",
+  minHod: "0.2",
+  minMnozstvo: "48",
+  minProfit: "430",
+  nazov: "ETH",
+  obPar: "ETH/USDT",
+  odchylka: "12",
+  percento: "89",
+  postOnly: true,
+  poznamka: "",
+  prepinac: true,
+  prepoc: true,
+  test: false,
+  testFee: "0.003",
+  zapnuty: false,
+  zdroj: true,
+  zvysTrad: "32",
+};
+
+const getSavedTextValues = async () => {
+  return textValuesTwo;
+};
+const saveTextValues = async (newTextValue) => {
+  textValuesTwo = newTextValue;
+  return textValuesTwo;
+};
+
 var celkovyVyvinData = {
   h24: { e: 1300.45, b: 0.24544, p: 10 },
   d7: { e: 16433.35, b: 0.24544, p: 10 },
@@ -216,4 +250,4 @@ const getFakeListData = async () => {
   return burzi;
 };
 
-export { getPage, filtrujData, getTextValues, setNewTextValues, getCelkovyVyvinData, getFakeListData, addBot };
+export { getPage, filtrujData, getTextValues, setNewTextValues, getCelkovyVyvinData, getFakeListData, addBot, getSavedTextValues, saveTextValues };

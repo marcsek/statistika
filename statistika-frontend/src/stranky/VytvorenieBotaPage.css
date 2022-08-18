@@ -1,0 +1,148 @@
+.vytvorenie-bota-cont {
+  width: 100%;
+  max-width: 87.5%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.vyt-bot-title-cont {
+  width: 100%;
+  margin-bottom: 8px;
+  height: 34px;
+}
+
+.vyt-bot-content {
+  width: 100%;
+  background-color: #333644;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.vyt-bot-title-cont span {
+  font-size: 1.2rem;
+  color: #b5c6cc;
+  font-weight: 700;
+}
+
+.ulozit-bota-btn {
+  width: 190px;
+  height: 34px;
+  float: right;
+  font-weight: 600;
+  font-size: 1.05rem;
+  /* var(--pismo-biela); */
+  color: white;
+  /* #2d7bf4 */
+  background-color: #2d7bf4;
+  outline: none;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ulozit-bota-btn#inactive {
+  background-color: #3c3f50;
+  color: rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+  user-select: none;
+}
+
+.ulozit-bota-btn:hover {
+  filter: brightness(1.05);
+}
+
+.ulozit-bota-btn:active {
+  transition: all 0.05s;
+  transform: scale(0.95);
+}
+
+.post-bot-create-cont {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.post-bot-create-cont h1 {
+  text-align: center;
+  font-size: 2.25rem;
+  font-family: Rubik, sans-serif;
+  color: #b5c6cc;
+}
+
+.post-bot-create-cont .checkmark {
+  width: 80px;
+  height: 80px;
+  color: #16c784;
+}
+
+.post-bot-create-cont a {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #02c0ce;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.post-bot-create-cont a:hover {
+  transition: 0.15s ease-in-out;
+  color: var(--pismo-biela);
+}
+
+.post-bot-create-cont button {
+  display: flex;
+  gap: 7px;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  line-height: 20px;
+  background-color: #3c3f50;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--pismo-biela);
+}
+.post-bot-create-cont button:hover {
+  filter: brightness(1.05);
+}
+
+.post-bot-create-cont button:active {
+  transition: all 0.05s;
+  transform: scale(0.95);
+}
+
+.post-bot-create-cont button svg {
+  height: 20px;
+  width: 20px;
+  padding-top: 1px;
+}
+
+@media only screen and (max-width: 1370px) {
+  .vytvorenie-bota-cont {
+    max-width: 96%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .ulozit-bota-btn {
+    width: 50px;
+    height: 34px;
+    font-size: 0;
+  }
+  .ulozit-bota-btn svg {
+    transform: scale(1.2);
+    position: absolute;
+    margin-left: 2px;
+  }
+}

@@ -7,6 +7,7 @@ import Graf from "./stranky/GrafPage.js";
 import BotList from "./stranky/BotListPage.js";
 import BotDetail from "./stranky/BotDetailPage";
 import LoginPage from "./stranky/LoginPage";
+import VytvorenieBotaPage from "./stranky/VytvorenieBotaPage";
 import Header from "./Header";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route exact path="/bot-list" element={<BotList />} />
             <Route exact path="/bot-detail/:botId" element={<BotDetail />} />
             <Route exact path="/login" element={<LoginPage />} />
+            <Route exact path="/vytvorenie-bota" element={<VytvorenieBotaPage />} />
           </Routes>
         </div>
       </div>

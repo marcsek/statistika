@@ -117,12 +117,19 @@
   .list-obchodov-div {
     width: 100%;
   }
+
+  .filtre-hladat-btn {
+    margin-left: 0 !important;
+  }
+
   .bot-obchody-cont {
     /* overflow-x: scroll; */
     /* width: 95%; */
     align-items: flex-start !important;
     justify-content: flex-start;
     overflow-x: hidden !important;
+    box-sizing: border-box;
+    padding: 0 5px;
   }
   .pagi-cont {
     width: 100% !important;
@@ -151,7 +158,7 @@
   }
 
   .obchody-list-const {
-    /* width: 95%; */
+    width: 100%;
   }
 
   .obchody-list-const li {
@@ -292,6 +299,7 @@
 
 svg.euro-symbol {
   margin-right: 2px;
+  padding-bottom: 2px;
   height: 15px;
   width: 15px;
 }

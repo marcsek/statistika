@@ -5,6 +5,7 @@
   flex-direction: column;
   min-height: calc(100vh - 200px);
   /* padding-top: 15px; */
+  margin-bottom: 30px;
 }
 
 .bot-page-title-div {
@@ -121,8 +122,8 @@
   .bot-list-main-div .vypinac {
     font-size: 0;
     width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    height: 34px;
+    border-radius: 7px;
     /* left: 90%; */
     flex-direction: column;
     display: flex;
@@ -132,7 +133,8 @@
     padding: 0;
   }
   .bot-list-main-div .vypinac svg {
-    padding-top: 10px;
+    /* padding-top: 10px; */
+    position: absolute;
     width: 27px;
     height: 27px;
   }
