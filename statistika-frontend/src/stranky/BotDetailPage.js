@@ -55,11 +55,10 @@ const VyberComponent = () => {
 
   return (
     <div className="vyber-cont-major">
-      {/* <div className="vyber-bot-title-divider" id="devider"></div> */}
       <span className="vyber-bot-title" id="title">
         Výber
       </span>
-      {loading && <LoadingComponentT background={true} loadingText={loadingMessage} />}
+      {loading && <LoadingComponent background={true} loadingText={loadingMessage} />}
       <div style={{ display: loading ? "" : "" }} className="vyber-cont-main">
         <div className="vyber-form-cont">
           <div className="vyber-input-cont">
@@ -142,10 +141,8 @@ function BotDetail() {
         <div className="bot-vyber-major-cont">
           <VyberComponent />
         </div>
-        {/* <div className="divider-graf-para" id="devider"></div> */}
         <div className="bot-graf-major-cont">
           <div className="bot-graf-cont">
-            {/* <div className="graf-bot-title-divider" id="devider"></div> */}
             <span className="graf-bot-title" id="title">
               Graf vývoja
             </span>
@@ -156,14 +153,12 @@ function BotDetail() {
         </div>
       </div>
       <div className="parametre-div" style={{ position: "relative" }}>
-        {/* <div className="para-devider" id="devider"></div> */}
         <span className="para-title" id="title">
           Parametre
         </span>
         <ParametreEditor />
       </div>
       <div className="list-obchodov-div" style={{ position: "relative" }}>
-        {/* <div className="obchody-devider" id="devider"></div> */}
         <span className="obchody-title" id="title">
           Zoznam obchodov
         </span>

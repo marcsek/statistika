@@ -37,8 +37,6 @@ const ParametreEditor = forwardRef((props, ref) => {
     zvysTrad: { value: "32", init: "32" },
   });
 
-  const loadingDivRef = useRef(null);
-
   const [extraValues, setExtraValues] = useState({
     burza: "Burza 1",
     key: "",
@@ -205,7 +203,7 @@ const ParametreEditor = forwardRef((props, ref) => {
 
   return (
     <>
-      {(loading || props.loadingParent) && <LoadingComponentT background={true} loadingText={loadingMessage}></LoadingComponentT>}
+      {(loading || props.loadingParent) && <LoadingComponent background={true} loadingText={loadingMessage}></LoadingComponent>}
       <div className="bot-parametre-cont" style={{ visibility: loading ? "" : "" || props.loadingParent ? "none" : "" }}>
         <div style={{ display: props.type !== "create" || props.loadingParent ? "none" : "" }} className="bot-extra-create-cont">
           <div

@@ -12,6 +12,7 @@
   color: var(--pismo-biela);
   font-weight: 600;
   z-index: 3;
+  pointer-events: none;
 }
 
 #background {
