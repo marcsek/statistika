@@ -61,9 +61,9 @@ function VytvorenieBotaPage() {
           <FaRegSave /> Uložiť
         </button>
       </div>
-      <div className="vyt-bot-content">
-        {loading.isLoading && <LoadingComponent loadingText={loading.msg} height={517}></LoadingComponent>}
-        <div style={{ display: loading.isLoading || renderPost ? "none" : "" }}>
+      <div className="vyt-bot-content" style={{ paddingLeft: loading.isLoading ? 0 : "" }}>
+        {loading.isLoading && <LoadingComponent loadingText={loading.msg} background={true}></LoadingComponent>}
+        <div style={{ display: renderPost ? "none" : "" }}>
           <ParametreEditor ref={childRef} type="create" onCreate={onCreate} onSave={onSave}></ParametreEditor>
         </div>
         <div

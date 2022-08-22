@@ -4,7 +4,7 @@ import axios from "axios";
 import MainGraf from "../komponenty/grafy/MainGraf";
 import BurzaGraf from "../komponenty/grafy/BurzaGraf";
 
-import { VscTriangleUp, VscTriangleDown, VscCircleFilled } from "react-icons/vsc";
+import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 
 import { filterDate } from "../pomocky/datumovanie";
 import { MdEuroSymbol } from "react-icons/md";
@@ -13,7 +13,6 @@ import { BsCurrencyBitcoin } from "react-icons/bs";
 import { getCelkovyVyvinData } from "../pomocky/fakeApi";
 import LoadingComponent from "../komponenty/LoadingComponent.js";
 import { formatCrypto, formatPrice } from "../pomocky/cislovacky";
-import { Icon, Icond, Icona } from "./Icon";
 import { ImStack } from "react-icons/im";
 import { BiChevronDownCircle, BiChevronUpCircle } from "react-icons/bi";
 
@@ -38,13 +37,9 @@ const CelkovyVyvin = () => {
 
   return (
     <div className="celkovy-cont-title">
-      {/* <div className="devider-vyvin" id="devider"></div>
-      <p className="vyvin-title" id="title">
-        Celkový vývin
-      </p> */}
       <div className="celkovy-stav-cont">
         {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
-        <ul style={{ display: loading.isLoading ? "none" : "" }}>
+        <ul style={{ visibility: loading.isLoading ? "hidden" : "" }}>
           <li className="stav-element">
             <BiChevronUpCircle id="indikator" />
             <p>Zmena 24H</p>
@@ -164,39 +159,30 @@ function Graf() {
       </div>
       <CelkovyVyvin />
       <div id="graf-burza-cont">
-        {/* <div className="devider-graf" id="devider"></div>
-        <p className="graf-title" id="title">
-          Graf vývoja
-        </p> */}
         <MainGraf grafRequestData={mainGrafRequestData}></MainGraf>
       </div>
       <div className="graf-burzy-cont">
         <ul>
           <li className="burza">
             <div className="burza-cont">
-              {/* <div className="devider" id="devider"></div> */}
               <p id="title">Burza 1</p>
               <BurzaGraf grafRequestData={subChartRequestData} index={0}></BurzaGraf>
             </div>
           </li>
           <li className="burza">
             <div className="burza-cont">
-              {/* <div className="devider" id="devider"></div> */}
               <p id="title">Burza 2</p>
               <BurzaGraf grafRequestData={subChartRequestData} farbaCiary={{ c: "#0DCF97", g: "rgba(	13, 207, 151, 0.20)" }} index={1}></BurzaGraf>
             </div>
           </li>
           <li className="burza">
             <div className="burza-cont">
-              {/* <div className="devider" id="devider"></div> */}
               <p id="title">Burza 3</p>
               <BurzaGraf grafRequestData={subChartRequestData} farbaCiary={{ c: "#0DCF97", g: "rgba(	13, 207, 151, 0.2)" }} index={2}></BurzaGraf>
             </div>
           </li>
           <li className="burza">
-            {" "}
             <div className="burza-cont">
-              {/* <div className="devider" id="devider"></div> */}
               <p id="title">Burza 4</p>
               <BurzaGraf grafRequestData={subChartRequestData} index={3}></BurzaGraf>
             </div>

@@ -8,6 +8,7 @@
 }
 
 #graf-filter {
+  z-index: 3;
   position: absolute;
   /* background-color: #292929; */
   background-color: #3c3f50;

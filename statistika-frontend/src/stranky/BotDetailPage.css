@@ -207,6 +207,7 @@
     justify-content: center !important;
     align-items: flex-end;
     padding-right: 0 !important;
+    padding-left: 0 !important;
   }
   .bot-graf-filter {
     transform: none !important;
@@ -734,7 +735,7 @@ textarea {
   color: #b5c6cc;
   padding: 1em;
   border-radius: 7px;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   outline: none;
   font-family: "Heebo", sans-serif;
   font-weight: 600;

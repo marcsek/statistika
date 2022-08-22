@@ -9,6 +9,7 @@ import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
 import LoadingComponent from "../LoadingComponent";
+import { useLoadingManager, LoadingComponentT } from "../LoadingManager.js";
 import NastaveniaBurzaGrafu from "./grafNastavenia/BurzaGrafNastavenia";
 
 function BurzaGraf({ grafRequestData, farbaCiary, index }) {
@@ -17,20 +18,16 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
 
   const [filter, setFilter] = useState("all");
   const [chartData, setChartData] = useState([]);
-  const [loading, setLoading] = useState({ isLoading: true, hasError: { status: false, msg: "" } });
+  const [loading, setLoadingStep, loadingMessage] = useLoadingManager(50, true);
   const burzaChartRef = useRef(null);
 
   const getDataFromParent = useCallback(
     async (filter, index) => {
-      setLoading((prevState) => {
-        return { ...prevState, isLoading: true };
-      });
+      setLoadingStep("fetch");
       setChartData(await grafRequestData(filter, index));
-      setLoading((prevState) => {
-        return { ...prevState, isLoading: false };
-      });
+      setLoadingStep("render");
     },
-    [grafRequestData]
+    [grafRequestData, setLoadingStep]
   );
 
   useEffect(() => {
@@ -88,10 +85,10 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
 
   return (
     <div className="burza-chart-main">
-      {loading.isLoading && <LoadingComponent height={300} error={loading.hasError.msg} />}
-      <PercZmenaData style={{ visibility: loading.isLoading ? "hidden" : "" }} />
+      {loading && <LoadingComponent background={true} loadingText={loadingMessage} height={300} />}
+      <PercZmenaData style={{ visibility: loading ? "" : "" }} />
       <div className="burza-chart-div">
-        <Line style={{ display: loading.isLoading ? "none" : "" }} ref={burzaChartRef} options={NastaveniaBurzaGrafu} data={data}></Line>
+        <Line style={{ visibility: loading ? "hidden" : "" }} ref={burzaChartRef} options={NastaveniaBurzaGrafu} data={data}></Line>
         <div className="burza-graf-filter" id="graf-filter">
           <ul>
             <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>

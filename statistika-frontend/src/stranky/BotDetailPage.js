@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BotGraf from "../komponenty/grafy/BotGraf.js";
 import axios from "axios";
@@ -15,6 +15,7 @@ import ParametreEditor from "../komponenty/ParametreEditor.js";
 import { VscCircleFilled } from "react-icons/vsc";
 import { getTextValues } from "../pomocky/fakeApi.js";
 import { GrMoney } from "react-icons/gr";
+import { useLoadingManager, LoadingComponentT } from "../komponenty/LoadingManager.js";
 
 const VyberComponent = () => {
   const [tranList, setTranList] = useState([
@@ -24,28 +25,33 @@ const VyberComponent = () => {
     { mena: "ETH", suma: "3.243", datum: new Date() },
   ]);
   const [priceValue, setPriceValue] = useState("");
-  const [loading, setLoading] = useState({
-    isLoading: false,
-    msg: "",
-    hasError: { status: false, msg: "" },
-  });
+  const [loading, setLoadingStep, loadingMessage] = useLoadingManager(100, true);
 
   const onBtnClick = useCallback(async () => {
     if (priceValue === "") {
       return;
     }
-    setLoading({ isLoading: true, msg: "Posielam...", hasError: { status: false, msg: "" } });
+    setLoadingStep("fetch");
     const textValue = await getTextValues();
     const mena = textValue.obPar.split("/")[!textValue.prepinac | 0];
-    console.log(textValue.obPar.split("/"));
+    setLoadingStep("transform");
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(500);
     setTranList([{ mena: mena, suma: priceValue, datum: new Date() }, ...tranList]);
     setPriceValue("");
-    setLoading((prevState) => {
-      return { ...prevState, isLoading: false };
-    });
+    setLoadingStep("render");
   }, [priceValue, tranList]);
+
+  const initialFetch = async () => {
+    setLoadingStep("fetch");
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    await sleep(300);
+    setLoadingStep("render");
+  };
+
+  useEffect(() => {
+    initialFetch();
+  }, []);
 
   return (
     <div className="vyber-cont-major">
@@ -53,8 +59,8 @@ const VyberComponent = () => {
       <span className="vyber-bot-title" id="title">
         Výber
       </span>
-      {loading.isLoading && <LoadingComponent error={loading.hasError.msg} />}
-      <div style={{ display: loading.isLoading ? "none" : "" }} className="vyber-cont-main">
+      {loading && <LoadingComponentT background={true} loadingText={loadingMessage} />}
+      <div style={{ display: loading ? "" : "" }} className="vyber-cont-main">
         <div className="vyber-form-cont">
           <div className="vyber-input-cont">
             <input

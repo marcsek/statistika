@@ -8,13 +8,14 @@ import { getPage, filtrujData } from "../pomocky/fakeApi";
 import Pagination from "./Pagination";
 import { BiChevronsDown, BiChevronsUp, BiSearchAlt, BiReset } from "react-icons/bi";
 import LoadingComponent from "./LoadingComponent";
+import { useLoadingManager, LoadingComponentT } from "../komponenty/LoadingManager.js";
 import { formatPrice } from "../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
 import CalendarComp from "./CalendarComp";
 import { TbCalendar } from "react-icons/tb";
 
 /* filtre oddelene do komponentu aby sa zbytocne nerendroval list */
-const FiltreBotList = ({ updateFilters, orderFilters }) => {
+const FiltreBotList = ({ updateFilters, orderFilters, parentLoading }) => {
   const initialStart = new Date(946684800);
   const initialEnd = new Date();
 
@@ -30,10 +31,6 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
     dateEnd: initialEnd,
   });
 
-  // const onSetFilters = useCallback((e, value) => {
-  //   setFilters((prevValues) => ({ ...prevValues, [e.target.name]: value }));
-  // }, []);
-
   const onSetDate = useCallback((value) => {
     setFilters((prevValues) => ({
       ...prevValues,
@@ -42,7 +39,7 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
     }));
   }, []);
 
-  const onDataButtonPress = useCallback((value) => {
+  const onDateButtonPress = useCallback((value) => {
     const val1 = value[0];
     const val2 = value[1];
     if (val1 && val2) {
@@ -76,7 +73,7 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
 
   return (
     <div className="obchody-filtre">
-      <button className="filtre-reset-btn" onClick={onResetPress}>
+      <button className="filtre-reset-btn" onClick={parentLoading ? undefined : onResetPress}>
         <BiReset />
       </button>
       <div className="input-nadpis-cont">
@@ -116,24 +113,21 @@ const FiltreBotList = ({ updateFilters, orderFilters }) => {
               /(\s-\s)/.test(e.target.value) &&
               e.target.value.split("/").length === 5 &&
               e.target.value.split(":").length === 3
-              // e.target.value.split(" - ").length === 2
             ) {
               setDatePlaceholder(e.target.value);
               let dateSpread = e.target.value.split(" - ");
-              // console.log(dateSpread);
-              // console.log(getCompatibleValue(dateSpread[0], getCompatibleValue(dateSpread[1])));
               onSetDate([new Date(getCompatibleValue(dateSpread[0])), new Date(getCompatibleValue(dateSpread[1]))]);
             }
           }}
         ></input>
         <div className="calendar-div-parent">
-          <CalendarComp minDate={new Date(946684800)} maxDate={new Date()} display={button} onCalendarClick={onDataButtonPress} />
+          <CalendarComp minDate={new Date(946684800)} maxDate={new Date()} display={button} onCalendarClick={onDateButtonPress} />
           <button className="calendar-button-open" onClick={(e) => clicked(!button)}>
             <TbCalendar />
           </button>
         </div>
       </div>
-      <button className="filtre-hladat-btn" onClick={onSearchPress}>
+      <button className="filtre-hladat-btn" onClick={parentLoading ? undefined : onSearchPress}>
         <BiSearchAlt></BiSearchAlt>
         Hľadať
       </button>
@@ -146,37 +140,38 @@ function ObchodyList() {
   const [curPage, setCurPage] = useState(1);
   const [orderFilter, setOrderFilter] = useState({ curType: "date", typeDate: false, typeNum: false, typePrice: false });
 
-  const [loading, setLoading] = useState({ isLoading: false, msg: "" });
+  const [loading, setLoadingStep, loadingMessage, errorMessage] = useLoadingManager();
 
   const onOrderFilterSet = useCallback((filters) => {
     setOrderFilter(filters);
   }, []);
 
-  const loadNewPage = useCallback(async (pageNumber) => {
-    setLoading({ isLoading: true, msg: "" });
-    const resData = await getPage(pageNumber);
+  const loadNewPage = useCallback(
+    async (pageNumber) => {
+      setLoadingStep("fetch");
+      const resData = await getPage(pageNumber);
 
-    setLoading((prevState) => {
-      return { ...prevState, isLoading: false };
-    });
+      setLoadingStep("render");
+      setListData(resData);
+      setCurPage(pageNumber);
+    },
+    [setLoadingStep]
+  );
 
-    setListData(resData);
-    setCurPage(pageNumber);
-  }, []);
-
-  const filterData = useCallback(async (filters) => {
-    setCurPage(1);
-    setLoading({ isLoading: true, msg: "" });
-    const resData = await filtrujData({ ...filters });
-    if (resData.totalItems === 0) {
-      setLoading({ isLoading: true, msg: "Žiadna zhoda" });
-    } else {
-      setLoading((prevState) => {
-        return { ...prevState, isLoading: false };
-      });
-    }
-    setListData(resData);
-  }, []);
+  const filterData = useCallback(
+    async (filters) => {
+      setCurPage(1);
+      setLoadingStep("fetch");
+      const resData = await filtrujData({ ...filters });
+      if (resData.totalItems === 0) {
+        setLoadingStep("none");
+      } else {
+        setLoadingStep("render");
+      }
+      setListData(resData);
+    },
+    [setLoadingStep]
+  );
 
   /* passuju sa Pagination.js */
   const loadNextPage = () => {
@@ -194,7 +189,7 @@ function ObchodyList() {
 
   return (
     <div className="obchody-list-major-cont">
-      <FiltreBotList updateFilters={filterData} orderFilters={orderFilter} />
+      <FiltreBotList updateFilters={filterData} orderFilters={orderFilter} parentLoading={loading && errorMessage ? false : loading} />
       <div className="flex-obchody-cont">
         <div className="obchody-cont">
           <div className="obchody-list-const">
@@ -203,7 +198,7 @@ function ObchodyList() {
                 className="datum"
                 id="element"
                 name="ascend"
-                style={{ pointerEvents: loading.isLoading ? "none" : "" }}
+                style={{ pointerEvents: loading ? "none" : "" }}
                 onClick={(e) =>
                   onOrderFilterSet({
                     curType: "date",
@@ -223,7 +218,7 @@ function ObchodyList() {
                 className="cena"
                 id="element"
                 name="ascend"
-                style={{ pointerEvents: loading.isLoading ? "none" : "" }}
+                style={{ pointerEvents: loading ? "none" : "" }}
                 onClick={(e) =>
                   onOrderFilterSet({
                     curType: "price",
@@ -240,7 +235,7 @@ function ObchodyList() {
                 className="mnozstvo"
                 id="element"
                 name="ascend"
-                style={{ pointerEvents: loading.isLoading ? "none" : "" }}
+                style={{ pointerEvents: loading ? "none" : "" }}
                 onClick={(e) =>
                   onOrderFilterSet({
                     curType: "num",
@@ -261,7 +256,7 @@ function ObchodyList() {
               {listData.data.map((e, i) => {
                 let bgColor = i % 2 === 0 ? "rgb(57, 60, 74)" : "";
                 return (
-                  <li key={i} style={{ backgroundColor: bgColor, display: loading.isLoading ? "none" : "" }}>
+                  <li key={i} style={{ backgroundColor: bgColor, display: loading ? "none" : "" }}>
                     <p className="datum" id="element">
                       {formatDate(e.datum)}
                     </p>
@@ -281,7 +276,7 @@ function ObchodyList() {
                   </li>
                 );
               })}
-              {loading.isLoading && <LoadingComponent background={true} error={loading.msg} />}
+              {loading && <LoadingComponent loadingText={loadingMessage} error={errorMessage} />}
             </ul>
           </div>
         </div>
@@ -292,7 +287,7 @@ function ObchodyList() {
         postsPerPage={15}
         totalPosts={listData.totalItems}
         currentPage={curPage}
-        isLoading={loading.isLoading}
+        isLoading={loading}
       />
     </div>
   );

@@ -1,7 +1,9 @@
 .loading-div {
-  position: relative;
+  position: absolute;
+  top: 0;
+  height: 0;
   width: 100%;
-  height: 93%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,6 +11,7 @@
   z-index: 1;
   color: var(--pismo-biela);
   font-weight: 600;
+  z-index: 3;
 }
 
 #background {
@@ -17,7 +20,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: #333644;
   /* transform: scale(0.4); */
   /* border-radius: 20px; */
 }

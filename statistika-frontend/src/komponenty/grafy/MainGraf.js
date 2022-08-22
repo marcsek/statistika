@@ -3,6 +3,7 @@ import "./MainGraf.css";
 
 import { getPercentageChange } from "../../pomocky/cislovacky";
 import LoadingComponent from "../LoadingComponent";
+import { useLoadingManager, LoadingComponentT } from "../LoadingManager.js";
 
 import CalendarComp from "../CalendarComp";
 
@@ -47,26 +48,24 @@ function MainGraf({ grafRequestData }) {
   const [calendarActive, setCalendarActive] = useState(false);
   const [filter, setFilter] = useState("1y");
   const [chartData, setChartData] = useState([]);
-  const [loading, setLoading] = useState({ isLoading: true, hasError: { status: false, msg: "" } });
+  const [loading, setLoadingStep, loadingMessage] = useLoadingManager(50);
 
   const getDataFromParent = useCallback(
     async (filter) => {
-      setLoading((prevState) => {
-        return { ...prevState, isLoading: true };
-      });
+      setLoadingStep("fetch");
 
       const newChartData = await grafRequestData(filter);
+
+      setLoadingStep("transform");
       for (let data of newChartData) {
         data.forEach((element, index) => {
           data[index] = { ...element, cena: element.y, y: getPercentageChange(index === 0 ? data[0].y : data[0].cena, element.y) };
         });
       }
       setChartData(newChartData);
-      setLoading((prevState) => {
-        return { ...prevState, isLoading: false };
-      });
+      setLoadingStep("render");
     },
-    [grafRequestData]
+    [grafRequestData, setLoadingStep]
   );
 
   useEffect(() => {
@@ -164,8 +163,8 @@ function MainGraf({ grafRequestData }) {
           </li>
         </ul>
       </div>
-      {loading.isLoading && <LoadingComponent error={loading.hasError.msg} height={windowIsSmall ? 450 : 600} />}
-      <div className="heightchart-cont" style={{ display: loading.isLoading ? "none" : "" }}>
+      {loading && <LoadingComponent loadingText={loadingMessage} height={windowIsSmall ? 450 : 600} />}
+      <div className="heightchart-cont" style={{ visibility: loading ? "hidden" : "" }}>
         <HighchartsReact
           containerProps={{ style: { height: windowIsSmall ? "400px" : "550px" } }}
           constructorType={"stockChart"}

@@ -9,6 +9,7 @@ import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
 
 import CrosshairPlugin from "chartjs-plugin-crosshair";
 import LoadingComponent from "../LoadingComponent";
+import { useLoadingManager, LoadingComponentT } from "../LoadingManager.js";
 
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
@@ -19,20 +20,16 @@ function BotGraf({ grafRequestData }) {
 
   const [filter, setFilter] = useState("1y");
   const [chartData, setChartData] = useState([]);
-  const [loading, setLoading] = useState({ isLoading: true, hasError: { status: false, msg: "" } });
+  const [loading, setLoadingStep, loadingMessage] = useLoadingManager(100, true);
   const botChartRef = useRef(null);
 
   const getDataFromParent = useCallback(
     async (filter) => {
-      setLoading((prevState) => {
-        return { ...prevState, isLoading: true };
-      });
+      setLoadingStep("fetch");
       setChartData(await grafRequestData(filter));
-      setLoading((prevState) => {
-        return { ...prevState, isLoading: false };
-      });
+      setLoadingStep("render");
     },
-    [grafRequestData]
+    [grafRequestData, setLoadingStep]
   );
 
   useEffect(() => {
@@ -90,10 +87,10 @@ function BotGraf({ grafRequestData }) {
 
   return (
     <div className="bot-chart-main">
-      {loading.isLoading && <LoadingComponent height={550} error={loading.hasError.msg} />}
-      <PercZmenaData style={{ visibility: loading.isLoading ? "hidden" : "" }} />
-      <div className="bot-chart-div" style={{ display: loading.isLoading ? "none" : "" }}>
-        <Line style={{ display: loading.isLoading ? "none" : "" }} ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>
+      {loading && <LoadingComponentT background={true} loadingText={loadingMessage} />}
+      <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
+      <div className="bot-chart-div" style={{ display: loading ? "" : "" }}>
+        <Line style={{ display: loading ? "" : "" }} ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>
         <div className="bot-graf-filter" id="graf-filter">
           <ul>
             <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>

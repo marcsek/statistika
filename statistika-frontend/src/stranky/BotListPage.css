@@ -1,11 +1,11 @@
 .bot-list-main-div {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   min-height: calc(100vh - 200px);
   /* padding-top: 15px; */
   margin-bottom: 30px;
+  position: relative;
 }
 
 .bot-page-title-div {
@@ -27,6 +27,7 @@
   align-items: center;
   gap: 30px;
   padding: 0;
+  position: relative;
 }
 
 @media only screen and (max-height: 700px) {
@@ -58,9 +59,15 @@
   }
   .list-burza {
     width: 100% !important;
+    position: relative;
   }
+
+  .list-burza .loading-div {
+    position: relative;
+  }
+
   .list-burza {
-    overflow-x: scroll;
+    overflow-x: auto;
     align-items: flex-start;
   }
   .bot-list-main-div {
@@ -574,7 +581,7 @@ ol li:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
+  z-index: 4;
 }
 
 .show-bot-button:hover {

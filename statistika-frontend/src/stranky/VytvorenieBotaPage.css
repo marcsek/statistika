@@ -17,6 +17,7 @@
   border-radius: 0.25rem;
   box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
   padding: 20px;
+  position: relative;
   box-sizing: border-box;
 }
 

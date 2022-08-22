@@ -130,6 +130,7 @@ var textValuesTwo = {
 };
 
 const getSavedTextValues = async () => {
+  await sleep(400);
   return textValuesTwo;
 };
 const saveTextValues = async (newTextValue) => {
@@ -144,7 +145,7 @@ var celkovyVyvinData = {
   cc: { e: 143300, b: 3.24544 },
 };
 const getCelkovyVyvinData = async () => {
-  await sleep(100);
+  await sleep(300);
   return celkovyVyvinData;
 };
 
