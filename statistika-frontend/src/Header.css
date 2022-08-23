@@ -110,7 +110,7 @@
   display: block;
 }
 
-@media only screen and (max-width: 1370px) {
+@media only screen and (max-width: 1450px) {
   .upper-fluid {
     width: 96%;
     box-sizing: border-box;
@@ -141,6 +141,7 @@
 .logo-lg {
   line-height: 70px;
   display: block;
+  cursor: pointer;
 }
 
 .logo-lg img {
@@ -156,6 +157,7 @@
 
 .logo-sm img {
   height: 24px;
+  cursor: pointer;
 }
 
 img {

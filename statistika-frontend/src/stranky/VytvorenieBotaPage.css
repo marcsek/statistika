@@ -109,7 +109,7 @@
   background-color: #2d7bf4;
   border-radius: 7px;
   box-sizing: border-box;
-  padding: 10px 15px;
+  padding: 8px 12px;
   display: flex;
   align-items: center;
   border: none;
@@ -158,7 +158,7 @@
   padding-top: 1px;
 }
 
-@media only screen and (max-width: 1370px) {
+@media only screen and (max-width: 1450px) {
   .vytvorenie-bota-cont {
     max-width: 96%;
   }

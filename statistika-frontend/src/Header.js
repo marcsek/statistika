@@ -24,6 +24,8 @@ function Header() {
     } else if (location.pathname === "/login") {
       setClicked("");
       document.title = "Login | Highdmin";
+    } else {
+      setClicked("");
     }
   }, [location]);
 

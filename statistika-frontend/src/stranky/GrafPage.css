@@ -456,7 +456,7 @@
     grid-template-columns: 100%;
   }
 }
-@media only screen and (max-width: 1370px) {
+@media only screen and (max-width: 1450px) {
   .graf-page-div {
     max-width: 96% !important;
   }

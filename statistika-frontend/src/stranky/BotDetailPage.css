@@ -12,7 +12,7 @@
   /* overflow-x: hidden; */
 }
 
-@media only screen and (max-width: 1370px) {
+@media only screen and (max-width: 1450px) {
   .bot-main-cont {
     max-width: 96% !important;
   }
@@ -502,7 +502,7 @@
 
 .obchody-title {
   font-size: 1.2rem;
-  left: 20px;
+  left: 1.6%;
   top: 20px;
   color: #b5c6cc !important;
 }
@@ -909,11 +909,12 @@ textarea::placeholder {
   color: #b5c6cc !important;
   font-weight: 700 !important;
   top: 20px;
-  left: 20px;
+  left: 1.6%;
   /* left: -50px; */
 }
 
 .para-devider {
+  left: 1.6%;
   width: 56%;
   height: 4px;
   top: 18px;
