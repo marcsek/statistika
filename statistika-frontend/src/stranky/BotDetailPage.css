@@ -668,6 +668,7 @@
     align-items: center !important;
     justify-content: center !important;
     line-height: 23px;
+    cursor: pointer;
   }
   .drop-down-inside-text svg {
     position: absolute;
@@ -967,12 +968,11 @@ textarea::placeholder {
   outline: 2px solid var(--border);
   /* border: 2px solid var(--border); */
   max-width: 500px;
-  height: 20px;
-  padding: 7px 5px 7px 1px;
+  height: 33px;
+  padding: 0px 5px 0px 1px;
   border-radius: 5px;
   text-align: center;
   z-index: 2;
-  cursor: pointer;
   position: relative;
   font-weight: 600;
   min-width: 215px;
@@ -984,7 +984,9 @@ textarea::placeholder {
   justify-content: flex-end;
   align-items: center;
   gap: 25%;
+  height: 100%;
   user-select: none;
+  cursor: pointer;
 }
 
 .drop-down#active svg {
@@ -1029,10 +1031,11 @@ textarea::placeholder {
   /* background-color: rgba(14, 14, 14, 0.795) !important; */
   background-color: #353847 !important;
   user-select: none;
+  cursor: pointer;
 }
 
 .drop-down#active .drop-down-menu {
-  transition: 0.2s ease-in;
+  transition: 0.3s;
   transform: translateY(3px);
 }
 

@@ -6,6 +6,7 @@ import { RiListCheck2 } from "react-icons/ri";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { FiLogOut } from "react-icons/fi";
+import useWindowDimensions from "./pomocky/window";
 
 function Header() {
   const navigate = useNavigate();
@@ -16,38 +17,38 @@ function Header() {
   useEffect(() => {
     if (location.pathname === "/") {
       setClicked("graf");
+      document.title = "Dashboard | Highdmin";
     } else if (location.pathname === "/bot-list") {
       setClicked("list");
-    } else {
+      document.title = "Bot-List | Highdmin";
+    } else if (location.pathname === "/login") {
       setClicked("");
+      document.title = "Login | Highdmin";
     }
   }, [location]);
 
   // listener na zmenu šírky kvôli resizu výšky grafu
+  const windowDimensions = useWindowDimensions();
   const [windowIsSmall, setWindowIsSmall] = useState(false);
   useEffect(() => {
-    function handleWindowResize() {
-      let windowWidth = window.innerWidth;
-      if (windowWidth < 1001) {
-        setWindowIsSmall(true);
-      } else {
-        setWindowIsSmall(false);
-      }
+    if (windowDimensions.width < 350) {
+      setWindowIsSmall(true);
+    } else {
+      setWindowIsSmall(false);
     }
-    handleWindowResize();
-    window.addEventListener("resize", handleWindowResize);
-
-    return () => {
-      window.removeEventListener("resize", handleWindowResize);
-    };
-  }, []);
+  }, [windowDimensions]);
 
   return (
     <div className="header" style={{ display: location.pathname === "/login" && "none" }}>
       <div className="upper-header">
         <div className="upper-fluid">
           <div className="logo-box">
-            <span className={windowIsSmall ? "logo-sm" : "logo-lg"}>
+            <span
+              className={windowIsSmall ? "logo-sm" : "logo-lg"}
+              onClick={() => {
+                navigate("../");
+              }}
+            >
               <img alt="logo" src={windowIsSmall ? "/logo-sm.png" : "/logo-dark.png"}></img>
             </span>
           </div>
@@ -60,10 +61,11 @@ function Header() {
               id={dropdown ? "visible" : "invisible"}
               onClick={(e) => {
                 e.preventDefault();
-                navigate("/login");
+                navigate("../login");
               }}
             >
-              <FiLogOut /> Odhlásiť
+              <FiLogOut />
+              Odhlásiť
             </div>
           </div>
         </div>

@@ -1,16 +1,17 @@
 .login-page {
-  width: 96%;
+  width: 100%;
   /* max-width: 500px; */
   /* height: ; */
+  position: absolute;
   margin: 0 auto;
-  top: 50%;
+  top: 17.5%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .login-box {
-  width: 100%;
+  width: 96%;
   max-width: 500px;
   display: flex;
   align-items: center;

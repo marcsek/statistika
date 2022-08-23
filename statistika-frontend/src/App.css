@@ -4,6 +4,10 @@
   background-size: 40px 40px;
   background-attachment: fixed; */
   position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  /* height: 100vh; */
 }
 
 .Content {

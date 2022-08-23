@@ -10,7 +10,6 @@ import LoadingComponent from "../komponenty/LoadingComponent.js";
 import { MdEuroSymbol } from "react-icons/md";
 import "../komponenty/VyberComp.css";
 import { formatCrypto, formatPrice } from "../pomocky/cislovacky.js";
-import { RiMoneyEuroCircleLine } from "react-icons/ri";
 import ParametreEditor from "../komponenty/ParametreEditor.js";
 import { VscCircleFilled } from "react-icons/vsc";
 import { getTextValues } from "../pomocky/fakeApi.js";
@@ -40,18 +39,18 @@ const VyberComponent = () => {
     setTranList([{ mena: mena, suma: priceValue, datum: new Date() }, ...tranList]);
     setPriceValue("");
     setLoadingStep("render");
-  }, [priceValue, tranList]);
+  }, [priceValue, tranList, setLoadingStep]);
 
-  const initialFetch = async () => {
+  const initialFetch = useCallback(async () => {
     setLoadingStep("fetch");
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(300);
     setLoadingStep("render");
-  };
+  }, [setLoadingStep]);
 
   useEffect(() => {
     initialFetch();
-  }, []);
+  }, [initialFetch]);
 
   return (
     <div className="vyber-cont-major">
@@ -110,6 +109,7 @@ const VyberComponent = () => {
 function BotDetail() {
   const { botId } = useParams();
   const [botActive, setBotActive] = useState(true);
+  document.title = `Bot ${botId} | Highdmin`;
 
   const chartRequestData = useCallback(async (duration) => {
     let requestParams = filterDate(duration);

@@ -9,27 +9,23 @@ import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { filterDate } from "../pomocky/datumovanie";
 import { MdEuroSymbol } from "react-icons/md";
 import { BsCurrencyBitcoin } from "react-icons/bs";
-
 import { getCelkovyVyvinData } from "../pomocky/fakeApi";
 import LoadingComponent from "../komponenty/LoadingComponent.js";
+import { useLoadingManager } from "../komponenty/LoadingManager.js";
 import { formatCrypto, formatPrice } from "../pomocky/cislovacky";
 import { ImStack } from "react-icons/im";
 import { BiChevronDownCircle, BiChevronUpCircle } from "react-icons/bi";
 
 const CelkovyVyvin = () => {
   const [data, setData] = useState({});
-  const [loading, setLoading] = useState({ isLoading: true, msg: "", hasError: { status: false, msg: "" } });
+  const [loading, setLoadingStep, loadingMessage] = useLoadingManager(30, true);
 
   const celkovyVyvinRequest = useCallback(async () => {
-    setLoading((prevState) => {
-      return { ...prevState, isLoading: true };
-    });
+    setLoadingStep("fetch");
     const newData = await getCelkovyVyvinData();
-    setLoading((prevState) => {
-      return { ...prevState, isLoading: false };
-    });
+    setLoadingStep("render");
     setData(newData);
-  }, []);
+  }, [setLoadingStep]);
 
   useEffect(() => {
     celkovyVyvinRequest();
@@ -38,8 +34,8 @@ const CelkovyVyvin = () => {
   return (
     <div className="celkovy-cont-title">
       <div className="celkovy-stav-cont">
-        {loading.isLoading && <LoadingComponent loadingText={loading.msg}></LoadingComponent>}
-        <ul style={{ visibility: loading.isLoading ? "hidden" : "" }}>
+        {loading && <LoadingComponent loadingText={loadingMessage}></LoadingComponent>}
+        <ul style={{ opacity: loading ? 0 : 100 }}>
           <li className="stav-element">
             <BiChevronUpCircle id="indikator" />
             <p>Zmena 24H</p>

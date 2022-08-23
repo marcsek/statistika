@@ -27,7 +27,7 @@ function LoginPage() {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                navigate("/");
+                navigate("/", { replace: true });
               }}
             >
               Prihlásiť sa

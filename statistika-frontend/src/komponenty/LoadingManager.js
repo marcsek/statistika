@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback } from "react";
 import "./LoadingComponent.css";
 
 function useLoadingManager(delay = 100, initialLoadingState = false) {
@@ -23,6 +23,12 @@ function useLoadingManager(delay = 100, initialLoadingState = false) {
         case "none":
           setLoading((prev) => ({ ...prev, isLoading: true, errorMessage: "Žiadna zhoda", loadingStep: "" }));
           break;
+        case "create":
+          setLoading((prev) => ({ ...prev, isLoading: true, loadingStep: "Vytváram...", errorMessage: "" }));
+          break;
+        case "save":
+          setLoading((prev) => ({ ...prev, isLoading: true, loadingStep: "Ukladám...", errorMessage: "" }));
+          break;
         case "render":
           setLoading((prev) => ({ ...prev, isLoading: true, loadingStep: "Pripravujem dáta...", errorMessage: "" }));
           setTimeout(() => {
@@ -30,7 +36,7 @@ function useLoadingManager(delay = 100, initialLoadingState = false) {
           }, delay);
           break;
         default:
-          setLoading((prev) => ({ ...prev, isLoading: false, loadingStep: "", errorMessage: "" }));
+          setLoading((prev) => ({ ...prev, isLoading: false, loadingStep: "Načítavam", errorMessage: "" }));
           break;
       }
     },

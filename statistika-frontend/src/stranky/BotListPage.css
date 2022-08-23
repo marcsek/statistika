@@ -173,6 +173,7 @@
   padding: 20px 30px;
   border-radius: 0.25rem;
   box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
+  transition: opacity 0.08s;
 }
 
 #burza-meno {

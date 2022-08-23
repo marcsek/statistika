@@ -24,9 +24,9 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const getPage = async (number) => {
   let data = [];
-  let lastFullPage = Math.trunc(dataFilter.length / 15);
+  let lastFullPage = Math.trunc(dataFilter.length / 30);
 
-  for (let i = (number - 1) * 15; i < (lastFullPage < number ? dataFilter.length : number * 15); i++) {
+  for (let i = (number - 1) * 30; i < (lastFullPage < number ? dataFilter.length : number * 30); i++) {
     data.push({ ...dataFilter[i] });
   }
   await sleep(500);

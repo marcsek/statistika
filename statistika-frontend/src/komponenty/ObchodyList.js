@@ -175,7 +175,7 @@ function ObchodyList() {
 
   /* passuju sa Pagination.js */
   const loadNextPage = () => {
-    if (curPage * 15 < listData.totalItems) {
+    if (curPage * 30 < listData.totalItems) {
       loadNewPage(curPage + 1);
     }
   };
@@ -200,16 +200,15 @@ function ObchodyList() {
                 name="ascend"
                 style={{ pointerEvents: loading ? "none" : "" }}
                 onClick={(e) =>
-                  onOrderFilterSet({
+                  onOrderFilterSet((prevFilters) => ({
+                    ...prevFilters,
                     curType: "date",
-                    typeNum: orderFilter.typeNum,
                     typeDate: !orderFilter.typeDate,
-                    typePrice: orderFilter.typePrice,
-                  })
+                  }))
                 }
               >
                 {orderFilter.typeDate ? <BiChevronsDown /> : <BiChevronsUp />}
-                Dátum a čas
+                Dátum a Čas
               </button>
               <p className="cislo" id="element">
                 Buy/Sell
@@ -220,12 +219,11 @@ function ObchodyList() {
                 name="ascend"
                 style={{ pointerEvents: loading ? "none" : "" }}
                 onClick={(e) =>
-                  onOrderFilterSet({
+                  onOrderFilterSet((prevFilters) => ({
+                    ...prevFilters,
                     curType: "price",
-                    typeNum: orderFilter.typeNum,
-                    typeDate: orderFilter.typeDate,
                     typePrice: !orderFilter.typePrice,
-                  })
+                  }))
                 }
               >
                 {orderFilter.typePrice ? <BiChevronsDown /> : <BiChevronsUp />}
@@ -237,12 +235,11 @@ function ObchodyList() {
                 name="ascend"
                 style={{ pointerEvents: loading ? "none" : "" }}
                 onClick={(e) =>
-                  onOrderFilterSet({
+                  onOrderFilterSet((prevFilters) => ({
+                    ...prevFilters,
                     curType: "num",
                     typeNum: !orderFilter.typeNum,
-                    typeDate: orderFilter.typeDate,
-                    typePrice: orderFilter.typePrice,
-                  })
+                  }))
                 }
               >
                 {orderFilter.typeNum ? <BiChevronsDown /> : <BiChevronsUp />}
@@ -284,7 +281,7 @@ function ObchodyList() {
       <Pagination
         paginateFront={() => loadNextPage()}
         paginateBack={() => loadPrevPage()}
-        postsPerPage={15}
+        postsPerPage={30}
         totalPosts={listData.totalItems}
         currentPage={curPage}
         isLoading={loading}

@@ -9,6 +9,7 @@ import BotDetail from "./stranky/BotDetailPage";
 import LoginPage from "./stranky/LoginPage";
 import VytvorenieBotaPage from "./stranky/VytvorenieBotaPage";
 import Header from "./Header";
+import ErrorPage from "./stranky/ErrorPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route exact path="/bot-detail/:botId" element={<BotDetail />} />
             <Route exact path="/login" element={<LoginPage />} />
             <Route exact path="/vytvorenie-bota" element={<VytvorenieBotaPage />} />
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
       </div>

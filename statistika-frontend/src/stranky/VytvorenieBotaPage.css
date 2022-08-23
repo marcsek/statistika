@@ -45,6 +45,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  transition: background-color 0.15s;
 }
 
 .ulozit-bota-btn#inactive {
@@ -70,9 +71,11 @@
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  transition: opacity 0.15s;
 }
 
 .post-bot-create-cont h1 {
+  margin-top: 20px;
   text-align: center;
   font-size: 2.25rem;
   font-family: Rubik, sans-serif;
@@ -80,11 +83,11 @@
 }
 
 .post-bot-create-cont .checkmark {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   color: #16c784;
   transform: translateY(-50px);
-  transition: all 0.5s ease-out;
+  transition: all 1s ease-in;
 }
 
 .post-bot-create-cont .checkmark#inactive {
@@ -92,8 +95,8 @@
 }
 
 .post-bot-create-cont .checkmark#active {
-  transition: all 0.3s ease-in-out;
-  transform: translateY(0px);
+  transition: all 0.6s;
+  transform: translateY(15px);
 }
 
 .post-bot-create-cont .bot-button {
@@ -101,8 +104,8 @@
   font-weight: 600;
   cursor: pointer;
   color: white;
-  margin-top: 40px;
-  margin-bottom: 10px;
+  margin-top: 60px;
+  margin-bottom: 20px;
   background-color: #2d7bf4;
   border-radius: 7px;
   box-sizing: border-box;
@@ -125,11 +128,12 @@
   color: var(--pismo-biela);
 }
 
-.post-bot-create-cont .return-button {
+.return-button {
   display: flex;
   gap: 7px;
   box-sizing: border-box;
   padding: 10px 15px;
+  margin-bottom: 20px;
   line-height: 20px;
   background-color: #3c3f50;
   border: none;

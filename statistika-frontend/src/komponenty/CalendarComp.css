@@ -52,12 +52,15 @@
 
 .calendar-div#show {
   transition: all 0.2s;
+  transform: translateY(0);
   opacity: 1;
 }
 
 .calendar-div#hidden {
   transition: all 0.2s;
+  transition-delay: 0.025s;
   opacity: 0;
+  transform: translateY(20px);
   pointer-events: none;
 }
 

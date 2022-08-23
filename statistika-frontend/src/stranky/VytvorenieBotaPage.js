@@ -9,37 +9,33 @@ import { saveTextValues } from "../pomocky/fakeApi";
 
 import { FaRegSave } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { BiBadgeCheck } from "react-icons/bi";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { MdKeyboardReturn } from "react-icons/md";
 import { TbRobot } from "react-icons/tb";
+import { useLoadingManager } from "../komponenty/LoadingManager";
 
 function VytvorenieBotaPage() {
   const navigate = useNavigate();
   const childRef = useRef();
-  const [loading, setLoading] = useState({
-    isLoading: false,
-    msg: "",
-    hasError: { status: false, msg: "" },
-  });
+
+  const [loading, setLoadingStep, loadingMessage] = useLoadingManager(0, false);
   const [renderPost, setRenderPost] = useState(false);
 
   const onCreate = async (burza) => {
-    setLoading({ isLoading: true, msg: "Vytváram...", hasError: { status: false, msg: "" } });
+    setLoadingStep("send");
     addBot(burza);
     let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(500);
-    setLoading({ isLoading: false, msg: "Vytváram...", hasError: { status: false, msg: "" } });
+    setLoadingStep("render");
     setRenderPost(true);
   };
 
   const onSave = async () => {
-    setLoading({ isLoading: true, msg: "Ukladám...", hasError: { status: false, msg: "" } });
+    setLoadingStep("save");
     saveTextValues(childRef.current.getTextValues());
     let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(500);
-    setLoading({ isLoading: false, msg: "Ukladám...", hasError: { status: false, msg: "" } });
+    setLoadingStep("render");
   };
 
   useEffect(() => {
@@ -61,19 +57,18 @@ function VytvorenieBotaPage() {
           <FaRegSave /> Uložiť
         </button>
       </div>
-      <div className="vyt-bot-content" style={{ paddingLeft: loading.isLoading ? 0 : "" }}>
-        {loading.isLoading && <LoadingComponent loadingText={loading.msg} background={true}></LoadingComponent>}
+      <div className="vyt-bot-content" style={{ paddingLeft: loading ? 0 : "" }}>
+        {loading && <LoadingComponent loadingText={loadingMessage} background={true}></LoadingComponent>}
         <div style={{ display: renderPost ? "none" : "" }}>
           <ParametreEditor ref={childRef} type="create" onCreate={onCreate} onSave={onSave}></ParametreEditor>
         </div>
         <div
           className="post-bot-create-cont"
-          style={{ height: !renderPost ? "0px" : "", visibility: !renderPost ? "hidden" : "", overflow: !renderPost ? "hidden" : "" }}
+          style={{ height: !renderPost ? "0px" : "", opacity: !renderPost ? 0 : 100, overflow: !renderPost ? "hidden" : "" }}
         >
           <h1>Bota Sa Podarilo Vytvoriť</h1>
           <IoCheckmarkDoneSharp className="checkmark" id={renderPost ? "active" : "inactive"} />
           <button className="bot-button" onClick={(e) => navigate("/bot-detail/3232")}>
-            {" "}
             <TbRobot /> Detail vytvoreného bota
           </button>
           <button

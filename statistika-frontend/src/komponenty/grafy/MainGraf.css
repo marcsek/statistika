@@ -102,6 +102,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
 }
 
 #graf-filter ul li:hover {

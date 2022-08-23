@@ -46,6 +46,7 @@
   /* flex-wrap: wrap; */
   row-gap: 30px;
   /* column-gap: 25px; */
+  transition: opacity 0.08s;
 }
 
 .stav-element + .stav-element {
