@@ -1,9 +1,8 @@
-import React, { useState, useCallback, useEffect, forwardRef, useRef, useImperativeHandle } from "react";
+import React, { useState, useCallback, useEffect, forwardRef, useRef, useImperativeHandle, useLayoutEffect } from "react";
 import "../stranky/BotDetailPage.css";
 
 import { getTextValues, setNewTextValues, getSavedTextValues } from "../pomocky/fakeApi.js";
-import LoadingComponent from "./LoadingComponent.js";
-import { useLoadingManager, LoadingComponentT } from "../komponenty/LoadingManager.js";
+import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManager.js";
 import { MdOutlinePowerOff, MdOutlinePower } from "react-icons/md";
 import "./VyberComp.css";
 import { isPositiveInteger } from "../pomocky/cislovacky";
@@ -15,10 +14,10 @@ const formValuesInit = {
   poznamka: { value: "", init: "" },
   prepinac: { value: true, init: true },
   zapnuty: { value: false, init: false },
-  test: { value: true, init: false },
-  maker: { value: true, init: false },
-  feeCoin: { value: true, init: false },
-  prepoc: { value: true, init: false },
+  test: { value: true, init: true },
+  maker: { value: true, init: true },
+  feeCoin: { value: true, init: true },
+  prepoc: { value: true, init: true },
   hodnota: { value: "USDC", init: "USDC" },
   zdroj: { value: true, init: true },
   nazov: { value: "ETH", init: "ETH" },
@@ -35,78 +34,172 @@ const formValuesInit = {
   zvysTrad: { value: "32", init: "32" },
 };
 
-//ked bude api tak loading brat iba od parenta
-const ParametreEditor = forwardRef((props, ref) => {
-  const [textValues, setTextValues] = useState(formValuesInit);
-
+const ExtraParametre = forwardRef((props, ref) => {
   const [extraValues, setExtraValues] = useState({
     burza: "Burza 1",
     key: "",
     secret: "",
     password: "",
   });
-
-  const [canShowbutton, setCanShowbutton] = useState(false);
-
   const [drowDownClicked, setDropDownClick] = useState(false);
-
   const burzi = ["Burza 1", "Burza 2", "Burza 3", "Burza 4", "Burza 5"];
 
+  const checkForError = useCallback((newValues) => {
+    let extraValuesCopy = { ...newValues };
+    delete extraValuesCopy.burza;
+
+    extraValuesCopy = Object.values(extraValuesCopy);
+
+    return extraValuesCopy.some((value) => value === "");
+  }, []);
+
+  const onExtraTextChange = useCallback(
+    (evt) => {
+      let stateCopy = { ...extraValues };
+
+      stateCopy[evt.target.name] = evt.target.value;
+
+      setExtraValues({ ...stateCopy });
+    },
+    [extraValues]
+  );
+
+  useEffect(() => {
+    props.checkError(checkForError(extraValues));
+  }, [extraValues, props, checkForError]);
+
+  useImperativeHandle(ref, () => ({
+    getSelectedBurza() {
+      return extraValues.burza;
+    },
+  }));
+
+  return (
+    <div className="bot-extra-create-cont">
+      <div
+        className="drop-down"
+        onClick={(e) => {
+          setDropDownClick(!drowDownClicked);
+        }}
+        id={drowDownClicked ? "active" : "inactive"}
+      >
+        <span>Burza</span>
+        <div className="drop-down-inside-text">
+          {extraValues.burza}
+          <TbCaretDown />
+        </div>
+
+        <div className="drop-down-menu" style={{ visibility: drowDownClicked ? "" : "hidden" }}>
+          {burzi.map((burza, index) => {
+            return (
+              <div key={index} className="drop-down-menu-item" onClick={(e) => setExtraValues({ ...extraValues, burza: burzi[index] })}>
+                {burza}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div id="input-small" className="parametre-input-cont">
+        <div id="input-small" className="parametre-input">
+          <span>Key</span>
+          <input
+            id="ob-par-input"
+            autoComplete="off"
+            placeholder="Povinné"
+            value={extraValues.key}
+            name="key"
+            onChange={(e) => {
+              if (!/\s/.test(e.target.value) || e.target.value === "") onExtraTextChange(e);
+            }}
+          ></input>
+        </div>
+      </div>
+
+      <div id="input-small" className="parametre-input-cont">
+        <div id="input-small" className="parametre-input">
+          <span>Secret</span>
+          <input
+            id="ob-par-input"
+            autoComplete="off"
+            value={extraValues.secret}
+            placeholder="Povinné"
+            name="secret"
+            onChange={(e) => {
+              if (!/\s/.test(e.target.value) || e.target.value === "") onExtraTextChange(e);
+            }}
+          ></input>
+        </div>
+      </div>
+      <div id="input-small" className="parametre-input-cont">
+        <div id="input-small" className="parametre-input">
+          <span>Password</span>
+          <input
+            id="ob-par-input"
+            autoComplete="off"
+            value={extraValues.password}
+            placeholder="Povinné"
+            name="password"
+            onChange={(e) => {
+              if (/^[a-zA-Z/]+$/.test(e.target.value) || e.target.value === "") onExtraTextChange(e);
+            }}
+          ></input>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+//ked bude api tak loading brat iba od parenta
+
+// *** neviem ako budem robit initial loady, ak bude kazdy element robit requesty sam tak to nepojde cez forwardRef
+// *** alebo bude robit parent velky load a posielat to do childov
+
+//prerobit to tak aby boli obaja childi
+
+const ParametreEditor = forwardRef((props, ref) => {
+  const [textValues, setTextValues] = useState(formValuesInit);
+  const [canShowbutton, setCanShowbutton] = useState(false);
   const [loading, setLoadingStep, loadingMessage] = useLoadingManager(100, true);
+  const extraParemetreRef = useRef(null);
 
   const textValuesRequest = useCallback(async () => {
     setLoadingStep("fetch");
-    const textValuess = await (props.type === "create" ? getSavedTextValues() : getTextValues());
+    const textValues = await (props.type === "create" ? getSavedTextValues() : getTextValues());
     setLoadingStep("transform");
 
     setTextValues((prevState) => {
       const stateCopy = { ...prevState };
-      for (const key in textValues) {
-        stateCopy[key].value = textValuess[key];
-        stateCopy[key].init = textValuess[key];
+      for (const key in formValuesInit) {
+        stateCopy[key].value = textValues[key];
+        stateCopy[key].init = textValues[key];
       }
       setLoadingStep("render");
       return stateCopy;
     });
-  }, []);
+  }, [props.type, setLoadingStep]);
 
-  const textValuesRequestTwo = useCallback(async () => {
-    // setLoading((prevState) => {
-    //   return { ...prevState, isLoading: true };
-    // });
-    const textValuess = await getSavedTextValues();
-    // setLoading((prevState) => {
-    //   return { ...prevState, isLoading: false };
-    // });
+  const textValuesSend = useCallback(
+    async (textValues) => {
+      setCanShowbutton(false);
 
-    setTextValues((prevState) => {
-      const stateCopy = { ...prevState };
+      setLoadingStep("send");
+      const valuesToSend = {};
       for (const key in textValues) {
-        stateCopy[key].value = textValuess[key];
-        stateCopy[key].init = textValuess[key];
+        valuesToSend[key] = textValues[key].value;
       }
-      return stateCopy;
-    });
-  }, []);
+      const response = await setNewTextValues(valuesToSend);
+      setLoadingStep("render");
 
-  const textValuesSend = useCallback(async (textValues) => {
-    setCanShowbutton(false);
+      const stateCopy = { ...textValues };
+      for (const key in stateCopy) {
+        stateCopy[key].init = response[key];
+      }
 
-    setLoadingStep("send");
-    const valuesToSend = {};
-    for (const key in textValues) {
-      valuesToSend[key] = textValues[key].value;
-    }
-    const response = await setNewTextValues(valuesToSend);
-    setLoadingStep("render");
-
-    const stateCopy = { ...textValues };
-    for (const key in stateCopy) {
-      stateCopy[key].init = response[key];
-    }
-
-    setTextValues(stateCopy);
-  }, []);
+      setTextValues(stateCopy);
+    },
+    [setLoadingStep]
+  );
 
   useImperativeHandle(ref, () => ({
     getTextValues() {
@@ -116,10 +209,6 @@ const ParametreEditor = forwardRef((props, ref) => {
       }
       return valuesToSend;
     },
-
-    setTextValues() {
-      // textValuesRequestTwo();
-    },
   }));
 
   useEffect(() => {
@@ -127,30 +216,33 @@ const ParametreEditor = forwardRef((props, ref) => {
   }, [textValuesRequest]);
 
   const checkError = useCallback(
-    (mainn, extraa) => {
+    (optionalOutcomeFromExtra) => {
+      console.log("check in");
       let oneChanged = false;
       let error = false;
-      let main = mainn ? mainn : textValues;
-      let extra = extraa ? extraa : extraValues;
+      let errorFromExtra = optionalOutcomeFromExtra ? optionalOutcomeFromExtra : false;
 
-      for (const key in main) {
-        if ((key !== "poznamka" && typeof main[key].value !== "boolean" && main[key].value === "") || (key === "obPar" && main[key].value === "/")) {
+      for (const key in textValues) {
+        if (
+          (key !== "poznamka" && typeof textValues[key].value !== "boolean" && textValues[key].value === "") ||
+          (key === "obPar" && textValues[key].value === "/")
+        ) {
           error = true;
           break;
-        } else if (main[key].value !== main[key].init) {
+        } else if (textValues[key].value !== textValues[key].init) {
           oneChanged = true;
         }
       }
-      for (const key in extra) {
-        if (extra[key] === "" && props.type === "create") {
-          error = true;
-          break;
-        }
-      }
-      setCanShowbutton(error ? false : props.type === "create" ? true : oneChanged);
+
+      setCanShowbutton(error || errorFromExtra ? false : props.type === "create" ? true : oneChanged);
     },
-    [extraValues, textValues, props.type]
+    [textValues, props.type]
   );
+
+  useEffect(() => {
+    checkError();
+    // console.log("check");
+  }, [checkError, textValues]);
 
   const onTextChange = useCallback(
     (evt, shouldSwap, upperCase) => {
@@ -162,123 +254,34 @@ const ParametreEditor = forwardRef((props, ref) => {
       if (shouldSwap) {
         value = !textValues[evt.target.name].value;
       }
-      // stateCopy.small[evt.target.name].v = evt.target.value;
       stateCopy[evt.target.name].value = value;
-      checkError(stateCopy, extraValues);
       setTextValues({ ...stateCopy });
-    },
-    [textValues, extraValues, checkError]
-  );
-
-  const getBorderColor = useCallback(
-    (meno, baseText) => {
-      if (textValues[meno].value === (baseText ? baseText : "")) {
-        return "2px solid red";
-      } else if (textValues[meno].value !== textValues[meno].init && props.type !== "create") {
-        return "2px solid #2d7bf4";
-      }
-      return "";
     },
     [textValues]
   );
 
-  const onExtraTextChange = useCallback(
-    (evt, id) => {
-      let stateCopy = { ...extraValues };
+  const getBorderColor = (meno, baseText) => {
+    if (textValues[meno].value === (baseText ? baseText : "")) {
+      return "2px solid red";
+    } else if (textValues[meno].value !== textValues[meno].init && props.type !== "create") {
+      return "2px solid #2d7bf4";
+    }
+    return "";
+  };
 
-      // stateCopy.small[evt.target.name].v = evt.target.value;
-      stateCopy[evt.target.name] = evt.target.value;
-
-      checkError(textValues, stateCopy);
-      setExtraValues({ ...stateCopy });
-    },
-    [extraValues, textValues]
-  );
-
-  const getInactiveStyle = useCallback((meno) => {
+  const getInactiveStyle = (meno) => {
     return {
       color: !textValues[meno].value ? "rgb(115, 115, 115)" : "",
       filter: !textValues[meno].value ? "brightness(0.8)" : "",
       pointerEvents: !textValues[meno].value ? "none" : "",
     };
-  });
+  };
 
   return (
     <>
       {(loading || props.loadingParent) && <LoadingComponent background={true} loadingText={loadingMessage}></LoadingComponent>}
       <div className="bot-parametre-cont" style={{ visibility: loading ? "" : "" || props.loadingParent ? "none" : "" }}>
-        <div style={{ display: props.type !== "create" || props.loadingParent ? "none" : "" }} className="bot-extra-create-cont">
-          <div
-            className="drop-down"
-            onClick={(e) => {
-              setDropDownClick(!drowDownClicked);
-            }}
-            id={drowDownClicked ? "active" : "inactive"}
-          >
-            <span>Burza</span>
-            <div className="drop-down-inside-text">
-              {extraValues.burza}
-              <TbCaretDown />
-            </div>
-
-            <div className="drop-down-menu" style={{ visibility: drowDownClicked ? "" : "hidden" }}>
-              {burzi.map((burza, index) => {
-                return (
-                  <div key={index} className="drop-down-menu-item" onClick={(e) => setExtraValues({ ...extraValues, burza: burzi[index] })}>
-                    {burza}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div id="input-small" className="parametre-input-cont">
-            <div id="input-small" className="parametre-input">
-              <span>Key</span>
-              <input
-                id="ob-par-input"
-                autoComplete="off"
-                placeholder="Povinné"
-                value={extraValues.key}
-                name="key"
-                onChange={(e) => {
-                  if (!/\s/.test(e.target.value) || e.target.value === "") onExtraTextChange(e);
-                }}
-              ></input>
-            </div>
-          </div>
-
-          <div id="input-small" className="parametre-input-cont">
-            <div id="input-small" className="parametre-input">
-              <span>Secret</span>
-              <input
-                id="ob-par-input"
-                autoComplete="off"
-                value={extraValues.secret}
-                placeholder="Povinné"
-                name="secret"
-                onChange={(e) => {
-                  if (!/\s/.test(e.target.value) || e.target.value === "") onExtraTextChange(e);
-                }}
-              ></input>
-            </div>
-          </div>
-          <div id="input-small" className="parametre-input-cont">
-            <div id="input-small" className="parametre-input">
-              <span>Password</span>
-              <input
-                id="ob-par-input"
-                autoComplete="off"
-                value={extraValues.password}
-                placeholder="Povinné"
-                name="password"
-                onChange={(e) => {
-                  if (/^[a-zA-Z/]+$/.test(e.target.value) || e.target.value === "") onExtraTextChange(e);
-                }}
-              ></input>
-            </div>
-          </div>
-        </div>
+        {props.type === "create" && <ExtraParametre checkError={checkError} ref={extraParemetreRef} />}
         <div className="bot-parametre">
           <div className="important-parametre-cont">
             <button
@@ -344,8 +347,7 @@ const ParametreEditor = forwardRef((props, ref) => {
                 className="submit-button"
                 onClick={(e) => {
                   if (props.type === "create") {
-                    props.onCreate(extraValues.burza);
-                    // textValuesSend(textValues);
+                    props.onCreate(extraParemetreRef.current.getSelectedBurza());
                   } else {
                     textValuesSend(textValues);
                   }

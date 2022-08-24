@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import "./LoadingComponent.css";
 
+// Loading manager Hook
 function useLoadingManager(delay = 100, initialLoadingState = false) {
   const [loading, setLoading] = React.useState({
     isLoading: initialLoadingState,
@@ -8,6 +9,7 @@ function useLoadingManager(delay = 100, initialLoadingState = false) {
     errorMessage: "",
   });
 
+  // predom definované kroky načítavania
   const setLoadingStep = useCallback(
     (loadingStep) => {
       switch (loadingStep) {
@@ -36,7 +38,7 @@ function useLoadingManager(delay = 100, initialLoadingState = false) {
           }, delay);
           break;
         default:
-          setLoading((prev) => ({ ...prev, isLoading: false, loadingStep: "Načítavam", errorMessage: "" }));
+          setLoading((prev) => ({ ...prev, isLoading: false, loadingStep: "Načítavam...", errorMessage: "" }));
           break;
       }
     },
@@ -46,7 +48,8 @@ function useLoadingManager(delay = 100, initialLoadingState = false) {
   return [loading.isLoading, setLoadingStep, loading.loadingStep, loading.errorMessage];
 }
 
-function LoadingComponentT({ error, loadingText, background, height }) {
+// komponent na renderovanie loading managera
+function LoadingComponent({ error, loadingText, background, height }) {
   return (
     <div className="loading-div" style={{ height: height }}>
       {background && <div id="background"></div>}
@@ -62,4 +65,4 @@ function LoadingComponentT({ error, loadingText, background, height }) {
   );
 }
 
-export { useLoadingManager, LoadingComponentT };
+export { useLoadingManager, LoadingComponent };

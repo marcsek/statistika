@@ -8,8 +8,7 @@ import "chartjs-adapter-moment";
 import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
 
 import CrosshairPlugin from "chartjs-plugin-crosshair";
-import LoadingComponent from "../LoadingComponent";
-import { useLoadingManager, LoadingComponentT } from "../LoadingManager.js";
+import { useLoadingManager, LoadingComponent } from "../LoadingManager.js";
 
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
@@ -87,7 +86,7 @@ function BotGraf({ grafRequestData }) {
 
   return (
     <div className="bot-chart-main">
-      {loading && <LoadingComponentT background={true} loadingText={loadingMessage} />}
+      {loading && <LoadingComponent background={true} loadingText={loadingMessage} />}
       <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
       <div className="bot-chart-div" style={{ display: loading ? "" : "" }}>
         <Line style={{ display: loading ? "" : "" }} ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>

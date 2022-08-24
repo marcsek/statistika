@@ -6,7 +6,6 @@ import "./BotDetailPage.css";
 
 import { filterDate, formatDate } from "../pomocky/datumovanie";
 import ObchodyList from "../komponenty/ObchodyList.js";
-import LoadingComponent from "../komponenty/LoadingComponent.js";
 import { MdEuroSymbol } from "react-icons/md";
 import "../komponenty/VyberComp.css";
 import { formatCrypto, formatPrice } from "../pomocky/cislovacky.js";
@@ -14,7 +13,7 @@ import ParametreEditor from "../komponenty/ParametreEditor.js";
 import { VscCircleFilled } from "react-icons/vsc";
 import { getTextValues } from "../pomocky/fakeApi.js";
 import { GrMoney } from "react-icons/gr";
-import { useLoadingManager, LoadingComponentT } from "../komponenty/LoadingManager.js";
+import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManager.js";
 
 const VyberComponent = () => {
   const [tranList, setTranList] = useState([

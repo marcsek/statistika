@@ -8,8 +8,7 @@ import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
-import LoadingComponent from "../LoadingComponent";
-import { useLoadingManager, LoadingComponentT } from "../LoadingManager.js";
+import { useLoadingManager, LoadingComponent } from "../LoadingManager.js";
 import NastaveniaBurzaGrafu from "./grafNastavenia/BurzaGrafNastavenia";
 
 function BurzaGraf({ grafRequestData, farbaCiary, index }) {

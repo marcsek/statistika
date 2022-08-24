@@ -1,5 +1,5 @@
 import "./Header.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { TiChartLineOutline } from "react-icons/ti";
 import { RiListCheck2 } from "react-icons/ri";
@@ -32,7 +32,7 @@ function Header() {
   // listener na zmenu šírky kvôli resizu výšky grafu
   const windowDimensions = useWindowDimensions();
   const [windowIsSmall, setWindowIsSmall] = useState(false);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (windowDimensions.width < 350) {
       setWindowIsSmall(true);
     } else {

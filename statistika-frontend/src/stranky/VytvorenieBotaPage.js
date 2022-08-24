@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 
 import "./VytvorenieBotaPage.css";
 
 import ParametreEditor from "../komponenty/ParametreEditor";
 import { addBot } from "../pomocky/fakeApi";
-import LoadingComponent from "../komponenty/LoadingComponent";
 import { saveTextValues } from "../pomocky/fakeApi";
 
 import { FaRegSave } from "react-icons/fa";
@@ -12,11 +11,11 @@ import { useNavigate } from "react-router-dom";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { MdKeyboardReturn } from "react-icons/md";
 import { TbRobot } from "react-icons/tb";
-import { useLoadingManager } from "../komponenty/LoadingManager";
+import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManager";
 
 function VytvorenieBotaPage() {
   const navigate = useNavigate();
-  const childRef = useRef();
+  const parametreRef = useRef();
 
   const [loading, setLoadingStep, loadingMessage] = useLoadingManager(0, false);
   const [renderPost, setRenderPost] = useState(false);
@@ -32,15 +31,11 @@ function VytvorenieBotaPage() {
 
   const onSave = async () => {
     setLoadingStep("save");
-    saveTextValues(childRef.current.getTextValues());
+    saveTextValues(parametreRef.current.getTextValues());
     let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(500);
     setLoadingStep("render");
   };
-
-  useEffect(() => {
-    childRef.current.setTextValues();
-  }, []);
 
   return (
     <div className="vytvorenie-bota-cont">
@@ -60,7 +55,7 @@ function VytvorenieBotaPage() {
       <div className="vyt-bot-content" style={{ paddingLeft: loading ? 0 : "" }}>
         {loading && <LoadingComponent loadingText={loadingMessage} background={true}></LoadingComponent>}
         <div style={{ display: renderPost ? "none" : "" }}>
-          <ParametreEditor ref={childRef} type="create" onCreate={onCreate} onSave={onSave}></ParametreEditor>
+          <ParametreEditor ref={parametreRef} type="create" onCreate={onCreate} onSave={onSave}></ParametreEditor>
         </div>
         <div
           className="post-bot-create-cont"

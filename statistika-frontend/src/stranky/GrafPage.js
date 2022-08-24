@@ -10,8 +10,7 @@ import { filterDate } from "../pomocky/datumovanie";
 import { MdEuroSymbol } from "react-icons/md";
 import { BsCurrencyBitcoin } from "react-icons/bs";
 import { getCelkovyVyvinData } from "../pomocky/fakeApi";
-import LoadingComponent from "../komponenty/LoadingComponent.js";
-import { useLoadingManager } from "../komponenty/LoadingManager.js";
+import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManager.js";
 import { formatCrypto, formatPrice } from "../pomocky/cislovacky";
 import { ImStack } from "react-icons/im";
 import { BiChevronDownCircle, BiChevronUpCircle } from "react-icons/bi";
@@ -133,7 +132,7 @@ function Graf() {
 
     let resData = [];
     let docData = [];
-    let dataToUpdate = [[], [], [], []];
+    // let dataToUpdate = [[], [], [], []];
 
     resData = await axios.get(
       `https://min-api.cryptocompare.com/data/v2/histo${requestParams.tick}?fsym=BTC&tsym=USD&limit=${requestParams.amount}&toTs=-1&agregate=1&api_key=YOURKEYHERE`

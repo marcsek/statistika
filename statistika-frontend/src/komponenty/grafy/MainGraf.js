@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import "./MainGraf.css";
 
 import { getPercentageChange } from "../../pomocky/cislovacky";
-import LoadingComponent from "../LoadingComponent";
-import { useLoadingManager, LoadingComponentT } from "../LoadingManager.js";
+import { useLoadingManager, LoadingComponent } from "../LoadingManager.js";
 
 import CalendarComp from "../CalendarComp";
 
@@ -16,15 +15,15 @@ Highcharts.setOptions(NastaveniaMainGraf);
 
 function MainGraf({ grafRequestData }) {
   //pravdepodobne iba docasny refactor uvidim podla api
-  const refactorDataFormat = (newDataa) => {
-    let newData = [[], [], []];
+  const refactorDataFormat = (newData) => {
+    let newDataToReturn = [[], [], []];
 
-    for (let i = 0; i < newDataa.length; i++) {
-      for (let j = 0; j < newDataa[i].length; j++) {
-        newData[i][j] = [newDataa[i][j].x.getTime(), newDataa[i][j].cena];
+    for (let i = 0; i < newData.length; i++) {
+      for (let j = 0; j < newData[i].length; j++) {
+        newDataToReturn[i][j] = [newData[i][j].x.getTime(), newData[i][j].cena];
       }
     }
-    return newData;
+    return newDataToReturn;
   };
 
   // listener na zmenu šírky kvôli resizu výšky grafu
@@ -45,10 +44,10 @@ function MainGraf({ grafRequestData }) {
     };
   }, []);
 
-  const [calendarActive, setCalendarActive] = useState(false);
   const [filter, setFilter] = useState("1y");
   const [chartData, setChartData] = useState([]);
   const [loading, setLoadingStep, loadingMessage] = useLoadingManager(50);
+  const calendarRef = useRef(null);
 
   const getDataFromParent = useCallback(
     async (filter) => {
@@ -77,7 +76,7 @@ function MainGraf({ grafRequestData }) {
       const newValues = { dateStart: value[0] ? value[0] : "", dateEnd: value[1] ? value[1] : "" };
       setFilter(newValues);
     }
-    setCalendarActive(false);
+    calendarRef.current.changeOpenState();
   }, []);
 
   // stateful highcharts options
@@ -133,7 +132,7 @@ function MainGraf({ grafRequestData }) {
         Graf vývoja
       </p>
       <div className="main-graf-filter" id="graf-filter">
-        <CalendarComp minDate={new Date(1627628652305)} maxDate={new Date()} display={calendarActive} onCalendarClick={onCalendarNewDate} />
+        <CalendarComp ref={calendarRef} minDate={new Date(1627628652305)} maxDate={new Date()} onCalendarClick={onCalendarNewDate} />
         <ul>
           <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>
             1D
@@ -154,9 +153,9 @@ function MainGraf({ grafRequestData }) {
             All
           </li>
           <li
-            style={{ backgroundColor: (typeof filter === "object" || calendarActive) && "rgba(255, 255, 255, 0.29)" }}
+            style={{ backgroundColor: (typeof filter === "object" || calendarRef.current?.isCalendarOpen()) && "rgba(255, 255, 255, 0.29)" }}
             onClick={() => {
-              setCalendarActive(!calendarActive);
+              calendarRef.current.changeOpenState();
             }}
           >
             <TbCalendar />

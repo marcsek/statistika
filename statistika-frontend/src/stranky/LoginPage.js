@@ -7,7 +7,13 @@ function LoginPage() {
 
   return (
     <div className="login-page">
-      <div className="login-box">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          navigate("/", { replace: true });
+        }}
+        className="login-box"
+      >
         <div className="logo-box-login">
           <span className="logo-lg">
             <img alt="logo" src="/logo-dark.png"></img>
@@ -24,17 +30,10 @@ function LoginPage() {
             <input type="password" placeholder="Zadajte Heslo"></input>
           </div>
           <div className="login-button">
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                navigate("/", { replace: true });
-              }}
-            >
-              Prihlásiť sa
-            </button>
+            <button type="submit">Prihlásiť sa</button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
