@@ -9,7 +9,7 @@ import ObchodyList from "../komponenty/ObchodyList.js";
 import { MdEuroSymbol } from "react-icons/md";
 import "../komponenty/VyberComp.css";
 import { formatCrypto, formatPrice } from "../pomocky/cislovacky.js";
-import ParametreEditor from "../komponenty/ParametreEditor.js";
+import ParametreEditor from "../komponenty/formParametreBota/ParametreEditor.js";
 import { VscCircleFilled } from "react-icons/vsc";
 import { getTextValues } from "../pomocky/fakeApi.js";
 import { GrMoney } from "react-icons/gr";

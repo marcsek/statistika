@@ -1,0 +1,26 @@
+const defaultParaValues = {
+  obPar: { value: "ETH/USDT", init: "ETH/USDT" },
+  poznamka: { value: "", init: "" },
+  prepinac: { value: true, init: true },
+  zapnuty: { value: false, init: false },
+  test: { value: true, init: true },
+  maker: { value: true, init: true },
+  feeCoin: { value: true, init: true },
+  prepoc: { value: true, init: true },
+  hodnota: { value: "USDC", init: "USDC" },
+  zdroj: { value: true, init: true },
+  nazov: { value: "ETH", init: "ETH" },
+  minMnozstvo: { value: "48", init: "48" },
+  desatina: { value: "8", init: "8" },
+  percento: { value: "89", init: "89" },
+  odchylka: { value: "12", init: "12" },
+  postOnly: { value: true, init: true },
+  desMiestaCen: { value: "3", init: "3" },
+  desMiestaMnoz: { value: "5", init: "5" },
+  minHod: { value: "0.2", init: "0.2" },
+  testFee: { value: "0.003", init: "0.003" },
+  minProfit: { value: "430", init: "430" },
+  zvysTrad: { value: "32", init: "32" },
+};
+
+export default defaultParaValues;

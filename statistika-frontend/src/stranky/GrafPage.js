@@ -14,15 +14,20 @@ import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManage
 import { formatCrypto, formatPrice } from "../pomocky/cislovacky";
 import { ImStack } from "react-icons/im";
 import { BiChevronDownCircle, BiChevronUpCircle } from "react-icons/bi";
+import { motion } from "framer-motion";
 
 const CelkovyVyvin = () => {
   const [data, setData] = useState({});
   const [loading, setLoadingStep, loadingMessage] = useLoadingManager(30, true);
 
+  useEffect(() => {
+    // console.log(loading);
+  }, [loading]);
+
   const celkovyVyvinRequest = useCallback(async () => {
     setLoadingStep("fetch");
     const newData = await getCelkovyVyvinData();
-    setLoadingStep("render");
+    setLoadingStep();
     setData(newData);
   }, [setLoadingStep]);
 

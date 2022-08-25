@@ -29,21 +29,25 @@ const CalendarComp = forwardRef((props, ref) => {
   }));
 
   return (
-    <div id={calendarOpen ? "show" : "hidden"} className="calendar-div">
-      <Calendar minDate={props.minDate} maxDate={props.maxDate} selectRange={true} onChange={onChange} value={value} />
-      <div className="sub-calendar-comp">
-        <span style={{ visibility: value.length > 1 ? "" : "hidden" }} className="calendar-day-count">
-          {dateRange}
-        </span>
-        <button
-          style={{ backgroundColor: value.length > 1 ? "" : "#3c3f50" }}
-          className="calendar-button"
-          onClick={(e) => props.onCalendarClick(value)}
-        >
-          Použiť
-        </button>
-      </div>
-    </div>
+    <>
+      {calendarOpen && (
+        <div id={calendarOpen ? "show" : "hidden"} className="calendar-div">
+          <Calendar minDate={props.minDate} maxDate={props.maxDate} selectRange={true} onChange={onChange} value={value} />
+          <div className="sub-calendar-comp">
+            <span style={{ visibility: value.length > 1 ? "" : "hidden" }} className="calendar-day-count">
+              {dateRange}
+            </span>
+            <button
+              style={{ backgroundColor: value.length > 1 ? "" : "#3c3f50" }}
+              className="calendar-button"
+              onClick={(e) => props.onCalendarClick(value)}
+            >
+              Použiť
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 });
 

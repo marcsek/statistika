@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 
 import "./VytvorenieBotaPage.css";
 
-import ParametreEditor from "../komponenty/ParametreEditor";
+import ParametreEditor from "../komponenty/formParametreBota/ParametreEditor";
 import { addBot } from "../pomocky/fakeApi";
 import { saveTextValues } from "../pomocky/fakeApi";
 

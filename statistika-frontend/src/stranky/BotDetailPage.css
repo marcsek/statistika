@@ -1028,11 +1028,13 @@ textarea::placeholder {
   padding: 7px 0px;
   font-size: 0.9rem;
   font-weight: 600;
+  border: none;
   border-bottom: 1px solid #414557;
   /* background-color: rgba(14, 14, 14, 0.795) !important; */
   background-color: #353847 !important;
   user-select: none;
   cursor: pointer;
+  outline: none;
 }
 
 .drop-down#active .drop-down-menu {
