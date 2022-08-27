@@ -57,7 +57,7 @@ function LoadingComponent({ error, loadingText, background, height, blur, custom
         error
       ) : (
         <div className="loading-div" style={{ height: height }}>
-          <div className={customSpinner ? "loader" : "lds-dual-ring"}></div>
+          <div className={true ? "loader" : "lds-dual-ring"}></div>
           {loadingText ? loadingText : "Načítavam..."}
         </div>
       )}

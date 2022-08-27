@@ -162,7 +162,7 @@
     justify-content: flex-start !important;
     flex-direction: column;
   }
-  .submit-button-cont {
+  .important-parametre-cont .submit-button-cont {
     margin: 40px 0px;
   }
 
