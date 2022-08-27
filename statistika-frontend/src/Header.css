@@ -74,7 +74,7 @@
   color: #b5c6cc;
   line-height: 18px;
   transform: translateY(0px);
-  transition: transform 0.15s ease-in;
+  transition: transform 0.2s ease-in-out;
 }
 
 .account-dropdown svg {

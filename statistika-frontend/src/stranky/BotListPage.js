@@ -13,15 +13,30 @@ import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManage
 import { MdOutlinePowerOff, MdOutlinePower } from "react-icons/md";
 import { BiUserPlus } from "react-icons/bi";
 import useWindowDimensions from "../pomocky/window";
+import LoadingButtonComponent from "../komponenty/formParametreBota/LoadingButtonComponent";
 
 function ButtonComponent() {
   const [buttonClicked, setButtonClick] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setButtonClick(!buttonClicked);
+    }, 500);
+  };
 
   return (
-    <button className="vypinac" id={!buttonClicked ? "red" : "green"} onClick={() => setButtonClick(!buttonClicked)}>
+    <LoadingButtonComponent
+      buttonProps={{ className: "vypinac", id: !buttonClicked ? "red" : "green" }}
+      handleSubmitPress={handleSubmit}
+      loading={loading}
+      delay={200}
+    >
       {!buttonClicked ? <MdOutlinePowerOff /> : <MdOutlinePower />}
       {!buttonClicked ? "Vypnúť botov" : "Zapnúť Botov"}
-    </button>
+    </LoadingButtonComponent>
   );
 }
 
@@ -231,7 +246,7 @@ function BotListPage() {
       <NovyBotComp requestData={getFakeApiListData} />
       {/* list vsetkych burzi */}
       <ul className="list-burza">
-        {loading && <LoadingComponent background={true} height={height - 300} loadingText={loadingMessage}></LoadingComponent>}
+        {loading && <LoadingComponent background={true} height={height - 230} loadingText={loadingMessage}></LoadingComponent>}
         {!loading && <BotListElementMemo pageData={pageData} chartData={chartData} />}
       </ul>
     </div>

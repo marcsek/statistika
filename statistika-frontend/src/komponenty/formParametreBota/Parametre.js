@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, forwardRef, useImperativeHandle } from "react";
+import React, { useState, useCallback, useEffect, forwardRef, useImperativeHandle, useLayoutEffect } from "react";
 import "../../stranky/BotDetailPage.css";
 
 import { MdOutlinePowerOff, MdOutlinePower } from "react-icons/md";
@@ -6,9 +6,12 @@ import "../VyberComp.css";
 import { isPositiveInteger } from "../../pomocky/cislovacky";
 import { ImCheckmark } from "react-icons/im";
 import defaultParaValues from "./DefaultHodnotyParametrov";
+import LoadingButtonComponent from "./LoadingButtonComponent";
 
 const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitPress }, ref) => {
   const [textValues, setTextValues] = useState(defaultParaValues);
+  const [error, setError] = useState({ error: false, oneChanged: false });
+  const [loading, setLoading] = useState(false);
 
   const onTextChange = useCallback(
     (evt, shouldSwap, upperCase) => {
@@ -25,12 +28,14 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
     },
     [textValues]
   );
+
   useImperativeHandle(ref, () => ({
     getCurrentErrorState() {
-      return checkForError(textValues);
+      return error.error ? false : error.oneChanged;
     },
 
     setSavedTextValues(newValues) {
+      setLoading(false);
       setTextValues({ ...newValues });
     },
 
@@ -41,7 +46,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
 
   const checkForError = useCallback(
     (textValues) => {
-      let error = false;
+      let _error = false;
       let oneChanged = type === "create" ? true : false;
 
       for (const key in textValues) {
@@ -49,37 +54,69 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
           (key !== "poznamka" && typeof textValues[key].value !== "boolean" && textValues[key].value === "") ||
           (key === "obPar" && textValues[key].value === "/")
         ) {
-          error = true;
+          _error = true;
           break;
         } else if (textValues[key].value !== textValues[key].init) {
           oneChanged = true;
         }
       }
-      return error ? false : oneChanged;
+      setError((prevState) => {
+        if (prevState.error !== _error || prevState.oneChanged !== oneChanged) {
+          return { error: _error, oneChanged: oneChanged };
+        }
+        return prevState;
+      });
     },
     [type]
   );
 
   useEffect(() => {
     checkError();
-  }, [textValues, checkError, checkForError]);
+  }, [error.error, error.oneChanged, checkError]);
 
-  const getBorderColor = (meno, baseText) => {
-    if (textValues[meno].value === (baseText ? baseText : "")) {
-      return "2px solid red";
-    } else if (textValues[meno].value !== textValues[meno].init && type !== "create") {
-      return "2px solid #2d7bf4";
-    }
-    return "";
-  };
+  useEffect(() => {
+    checkForError(textValues);
+  }, [textValues, checkForError]);
 
-  const getInactiveStyle = (meno) => {
-    return {
-      color: !textValues[meno].value ? "rgb(115, 115, 115)" : "",
-      filter: !textValues[meno].value ? "brightness(0.8)" : "",
-      pointerEvents: !textValues[meno].value ? "none" : "",
-    };
-  };
+  const getBorderColor = useCallback(
+    (meno, baseText) => {
+      if (textValues[meno].value === (baseText ? baseText : "")) {
+        return "2px solid red";
+      } else if (textValues[meno].value !== textValues[meno].init && type !== "create") {
+        return "2px solid #2d7bf4";
+      }
+      return "";
+    },
+    [textValues, type]
+  );
+
+  const getInactiveStyle = useCallback(
+    (meno) => {
+      return {
+        color: !textValues[meno].value ? "rgb(115, 115, 115)" : "",
+        filter: !textValues[meno].value ? "brightness(0.8)" : "",
+        pointerEvents: !textValues[meno].value ? "none" : "",
+      };
+    },
+    [textValues]
+  );
+
+  const handleSubmitPress = useCallback(
+    (e) => {
+      console.log("Submit press");
+      setError({ error: false, oneChanged: false });
+      setLoading(true);
+      // setTextValues((prevState) => {
+      //   const stateCopy = { ...prevState };
+      //   for (const key in stateCopy) {
+      //     stateCopy[key].init = textValues[key].value;
+      //   }
+      //   return stateCopy;
+      // });
+      onSubmitPress(textValues);
+    },
+    [onSubmitPress, textValues]
+  );
 
   return (
     <div className="bot-parametre">
@@ -142,17 +179,13 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
             onChange={(e) => onTextChange(e)}
           ></textarea>
         </div>
-        <div className="submit-button-cont">
-          <button
-            className="submit-button"
-            onClick={(e) => {
-              onSubmitPress(textValues);
-            }}
-            id={shouldDisplaySubmit ? "active" : "inactive"}
-          >
-            {type === "create" ? "Vytvoriť" : "Updatnuť"}
-          </button>
-        </div>
+        <LoadingButtonComponent
+          buttonProps={{ className: "submit-button", id: shouldDisplaySubmit || loading ? "active" : "inactive" }}
+          handleSubmitPress={handleSubmitPress}
+          loading={loading}
+        >
+          <span>{type === "create" ? "Vytvoriť" : "Updatnuť"}</span>
+        </LoadingButtonComponent>
       </div>
       <div className="sub-parametre">
         <div className="small-input-cont">

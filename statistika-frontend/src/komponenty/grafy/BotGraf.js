@@ -86,7 +86,7 @@ function BotGraf({ grafRequestData }) {
 
   return (
     <div className="bot-chart-main">
-      {loading && <LoadingComponent background={true} loadingText={loadingMessage} />}
+      {loading && <LoadingComponent background={true} blur={true} customSpinner={true} loadingText={loadingMessage} />}
       <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
       <div className="bot-chart-div" style={{ display: loading ? "" : "" }}>
         <Line style={{ display: loading ? "" : "" }} ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>

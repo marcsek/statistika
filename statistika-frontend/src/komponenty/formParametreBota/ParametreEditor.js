@@ -21,7 +21,6 @@ const ParametreEditor = forwardRef(({ type, onCreate, loadingParent }, ref) => {
   const textValuesRequest = useCallback(async () => {
     setLoadingStep("fetch");
     const textValues = await (type === "create" ? getSavedTextValues() : getTextValues());
-    setLoadingStep("transform");
 
     let initValueCopy = { ...defaultParaValues };
     for (const key in defaultParaValues) {
@@ -35,22 +34,17 @@ const ParametreEditor = forwardRef(({ type, onCreate, loadingParent }, ref) => {
 
   const textValuesSend = useCallback(
     async (textValues) => {
-      setShouldDisplaySubmit(false);
-
-      setLoadingStep("send");
       const valuesToSend = {};
       for (const key in textValues) {
         valuesToSend[key] = textValues[key].value;
       }
       const response = await setNewTextValues(valuesToSend);
-      setLoadingStep("render");
 
       const stateCopy = { ...textValues };
       for (const key in stateCopy) {
         stateCopy[key].init = response[key];
       }
-
-      // setTextValues(stateCopy);
+      parametreRef.current.setSavedTextValues({ ...stateCopy });
     },
     [setLoadingStep]
   );
@@ -67,7 +61,7 @@ const ParametreEditor = forwardRef(({ type, onCreate, loadingParent }, ref) => {
   }));
 
   useEffect(() => {
-    console.log("render");
+    // console.log("render parent");
   });
 
   useEffect(() => {

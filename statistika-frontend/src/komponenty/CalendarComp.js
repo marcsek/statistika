@@ -30,7 +30,7 @@ const CalendarComp = forwardRef((props, ref) => {
 
   return (
     <>
-      {calendarOpen && (
+      {!props.parentLoading && (
         <div id={calendarOpen ? "show" : "hidden"} className="calendar-div">
           <Calendar minDate={props.minDate} maxDate={props.maxDate} selectRange={true} onChange={onChange} value={value} />
           <div className="sub-calendar-comp">

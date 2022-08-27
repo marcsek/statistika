@@ -26,17 +26,18 @@ const VyberComponent = () => {
   const [loading, setLoadingStep, loadingMessage] = useLoadingManager(100, true);
 
   const onBtnClick = useCallback(async () => {
-    if (priceValue === "") {
+    const valueCopy = priceValue;
+    setPriceValue("");
+    if (valueCopy === "") {
       return;
     }
     setLoadingStep("fetch");
     const textValue = await getTextValues();
     const mena = textValue.obPar.split("/")[!textValue.prepinac | 0];
-    setLoadingStep("transform");
+    // setLoadingStep("transform");
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(500);
-    setTranList([{ mena: mena, suma: priceValue, datum: new Date() }, ...tranList]);
-    setPriceValue("");
+    setTranList([{ mena: mena, suma: valueCopy, datum: new Date() }, ...tranList]);
     setLoadingStep("render");
   }, [priceValue, tranList, setLoadingStep]);
 
@@ -56,8 +57,8 @@ const VyberComponent = () => {
       <span className="vyber-bot-title" id="title">
         Výber
       </span>
-      {loading && <LoadingComponent background={true} loadingText={loadingMessage} />}
-      <div style={{ display: loading ? "" : "" }} className="vyber-cont-main">
+      {/* {loading && <LoadingComponent background={true} loadingText={loadingMessage} />} */}
+      <div className="vyber-cont-main">
         <div className="vyber-form-cont">
           <div className="vyber-input-cont">
             <input
@@ -77,6 +78,7 @@ const VyberComponent = () => {
           </button>
         </div>
         <div className="cont-legenda-list">
+          {loading && <LoadingComponent background={true} loadingText={loadingMessage} />}
           <div className="vyber-legenda">
             <span className="vyber-datum">Dátum</span>
             <span className="vyber-suma">Výber</span>

@@ -11,7 +11,7 @@
   border: none;
   cursor: pointer;
   color: rgba(255, 255, 255, 0.7);
-  border-radius: 0.15rem;
+  border-radius: 5px;
   font-size: 0.95rem;
   font-weight: 600;
   /* position: absolute; */

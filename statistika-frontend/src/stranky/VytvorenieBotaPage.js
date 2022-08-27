@@ -12,51 +12,44 @@ import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { MdKeyboardReturn } from "react-icons/md";
 import { TbRobot } from "react-icons/tb";
 import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManager";
+import LoadingButtonComponent from "../komponenty/formParametreBota/LoadingButtonComponent";
 
 function VytvorenieBotaPage() {
   const navigate = useNavigate();
   const parametreRef = useRef();
 
-  const [loading, setLoadingStep, loadingMessage] = useLoadingManager(0, false);
+  const [saving, setSaving] = useState(false);
   const [renderPost, setRenderPost] = useState(false);
 
   const onCreate = async (burza) => {
-    setLoadingStep("send");
     addBot(burza);
     let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(500);
-    setLoadingStep("render");
     setRenderPost(true);
   };
 
   const onSave = async () => {
-    setLoadingStep("save");
+    setSaving(true);
     saveTextValues(parametreRef.current.getTextValues());
     let sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(500);
-    setLoadingStep("render");
+    setSaving(false);
   };
 
   return (
     <div className="vytvorenie-bota-cont">
       <div className="vyt-bot-title-cont">
         <span>Vytvorenie bota</span>
-        <button
-          className="ulozit-bota-btn"
-          id={renderPost ? "inactive" : "active"}
-          onClick={(e) => {
-            e.preventDefault();
-            onSave();
-          }}
+        <LoadingButtonComponent
+          buttonProps={{ className: "ulozit-bota-btn", id: renderPost ? "inactive" : "active" }}
+          handleSubmitPress={onSave}
+          loading={saving}
         >
           <FaRegSave /> Uložiť
-        </button>
+        </LoadingButtonComponent>
       </div>
-      <div className="vyt-bot-content" style={{ paddingLeft: loading ? 0 : "" }}>
-        {loading && <LoadingComponent loadingText={loadingMessage} background={true}></LoadingComponent>}
-        <div style={{ display: renderPost ? "none" : "" }}>
-          <ParametreEditor ref={parametreRef} type="create" onCreate={onCreate} onSave={onSave}></ParametreEditor>
-        </div>
+      <div className="vyt-bot-content">
+        <div>{!renderPost && <ParametreEditor ref={parametreRef} type="create" onCreate={onCreate} onSave={onSave}></ParametreEditor>}</div>
         <div
           className="post-bot-create-cont"
           style={{ height: !renderPost ? "0px" : "", opacity: !renderPost ? 0 : 100, overflow: !renderPost ? "hidden" : "" }}

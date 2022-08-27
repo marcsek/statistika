@@ -83,29 +83,31 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
   };
 
   return (
-    <div className="burza-chart-main">
-      {loading && <LoadingComponent background={true} loadingText={loadingMessage} height={300} />}
-      <PercZmenaData style={{ visibility: loading ? "" : "" }} />
-      <div className="burza-chart-div">
-        <Line style={{ visibility: loading ? "hidden" : "" }} ref={burzaChartRef} options={NastaveniaBurzaGrafu} data={data}></Line>
-        <div className="burza-graf-filter" id="graf-filter">
-          <ul>
-            <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>
-              1D
-            </li>
-            <li style={{ backgroundColor: getFilterElementBGColor("7d") }} onClick={() => setFilter("7d")}>
-              7D
-            </li>
-            <li style={{ backgroundColor: getFilterElementBGColor("3m") }} onClick={() => setFilter("3m")}>
-              3M
-            </li>
-            <li style={{ backgroundColor: getFilterElementBGColor("all") }} onClick={() => setFilter("all")}>
-              All
-            </li>
-          </ul>
+    <>
+      <div className="burza-chart-main">
+        {loading && <LoadingComponent background={true} blur={true} customSpinner={true} loadingText={loadingMessage} height={325} />}
+        <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
+        <div className="burza-chart-div">
+          <Line ref={burzaChartRef} options={NastaveniaBurzaGrafu} data={data}></Line>
+          <div className="burza-graf-filter" id="graf-filter">
+            <ul>
+              <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>
+                1D
+              </li>
+              <li style={{ backgroundColor: getFilterElementBGColor("7d") }} onClick={() => setFilter("7d")}>
+                7D
+              </li>
+              <li style={{ backgroundColor: getFilterElementBGColor("3m") }} onClick={() => setFilter("3m")}>
+                3M
+              </li>
+              <li style={{ backgroundColor: getFilterElementBGColor("all") }} onClick={() => setFilter("all")}>
+                All
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

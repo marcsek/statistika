@@ -35,7 +35,7 @@ function useLoadingManager(delay = 100, initialLoadingState = false) {
           setLoading((prev) => ({ ...prev, isLoading: true, loadingStep: "Pripravujem dáta...", errorMessage: "" }));
           setTimeout(() => {
             setLoading((prev) => ({ ...prev, isLoading: false, loadingStep: "", errorMessage: "" }));
-          }, delay);
+          }, 0);
           break;
         default:
           setLoading((prev) => ({ ...prev, isLoading: false, loadingStep: "Načítavam...", errorMessage: "" }));
@@ -49,15 +49,15 @@ function useLoadingManager(delay = 100, initialLoadingState = false) {
 }
 
 // komponent na renderovanie loading managera
-function LoadingComponent({ error, loadingText, background, height }) {
+function LoadingComponent({ error, loadingText, background, height, blur, customSpinner }) {
   return (
     <div className="loading-div" style={{ height: height }}>
-      {background && <div id="background"></div>}
+      {background && <div id="background" style={{ backdropFilter: blur ? "blur(10px)" : "", backgroundColor: blur ? "transparent" : "" }}></div>}
       {error ? (
         error
       ) : (
         <div className="loading-div" style={{ height: height }}>
-          <div className="lds-dual-ring"></div>
+          <div className={customSpinner ? "loader" : "lds-dual-ring"}></div>
           {loadingText ? loadingText : "Načítavam..."}
         </div>
       )}

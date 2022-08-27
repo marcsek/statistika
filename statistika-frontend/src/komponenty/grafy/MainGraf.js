@@ -132,7 +132,13 @@ function MainGraf({ grafRequestData }) {
         Graf vývoja
       </p>
       <div className="main-graf-filter" id="graf-filter">
-        <CalendarComp ref={calendarRef} minDate={new Date(1627628652305)} maxDate={new Date()} onCalendarClick={onCalendarNewDate} />
+        <CalendarComp
+          ref={calendarRef}
+          parentLoading={loading}
+          minDate={new Date(1627628652305)}
+          maxDate={new Date()}
+          onCalendarClick={onCalendarNewDate}
+        />
         <ul>
           <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>
             1D
@@ -162,8 +168,10 @@ function MainGraf({ grafRequestData }) {
           </li>
         </ul>
       </div>
-      {loading && <LoadingComponent loadingText={loadingMessage} height={windowIsSmall ? 450 : 600} />}
-      <div className="heightchart-cont" style={{ visibility: loading ? "hidden" : "" }}>
+      <div className="heightchart-cont">
+        {loading && (
+          <LoadingComponent loadingText={loadingMessage} background={true} blur={true} customSpinner={true} height={windowIsSmall ? 450 : 600} />
+        )}
         <HighchartsReact
           containerProps={{ style: { height: windowIsSmall ? "400px" : "550px" } }}
           constructorType={"stockChart"}

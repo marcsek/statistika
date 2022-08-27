@@ -9,6 +9,9 @@
   width: 100%;
   margin-bottom: 8px;
   height: 34px;
+  display: flex;
+  align-items: space-between;
+  justify-content: space-between;
 }
 
 .vyt-bot-content {
@@ -46,6 +49,10 @@
   justify-content: center;
   gap: 10px;
   transition: background-color 0.15s;
+}
+.ulozit-bota-btn .lds-dual-ring::after {
+  height: 17px;
+  width: 17px;
 }
 
 .ulozit-bota-btn#inactive {

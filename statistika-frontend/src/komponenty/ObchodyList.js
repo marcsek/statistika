@@ -114,7 +114,13 @@ const FiltreBotList = ({ updateFilters, parentLoading }) => {
           }}
         ></input>
         <div className="calendar-div-parent">
-          <CalendarComp ref={calendarRef} minDate={initialStart} maxDate={initialEnd} onCalendarClick={onDateButtonPress} />
+          <CalendarComp
+            ref={calendarRef}
+            parentLoading={parentLoading}
+            minDate={initialStart}
+            maxDate={initialEnd}
+            onCalendarClick={onDateButtonPress}
+          />
           <button className="calendar-button-open" onClick={(e) => calendarRef.current.changeOpenState()}>
             <TbCalendar />
           </button>
