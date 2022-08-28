@@ -52,12 +52,12 @@ function NovyBotComp() {
   );
 }
 
-const BotListElementMemo = React.memo(({ pageData, chartData }) => {
+const BotListElementMemo = React.memo(({ data }) => {
   const navigate = useNavigate();
 
   return (
     <>
-      {pageData.map((burza, i) => {
+      {data.pageData.map((burza, i) => {
         return (
           <li key={i} className="li-burza">
             <p id="burza-meno">{burza.meno}</p>
@@ -134,7 +134,7 @@ const BotListElementMemo = React.memo(({ pageData, chartData }) => {
                       {bot.zmena.cc}%
                     </span>
                     <div className="list-graf">
-                      <ListGraf newData={chartData[bot.chart]} />
+                      <ListGraf newData={data.chartData[bot.chart]} />
                     </div>
                   </li>
                 );
@@ -190,10 +190,6 @@ function BotListPage() {
   const [pageData, setPageData] = useState([]);
   const [loading, setLoadingStep, loadingMessage] = useLoadingManager(100, true);
 
-  useEffect(() => {
-    console.log("dsadjsnajd");
-  });
-
   const genFakeChartData = useCallback(async () => {
     const requestOne = axios.get(
       `https://min-api.cryptocompare.com/data/v2/histohour?fsym=BTC&tsym=USD&limit=168&toTs=-1&agregate=1&api_key=YOURKEYHERE`
@@ -247,7 +243,7 @@ function BotListPage() {
       {/* list vsetkych burzi */}
       <ul className="list-burza">
         {loading && <LoadingComponent background={true} height={height - 230} loadingText={loadingMessage}></LoadingComponent>}
-        {!loading && <BotListElementMemo pageData={pageData} chartData={chartData} />}
+        {!loading && <BotListElementMemo data={{ pageData, chartData }} />}
       </ul>
     </div>
   );

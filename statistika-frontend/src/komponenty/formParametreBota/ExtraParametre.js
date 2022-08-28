@@ -19,7 +19,6 @@ const ExtraParametre = forwardRef(({ checkError }, ref) => {
     delete extraValuesCopy.burza;
 
     extraValuesCopy = Object.values(extraValuesCopy);
-
     return !extraValuesCopy.some((value) => value === "");
   }, []);
 
@@ -36,18 +35,19 @@ const ExtraParametre = forwardRef(({ checkError }, ref) => {
   const onValueChange = useCallback(
     (event) => {
       extraValues.current[event.target.name] = event.target.value;
-
-      checkError();
+      if (checkForError(extraValues.current)) {
+        checkError();
+      }
     },
-    [checkError]
+    [checkError, checkForError]
   );
 
   return (
     <div className="bot-extra-create-cont">
       <DropDown name={"burza"} onValueChange={onValueChange} />
-      <InputButton name={"key"} onValueChange={onValueChange} />
-      <InputButton name={"secret"} onValueChange={onValueChange} />
-      <InputButton name={"password"} onValueChange={onValueChange} />
+      <InputButton name={"key"} title={"Key"} onValueChange={onValueChange} />
+      <InputButton name={"secret"} title={"Secret"} onValueChange={onValueChange} />
+      <InputButton name={"password"} title={"Password"} onValueChange={onValueChange} />
     </div>
   );
 });

@@ -347,7 +347,7 @@
   position: relative;
   background-color: transparent;
   color: var(--pismo-biela);
-  outline: none;
+  border: none;
   border: 2px solid var(--border);
   border-radius: 5px;
   height: 18px;
@@ -663,7 +663,7 @@ button .lds-dual-ring::after {
     width: 300px !important;
   }
   .prepinac-velky {
-    width: 310px !important;
+    width: 305px !important;
   }
   .submit-button {
     width: 280px !important;
@@ -749,6 +749,7 @@ button .lds-dual-ring::after {
   height: 20px !important;
   font-size: 0.95rem !important;
   letter-spacing: 2px;
+  padding: 5px 0px;
 }
 
 textarea {
@@ -905,7 +906,7 @@ textarea::placeholder {
 }
 
 #nadpis-prepinac {
-  top: -80%;
+  top: -70%;
   background-color: transparent;
 }
 

@@ -10,24 +10,8 @@ import LoadingButtonComponent from "./LoadingButtonComponent";
 
 const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitPress }, ref) => {
   const [textValues, setTextValues] = useState(defaultParaValues);
-  const [error, setError] = useState({ error: false, oneChanged: false });
+  const [error, setError] = useState({ error: false, oneChanged: type === "create" ? true : false });
   const [loading, setLoading] = useState(false);
-
-  const onTextChange = useCallback(
-    (evt, shouldSwap, upperCase) => {
-      let stateCopy = { ...textValues };
-      let value = evt.target.value;
-      if (upperCase) {
-        value = value.toUpperCase();
-      }
-      if (shouldSwap) {
-        value = !textValues[evt.target.name].value;
-      }
-      stateCopy[evt.target.name].value = value;
-      setTextValues({ ...stateCopy });
-    },
-    [textValues]
-  );
 
   useImperativeHandle(ref, () => ({
     getCurrentErrorState() {
@@ -46,7 +30,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
 
   const checkForError = useCallback(
     (textValues) => {
-      let _error = false;
+      let error = false;
       let oneChanged = type === "create" ? true : false;
 
       for (const key in textValues) {
@@ -54,29 +38,48 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
           (key !== "poznamka" && typeof textValues[key].value !== "boolean" && textValues[key].value === "") ||
           (key === "obPar" && textValues[key].value === "/")
         ) {
-          _error = true;
+          error = true;
           break;
         } else if (textValues[key].value !== textValues[key].init) {
           oneChanged = true;
         }
       }
-      setError((prevState) => {
-        if (prevState.error !== _error || prevState.oneChanged !== oneChanged) {
-          return { error: _error, oneChanged: oneChanged };
-        }
-        return prevState;
-      });
+
+      setError({ error, oneChanged });
+      // setError((prevState) => {
+      //   if (prevState.error !== _error || prevState.oneChanged !== oneChanged) {
+      //     return { error: _error, oneChanged: oneChanged };
+      //   }
+      //   return prevState;
+      // });
     },
     [type]
   );
 
+  const onTextChange = useCallback(
+    (evt, shouldSwap, upperCase) => {
+      let stateCopy = { ...textValues };
+      let value = evt.target.value;
+      if (upperCase) {
+        value = value.toUpperCase();
+      }
+      if (shouldSwap) {
+        value = !textValues[evt.target.name].value;
+      }
+      stateCopy[evt.target.name].value = value;
+      checkForError(stateCopy);
+      setTextValues({ ...stateCopy });
+    },
+    [textValues, checkForError]
+  );
+
+  useEffect(() => {
+    // console.log("render");
+  });
+
   useEffect(() => {
     checkError();
   }, [error.error, error.oneChanged, checkError]);
-
-  useEffect(() => {
-    checkForError(textValues);
-  }, [textValues, checkForError]);
 
   const getBorderColor = useCallback(
     (meno, baseText) => {
@@ -103,16 +106,8 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
 
   const handleSubmitPress = useCallback(
     (e) => {
-      console.log("Submit press");
       setError({ error: false, oneChanged: false });
       setLoading(true);
-      // setTextValues((prevState) => {
-      //   const stateCopy = { ...prevState };
-      //   for (const key in stateCopy) {
-      //     stateCopy[key].init = textValues[key].value;
-      //   }
-      //   return stateCopy;
-      // });
       onSubmitPress(textValues);
     },
     [onSubmitPress, textValues]
@@ -299,7 +294,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
         <div className="podzlozka-cont">
           <div className="parametre-input-cont">
             <div id="podzlozka" className="parametre-input">
-              <div className="nadpis-podzlozka">
+              <div className="nadpis-podzlozka" style={{ backgroundColor: textValues.maker.value !== textValues.maker.init && "rgb(45, 123, 244)" }}>
                 <span>Maker</span>
               </div>
               <label className="container">
@@ -386,7 +381,10 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
 
           <div className="parametre-input-cont">
             <div id="podzlozka" className="parametre-input">
-              <div className="nadpis-podzlozka">
+              <div
+                className="nadpis-podzlozka"
+                style={{ backgroundColor: textValues.feeCoin.value !== textValues.feeCoin.init && "rgb(45, 123, 244)" }}
+              >
                 <span>Fee Coin</span>
               </div>
               <button
@@ -448,7 +446,10 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
           </div>
           <div className="parametre-input-cont">
             <div id="podzlozka" className="parametre-input">
-              <div className="nadpis-podzlozka">
+              <div
+                className="nadpis-podzlozka"
+                style={{ backgroundColor: textValues.prepoc.value !== textValues.prepoc.init && "rgb(45, 123, 244)" }}
+              >
                 <span>Prepočítavanie</span>
               </div>
               <button
@@ -522,6 +523,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
               id={textValues.test.value ? "active" : "inactive"}
               name="test"
               value={textValues.test.value}
+              style={{ boxShadow: textValues.test.value !== textValues.test.init && "0px 0px 10px 3px rgb(45, 123, 244)" }}
               onClick={(e) => onTextChange(e, true)}
             >
               <ImCheckmark></ImCheckmark>

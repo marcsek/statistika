@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 const LoadingButtonComponent = ({ loading, handleSubmitPress, children, buttonProps, delay = 200 }) => {
   const [delayedLoading, setDelayedLoading] = useState(true);
 
-  console.log(buttonProps);
-
   useEffect(() => {
     if (!loading) {
       var timer1 = setTimeout(() => setDelayedLoading(loading), delay);

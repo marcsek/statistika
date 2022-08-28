@@ -50,12 +50,23 @@
   /* border: 2px solid rgba(255, 255, 255, 0.29); */
   /* border-radius: 5px; */
   /* height: 30px; */
-  font-size: 1.2rem;
+  font-size: 1rem;
   /* padding: 7px 5px 5px 5px; */
   transition: all 0.1s;
-  text-align: center;
+  /* text-align: center; */
   font-weight: 600;
   height: 100%;
+  padding-top: 2px;
+  padding-left: 10px;
+}
+
+.vyber-input:focus::placeholder {
+  transition: opacity 0.12s ease-in-out !important;
+  opacity: 0;
+}
+
+.vyber-input::placeholder {
+  color: #8c98a5;
 }
 
 .vyber-input-cont {
@@ -64,19 +75,30 @@
   color: var(--pismo-biela);
   border: 2px solid var(--border);
   /* box-shadow: 0 0 0 .15remrgba(89,92,106,.5); */
-  border-radius: 10px 25px 25px 10px;
+  /* border-radius: 25px 10px 10px 25px; */
+  border-radius: 7px;
   height: fit-content;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  height: 32px;
+}
+
+.gr-money-box {
+  display: flex;
+  background: #3c3f50;
+  border-radius: 7px 0px 0px 7px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  height: 100%;
 }
 
 .vyber-input-cont svg {
-  height: 90%;
-  width: 30px;
+  height: 85%;
+  width: 20px;
   padding: 4px;
-  margin-right: 6px;
   /* filter: invert(80%); */
 }
 
@@ -204,6 +226,25 @@
   padding-left: 8px;
 }
 
+.footer-vyber {
+  padding-top: 2px;
+  display: flex;
+  line-height: 30px;
+}
+
+.footer-vyber .vyber-mena {
+  padding-left: 0px;
+  color: #b5c6cc;
+  font-size: 0.95rem;
+}
+.vyber-suma-text {
+  color: white !important;
+  font-size: 0.95rem !important;
+  padding-right: 2px;
+}
+.vyber-separator {
+  padding: 0px 4px;
+}
 .element-list-vyber .vyber-suma svg {
   padding-top: 2px;
   padding-right: 2px;
@@ -224,7 +265,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3px;
+  /* gap: 3px; */
 }
 
 .vyber-legenda#footer .vyber-suma svg {

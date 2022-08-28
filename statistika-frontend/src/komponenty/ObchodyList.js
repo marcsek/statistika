@@ -1,6 +1,6 @@
 import "./ObchodyList.css";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 
 import { formatDate, getCompatibleValue } from "../pomocky/datumovanie";
 import { getPage, filtrujData } from "../pomocky/fakeApi";
@@ -202,6 +202,36 @@ const OrderFiltersBotList = ({ updateOrderFilters, parentLoading = false }) => {
   );
 };
 
+const ObchodyListMemo = React.memo(({ listData }) => {
+  return (
+    <ul className="bot-obchody-cont">
+      {listData.data.map((e, i) => {
+        let bgColor = i % 2 === 0 ? "rgb(57, 60, 74)" : "";
+        return (
+          <li key={i} style={{ backgroundColor: bgColor }}>
+            <p className="datum" id="element">
+              {formatDate(e.datum)}
+            </p>
+            <p className="cislo" id="element">
+              {e.buy}
+            </p>
+            <p className="cena" id="element">
+              <MdEuroSymbol className="euro-symbol" />
+              {formatPrice(e.cena, ",")}
+            </p>
+            <p className="mnozstvo" id="element">
+              {e.mnozstvo}
+            </p>
+            <p className="maker" id="element">
+              {e.maker}
+            </p>
+          </li>
+        );
+      })}
+    </ul>
+  );
+});
+
 function ObchodyList() {
   const [listData, setListData] = useState({ totalItems: 0, data: [] });
   const [curPage, setCurPage] = useState(1);
@@ -270,32 +300,8 @@ function ObchodyList() {
         <div className="obchody-cont">
           <div className="obchody-list-const">
             <OrderFiltersBotList updateOrderFilters={updateOrderFilters} parentLoading={loading && errorMessage ? false : loading} />
-            <ul className="bot-obchody-cont">
-              {listData.data.map((e, i) => {
-                let bgColor = i % 2 === 0 ? "rgb(57, 60, 74)" : "";
-                return (
-                  <li key={i} style={{ backgroundColor: bgColor, display: loading ? "none" : "" }}>
-                    <p className="datum" id="element">
-                      {formatDate(e.datum)}
-                    </p>
-                    <p className="cislo" id="element">
-                      {e.buy}
-                    </p>
-                    <p className="cena" id="element">
-                      <MdEuroSymbol className="euro-symbol" />
-                      {formatPrice(e.cena, ",")}
-                    </p>
-                    <p className="mnozstvo" id="element">
-                      {e.mnozstvo}
-                    </p>
-                    <p className="maker" id="element">
-                      {e.maker}
-                    </p>
-                  </li>
-                );
-              })}
-              {loading && <LoadingComponent loadingText={loadingMessage} error={errorMessage} />}
-            </ul>
+            <ObchodyListMemo listData={listData}> </ObchodyListMemo>
+            {loading && <LoadingComponent background={true} loadingText={loadingMessage} error={errorMessage} />}
           </div>
         </div>
       </div>

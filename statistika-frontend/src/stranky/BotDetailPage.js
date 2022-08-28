@@ -52,6 +52,30 @@ const VyberComponent = () => {
     initialFetch();
   }, [initialFetch]);
 
+  const FooterVyber = () => {
+    let sucetTran = [];
+
+    tranList.forEach((e) => {
+      let najdenyElement = sucetTran.find((e2) => e2.mena === e.mena);
+      if (!najdenyElement) {
+        sucetTran.push({ mena: e.mena, suma: e.suma });
+      } else {
+        najdenyElement.suma = Number(najdenyElement.suma) + Number(e.suma);
+      }
+    });
+
+    return sucetTran.map((e, index) => (
+      <div key={index} className="footer-vyber">
+        <span className="vyber-suma">
+          <span className="vyber-suma-text">{formatCrypto(parseFloat(e.suma), 4)}</span>
+          <span className="vyber-mena">{e.mena}</span>
+          {/*  */}
+          {index !== sucetTran.length - 1 && <span className="vyber-separator">•</span>}
+        </span>
+      </div>
+    ));
+  };
+
   return (
     <div className="vyber-cont-major">
       <span className="vyber-bot-title" id="title">
@@ -61,8 +85,12 @@ const VyberComponent = () => {
       <div className="vyber-cont-main">
         <div className="vyber-form-cont">
           <div className="vyber-input-cont">
+            <div className="gr-money-box">
+              <GrMoney />
+            </div>
             <input
               className="vyber-input"
+              placeholder="Množstvo"
               value={priceValue}
               onChange={(e) => {
                 let value = e.target.value.replace(/^\s+|\s+$/gm, "");
@@ -71,7 +99,6 @@ const VyberComponent = () => {
                 }
               }}
             ></input>
-            <GrMoney />
           </div>
           <button id={priceValue.length !== 0 ? "active" : "inactive"} className="vyber-button" onClick={(e) => onBtnClick()}>
             Vybrať
@@ -97,8 +124,7 @@ const VyberComponent = () => {
           <div id="footer" className="vyber-legenda">
             <span className="vyber-nadpis">Vybraté spolu: </span>
             <span className="vyber-suma">
-              <MdEuroSymbol></MdEuroSymbol>
-              {formatPrice("2312312", ",")}
+              <FooterVyber />
             </span>
           </div>
         </div>

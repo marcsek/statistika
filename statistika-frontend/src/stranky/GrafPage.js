@@ -20,14 +20,11 @@ const CelkovyVyvin = () => {
   const [data, setData] = useState({});
   const [loading, setLoadingStep, loadingMessage] = useLoadingManager(30, true);
 
-  useEffect(() => {
-    // console.log(loading);
-  }, [loading]);
-
   const celkovyVyvinRequest = useCallback(async () => {
     setLoadingStep("fetch");
     const newData = await getCelkovyVyvinData();
     setLoadingStep();
+
     setData(newData);
   }, [setLoadingStep]);
 

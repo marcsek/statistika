@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const InputButton = ({ onValueChange, name }) => {
+const InputButton = ({ onValueChange, name, title }) => {
   const [value, setValue] = useState("");
 
   const validate = (e) => {
@@ -12,7 +12,7 @@ const InputButton = ({ onValueChange, name }) => {
   return (
     <div id="input-small" className="parametre-input-cont">
       <div id="input-small" className="parametre-input">
-        <span>Key</span>
+        <span>{title}</span>
         <input
           type="text"
           id="ob-par-input"

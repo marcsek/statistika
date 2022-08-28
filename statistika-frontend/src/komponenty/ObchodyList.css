@@ -11,6 +11,7 @@
 
 .obchody-list-const {
   width: 95%;
+  position: relative;
 }
 
 .bot-obchody-cont::-webkit-scrollbar {
@@ -260,6 +261,7 @@
   border-top: solid 1px var(--list-border);
   border-bottom: solid 1px var(--list-border);
   justify-content: space-around;
+  z-index: 4;
 }
 
 .legenda-obch #element {

@@ -37,7 +37,7 @@
 }
 
 .calendar-div {
-  z-index: 1 !important;
+  z-index: 5 !important;
   background-color: #353847 !important;
   border: 1px solid #3e4253 !important;
   border-radius: 0.25rem;
