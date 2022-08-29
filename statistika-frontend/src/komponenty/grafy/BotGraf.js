@@ -8,12 +8,11 @@ import "chartjs-adapter-moment";
 import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
 
 import CrosshairPlugin from "chartjs-plugin-crosshair";
-import LoadingComponent from "../LoadingComponent";
 
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
-import { useLoadingManager } from "../LoadingManager";
+import { useLoadingManager, LoadingComponent } from "../LoadingManager";
 
 function BotGraf({ grafRequestData }) {
   Chart.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin);
@@ -87,10 +86,10 @@ function BotGraf({ grafRequestData }) {
 
   return (
     <div className="bot-chart-main">
-      {loading.isLoading && <LoadingComponent height={550} />}
+      {loading && <LoadingComponent background={true} blur={true} customSpinner={true} loadingText={loadingMessage} />}
       <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
-      <div className="bot-chart-div" style={{ display: loading ? "none" : "" }}>
-        <Line style={{ display: loading ? "" : "" }} ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>
+      <div className="bot-chart-div">
+        <Line ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>
         <div className="bot-graf-filter" id="graf-filter">
           <ul>
             <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>
