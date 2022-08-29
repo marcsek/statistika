@@ -1,5 +1,5 @@
 import { formatPrice } from "../../../pomocky/cislovacky";
-let delayed;
+
 const NastaveniaBotGrafu = {
   maintainAspectRatio: false,
   // aspectRatio: 600 / 350,
@@ -68,6 +68,7 @@ const NastaveniaBotGrafu = {
       display: false,
     },
     crosshair: {
+      enabled: true,
       line: {
         color: "#bbbbbb",
         width: 0,

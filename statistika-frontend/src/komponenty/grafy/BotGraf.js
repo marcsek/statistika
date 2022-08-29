@@ -4,14 +4,13 @@ import "./BotGraf.css";
 import { Chart, Interaction, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
 import { Line } from "react-chartjs-2";
 
-import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
-
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 import { useLoadingManager, LoadingComponent } from "../LoadingManager.js";
 
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
+import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
 
 function BotGraf({ grafRequestData }) {
   Chart.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin);
