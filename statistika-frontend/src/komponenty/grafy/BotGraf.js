@@ -11,13 +11,9 @@ import { MdEuroSymbol } from "react-icons/md";
 import { useLoadingManager, LoadingComponent } from "../LoadingManager";
 import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
 
-var subChartLineGradient = null;
-
 function BotGraf({ grafRequestData }) {
   Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin, Filler);
   Interaction.modes.interpolate = Interpolate;
-
-  console.log(CrosshairPlugin);
 
   const [filter, setFilter] = useState("1y");
   const [chartData, setChartData] = useState([]);
@@ -39,6 +35,7 @@ function BotGraf({ grafRequestData }) {
 
   //stateful chartjs data
   const data = useMemo(() => {
+    let subChartLineGradient = null;
     if (botChartRef.current != null) {
       let chartContext = botChartRef.current;
       chartContext = chartContext.canvas.getContext("2d");
@@ -89,7 +86,7 @@ function BotGraf({ grafRequestData }) {
     <div className="bot-chart-main">
       {loading && <LoadingComponent background={true} blur={true} customSpinner={true} loadingText={loadingMessage} />}
       <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
-      <div className="bot-chart-div">
+      <div className="bot-chart-div" style={{ visibility: loading ? "hidden" : "" }}>
         <Line ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>
         <div className="bot-graf-filter" id="graf-filter">
           <ul>
