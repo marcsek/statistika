@@ -83,6 +83,10 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     }
   };
 
+  useEffect(() => {
+    console.log("render");
+  });
+
   return (
     <>
       <div className="burza-chart-main">
