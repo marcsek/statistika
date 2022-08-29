@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import "./BotGraf.css";
 
-import { Chart, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
+import { Chart, Interaction, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
 import { Line } from "react-chartjs-2";
 
 import "chartjs-adapter-moment";
 import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
 
-import CrosshairPlugin from "chartjs-plugin-crosshair";
+import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 import { useLoadingManager, LoadingComponent } from "../LoadingManager.js";
 
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
@@ -16,6 +16,7 @@ import { MdEuroSymbol } from "react-icons/md";
 
 function BotGraf({ grafRequestData }) {
   Chart.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin);
+  Interaction.modes.interpolate = Interpolate;
 
   const [filter, setFilter] = useState("1y");
   const [chartData, setChartData] = useState([]);
