@@ -5,12 +5,13 @@ import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineEleme
 import { Line } from "react-chartjs-2";
 
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
-
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
 import { useLoadingManager, LoadingComponent } from "../LoadingManager";
 import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
+
+var subChartLineGradient = null;
 
 function BotGraf({ grafRequestData }) {
   Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin, Filler);
@@ -36,9 +37,8 @@ function BotGraf({ grafRequestData }) {
 
   //stateful chartjs data
   const data = useMemo(() => {
-    let chartContext = botChartRef.current;
-    let subChartLineGradient = null;
-    if (chartContext != null) {
+    if (botChartRef.current != null) {
+      let chartContext = botChartRef.current;
       chartContext = chartContext.canvas.getContext("2d");
       subChartLineGradient = chartContext.createLinearGradient(0, 0, 0, 1000);
       subChartLineGradient.addColorStop(0, "rgba(	13, 207, 151, 0.2)");
@@ -56,7 +56,7 @@ function BotGraf({ grafRequestData }) {
         },
       ],
     };
-  }, [chartData, botChartRef]);
+  }, [chartData]);
 
   //component infa o zmene nad grafom
   const PercZmenaData = ({ style }) => {
@@ -88,7 +88,7 @@ function BotGraf({ grafRequestData }) {
       {loading && <LoadingComponent background={true} blur={true} customSpinner={true} loadingText={loadingMessage} />}
       <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
       <div className="bot-chart-div">
-        <Line ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>
+        {!loading && <Line ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>}
         <div className="bot-graf-filter" id="graf-filter">
           <ul>
             <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>
