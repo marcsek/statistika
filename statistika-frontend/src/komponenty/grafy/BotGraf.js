@@ -17,6 +17,8 @@ function BotGraf({ grafRequestData }) {
   Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin, Filler);
   Interaction.modes.interpolate = Interpolate;
 
+  console.log(CrosshairPlugin);
+
   const [filter, setFilter] = useState("1y");
   const [chartData, setChartData] = useState([]);
   const [loading, setLoadingStep, loadingMessage] = useLoadingManager(100, true);
@@ -88,7 +90,7 @@ function BotGraf({ grafRequestData }) {
       {loading && <LoadingComponent background={true} blur={true} customSpinner={true} loadingText={loadingMessage} />}
       <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
       <div className="bot-chart-div">
-        {!loading && <Line ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>}
+        <Line ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>
         <div className="bot-graf-filter" id="graf-filter">
           <ul>
             <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>
