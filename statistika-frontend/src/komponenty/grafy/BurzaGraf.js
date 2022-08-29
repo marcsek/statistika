@@ -4,6 +4,7 @@ import "./BurzaGraf.css";
 import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
 import { Line } from "react-chartjs-2";
 
+import "chartjs-adapter-moment";
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";

@@ -4,7 +4,6 @@ import "./BotGraf.css";
 import { Chart, Interaction, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
 import { Line } from "react-chartjs-2";
 
-import "chartjs-adapter-moment";
 import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
 
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
