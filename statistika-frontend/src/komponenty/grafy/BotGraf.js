@@ -1,21 +1,20 @@
 import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import "./BotGraf.css";
 
-import { Chart, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
+import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
 import { Line } from "react-chartjs-2";
 
-import "chartjs-adapter-moment";
-import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
-
-import CrosshairPlugin from "chartjs-plugin-crosshair";
+import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
 import { useLoadingManager, LoadingComponent } from "../LoadingManager";
+import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
 
 function BotGraf({ grafRequestData }) {
-  Chart.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin);
+  Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin, Filler);
+  Interaction.modes.interpolate = Interpolate;
 
   const [filter, setFilter] = useState("1y");
   const [chartData, setChartData] = useState([]);
@@ -57,7 +56,7 @@ function BotGraf({ grafRequestData }) {
         },
       ],
     };
-  }, [chartData]);
+  }, [chartData, botChartRef]);
 
   //component infa o zmene nad grafom
   const PercZmenaData = ({ style }) => {
@@ -89,7 +88,7 @@ function BotGraf({ grafRequestData }) {
       {loading && <LoadingComponent background={true} blur={true} customSpinner={true} loadingText={loadingMessage} />}
       <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
       <div className="bot-chart-div">
-        {chartData.length !== 0 && <Line ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>}
+        <Line ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>
         <div className="bot-graf-filter" id="graf-filter">
           <ul>
             <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>
