@@ -12,7 +12,7 @@ import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { MdKeyboardReturn } from "react-icons/md";
 import { TbRobot } from "react-icons/tb";
 import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManager";
-import LoadingButtonComponent from "../komponenty/formParametreBota/LoadingButtonComponent";
+import LoadingButtonComponent from "../komponenty/LoadingButtonComponent";
 
 function VytvorenieBotaPage() {
   const navigate = useNavigate();

@@ -13,7 +13,7 @@ import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManage
 import { MdOutlinePowerOff, MdOutlinePower } from "react-icons/md";
 import { BiUserPlus } from "react-icons/bi";
 import useWindowDimensions from "../pomocky/window";
-import LoadingButtonComponent from "../komponenty/formParametreBota/LoadingButtonComponent";
+import LoadingButtonComponent from "../komponenty/LoadingButtonComponent";
 
 function ButtonComponent() {
   const [buttonClicked, setButtonClick] = useState(false);

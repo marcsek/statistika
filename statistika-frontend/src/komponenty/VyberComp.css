@@ -191,6 +191,9 @@
   border-bottom: solid 1px var(--list-border);
   border-top: solid 1px var(--list-border);
   height: 30px;
+  max-width: 100%;
+  /* flex-wrap: wrap; */
+  /* overflow: auto; */
 }
 
 .vyber-legenda span {
@@ -206,6 +209,10 @@
   position: relative;
   height: 60%;
   width: 90%;
+}
+
+.vyber-nadpis {
+  white-space: nowrap;
 }
 
 .vyber-cont-main .graf-bot-title {
@@ -263,9 +270,25 @@
   color: var(--pismo-biela);
   font-size: 1rem;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  overflow-x: auto;
   /* gap: 3px; */
+}
+
+.vyber-legenda#footer .vyber-suma::-webkit-scrollbar {
+  /* width: 4px; */
+  height: 4px;
+}
+
+.vyber-legenda#footer .vyber-suma::-webkit-scrollbar-track {
+  border-radius: 100px;
+  background-color: #3b3e4e;
+}
+
+.vyber-legenda#footer .vyber-suma::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.29);
+  border-radius: 100px;
 }
 
 .vyber-legenda#footer .vyber-suma svg {

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-const InputButton = ({ onValueChange, name, title }) => {
+const ExtraInput = ({ onValueChange, name, title }) => {
   const [value, setValue] = useState("");
 
   const validate = (e) => {
@@ -29,4 +29,4 @@ const InputButton = ({ onValueChange, name, title }) => {
   );
 };
 
-export default InputButton;
+export default ExtraInput;

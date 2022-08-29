@@ -29,7 +29,7 @@ const ParametreEditor = forwardRef(({ type, onCreate, loadingParent }, ref) => {
     }
     setLoadingStep("render");
 
-    parametreRef.current.setSavedTextValues(initValueCopy);
+    // parametreRef.current.setSavedTextValues(initValueCopy);
   }, [type, setLoadingStep]);
 
   const textValuesSend = useCallback(
@@ -44,7 +44,7 @@ const ParametreEditor = forwardRef(({ type, onCreate, loadingParent }, ref) => {
       for (const key in stateCopy) {
         stateCopy[key].init = response[key];
       }
-      parametreRef.current.setSavedTextValues({ ...stateCopy });
+      // parametreRef.current.setSavedTextValues({ ...stateCopy });
     },
     [setLoadingStep]
   );

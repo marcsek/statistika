@@ -834,7 +834,7 @@ textarea::placeholder {
 }
 
 .prepinac-velky {
-  width: 200px;
+  width: 270px;
   height: 25px;
   z-index: 10;
 }
@@ -847,6 +847,10 @@ textarea::placeholder {
 .prepinac-mensi {
   width: 100px;
   height: 27px;
+}
+
+.important-parametre-cont .parametre-input-cont .parametre-input {
+  width: 260px;
 }
 
 #prepinac-lava-prava {

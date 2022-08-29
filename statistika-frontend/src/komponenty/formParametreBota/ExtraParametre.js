@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useEffect, forwardRef, useImperativeHandle, useRef } from "react";
+import { useCallback, forwardRef, useImperativeHandle, useRef } from "react";
 import "../../stranky/BotDetailPage.css";
 
 import "../VyberComp.css";
 
-import InputButton from "./InputButton";
-import DropDown from "./DropDown";
+import InputButton from "./formElementy/ExtraInput.js";
+import DropDown from "./formElementy/ExtraDropDown.js";
 
 const ExtraParametre = forwardRef(({ checkError }, ref) => {
   const extraValues = useRef({
