@@ -1,20 +1,22 @@
 import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import "./BotGraf.css";
 
-import { Chart, Interaction, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
+import { Chart, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
 import { Line } from "react-chartjs-2";
 
-import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
-import { useLoadingManager, LoadingComponent } from "../LoadingManager.js";
+import "chartjs-adapter-moment";
+import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
+
+import CrosshairPlugin from "chartjs-plugin-crosshair";
+import LoadingComponent from "../LoadingComponent";
 
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
-import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
+import { useLoadingManager } from "../LoadingManager";
 
 function BotGraf({ grafRequestData }) {
   Chart.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin);
-  Interaction.modes.interpolate = Interpolate;
 
   const [filter, setFilter] = useState("1y");
   const [chartData, setChartData] = useState([]);
@@ -85,9 +87,9 @@ function BotGraf({ grafRequestData }) {
 
   return (
     <div className="bot-chart-main">
-      {loading && <LoadingComponent background={true} blur={true} customSpinner={true} loadingText={loadingMessage} />}
+      {loading.isLoading && <LoadingComponent height={550} />}
       <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
-      <div className="bot-chart-div" style={{ display: loading ? "" : "" }}>
+      <div className="bot-chart-div" style={{ display: loading ? "none" : "" }}>
         <Line style={{ display: loading ? "" : "" }} ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>
         <div className="bot-graf-filter" id="graf-filter">
           <ul>
