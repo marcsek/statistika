@@ -70,6 +70,7 @@ const NastaveniaBurzaGrafu = {
       display: false,
     },
     crosshair: {
+      enabled: true,
       line: {
         color: "#bbbbbb",
         width: 0,

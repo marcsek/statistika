@@ -88,8 +88,13 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
       <div className="burza-chart-main">
         {loading && <LoadingComponent background={true} blur={true} customSpinner={true} loadingText={loadingMessage} height={325} />}
         <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
-        <div className="burza-chart-div">
-          <Line ref={burzaChartRef} options={NastaveniaBurzaGrafu} data={data}></Line>
+        <div className="burza-chart-div" style={{ display: chartData.length === 0 ? "none" : "" }}>
+          <Line
+            ref={burzaChartRef}
+            style={{ display: Object.keys(Chart.instances).length === 0 ? "none" : "" }}
+            options={NastaveniaBurzaGrafu}
+            data={data}
+          ></Line>
           <div className="burza-graf-filter" id="graf-filter">
             <ul>
               <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>

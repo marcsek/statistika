@@ -88,8 +88,13 @@ function BotGraf({ grafRequestData }) {
     <div className="bot-chart-main">
       {loading && <LoadingComponent background={true} blur={true} customSpinner={true} loadingText={loadingMessage} />}
       <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
-      <div className="bot-chart-div" style={{ display: loading ? "none" : "" }}>
-        <Line style={{ display: loading ? "" : "" }} ref={botChartRef} options={NastaveniaBotGrafu} data={data}></Line>
+      <div className="bot-chart-div" style={{ display: chartData.length === 0 ? "none" : "" }}>
+        <Line
+          style={{ display: Object.keys(Chart.instances).length === 0 ? "none" : "" }}
+          ref={botChartRef}
+          options={NastaveniaBotGrafu}
+          data={data}
+        ></Line>
         <div className="bot-graf-filter" id="graf-filter">
           <ul>
             <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>

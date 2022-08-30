@@ -27,7 +27,14 @@ function MainGraf({ grafRequestData }) {
   };
 
   // listener na zmenu šírky kvôli resizu výšky grafu
-  const [windowIsSmall, setWindowIsSmall] = useState(false);
+  const [windowIsSmall, setWindowIsSmall] = useState(() => {
+    let windowWidth = window.innerWidth;
+    if (windowWidth < 850) {
+      return true;
+    } else {
+      return false;
+    }
+  });
   useEffect(() => {
     function handleWindowResize() {
       let windowWidth = window.innerWidth;
@@ -42,7 +49,7 @@ function MainGraf({ grafRequestData }) {
     return () => {
       window.removeEventListener("resize", handleWindowResize);
     };
-  }, []);
+  }, [windowIsSmall]);
 
   const [filter, setFilter] = useState("1y");
   const [chartData, setChartData] = useState([]);
@@ -170,10 +177,10 @@ function MainGraf({ grafRequestData }) {
       </div>
       <div className="heightchart-cont">
         {loading && (
-          <LoadingComponent loadingText={loadingMessage} background={true} blur={true} customSpinner={true} height={windowIsSmall ? 450 : 600} />
+          <LoadingComponent loadingText={loadingMessage} background={true} blur={true} customSpinner={true} height={windowIsSmall ? 450 : 500} />
         )}
         <HighchartsReact
-          containerProps={{ style: { height: windowIsSmall ? "400px" : "550px" } }}
+          containerProps={{ style: { height: windowIsSmall ? "400px" : "450px" } }}
           constructorType={"stockChart"}
           highcharts={Highcharts}
           options={options}

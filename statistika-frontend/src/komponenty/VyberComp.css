@@ -83,11 +83,13 @@
   justify-content: center;
   align-items: center;
   height: 32px;
+  background-color: #383c4b;
 }
 
 .gr-money-box {
   display: flex;
-  background: #3c3f50;
+  background-color: #333644;
+  border-right: 2px solid var(--border);
   border-radius: 7px 0px 0px 7px;
   align-items: center;
   justify-content: center;

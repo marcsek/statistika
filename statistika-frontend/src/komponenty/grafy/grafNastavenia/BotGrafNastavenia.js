@@ -1,5 +1,4 @@
 import { formatPrice } from "../../../pomocky/cislovacky";
-let delayed;
 const NastaveniaBotGrafu = {
   maintainAspectRatio: false,
   // aspectRatio: 600 / 350,
@@ -13,6 +12,8 @@ const NastaveniaBotGrafu = {
       borderWidth: 2,
     },
   },
+
+  sort: true,
 
   interaction: {
     mode: "index",
