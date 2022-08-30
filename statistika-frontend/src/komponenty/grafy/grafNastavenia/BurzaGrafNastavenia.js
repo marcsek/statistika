@@ -46,7 +46,6 @@ const NastaveniaBurzaGrafu = {
         color: "#3E4852",
         borderColor: "transparent",
         offset: true,
-
         tickWidth: 0,
       },
 

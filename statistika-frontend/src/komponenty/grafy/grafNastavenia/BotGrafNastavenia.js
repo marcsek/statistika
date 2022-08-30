@@ -25,6 +25,7 @@ const NastaveniaBotGrafu = {
       display: true,
       grid: {
         color: "rgba(0, 0, 0, 0)",
+        borderColor: "transparent",
       },
       ticks: {
         color: "#8c98a5",
@@ -42,10 +43,12 @@ const NastaveniaBotGrafu = {
       type: "linear",
       display: true,
       grid: {
+        circular: true,
+
         color: "#3E4852",
         borderColor: "transparent",
         offset: true,
-
+        // zeroLineColor: "#ffcc33",
         tickWidth: 0,
       },
 
@@ -65,6 +68,23 @@ const NastaveniaBotGrafu = {
     },
   },
   plugins: {
+    autocolors: false,
+    annotation: {
+      annotations: {
+        line1: {
+          type: "line",
+          yMin: (e) => {
+            return e.chart.config.data.datasets[0].data[0]?.y;
+          },
+          yMax: (e) => {
+            return e.chart.config.data.datasets[0].data[0]?.y;
+          },
+          borderColor: "white",
+          borderWidth: 1,
+          borderDash: [1, 8],
+        },
+      },
+    },
     legend: {
       display: false,
     },

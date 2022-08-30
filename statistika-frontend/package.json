@@ -9,6 +9,7 @@
     "axios": "^0.27.2",
     "chart.js": "^3.8.0",
     "chartjs-adapter-moment": "^1.0.0",
+    "chartjs-plugin-annotation": "^2.0.1",
     "chartjs-plugin-crosshair": "^1.2.0",
     "chartjs-plugin-lineheight-annotation": "^0.3.5",
     "chartjs-plugin-zoom": "^1.2.1",

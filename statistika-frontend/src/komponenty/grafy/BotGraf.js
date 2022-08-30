@@ -7,6 +7,7 @@ import { Line } from "react-chartjs-2";
 import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
 
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
+import annotationPlugin from "chartjs-plugin-annotation";
 import { useLoadingManager, LoadingComponent } from "../LoadingManager.js";
 
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
@@ -14,7 +15,7 @@ import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
 
 function BotGraf({ grafRequestData }) {
-  Chart.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin);
+  Chart.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin, annotationPlugin);
   Interaction.modes.interpolate = Interpolate;
 
   const [filter, setFilter] = useState("1y");
@@ -39,21 +40,38 @@ function BotGraf({ grafRequestData }) {
   const data = useMemo(() => {
     let chartContext = botChartRef.current;
     let subChartLineGradient = null;
+    let upChartLinearGradient = null;
     if (chartContext != null) {
       chartContext = chartContext.canvas.getContext("2d");
-      subChartLineGradient = chartContext.createLinearGradient(0, 0, 0, 1000);
+      subChartLineGradient = chartContext.createLinearGradient(0, 20, 0, 150);
       subChartLineGradient.addColorStop(0, "rgba(	13, 207, 151, 0.2)");
+      subChartLineGradient.addColorStop(1, "transparent");
+      upChartLinearGradient = chartContext.createLinearGradient(0, 20, 0, 300);
+      upChartLinearGradient.addColorStop(1, "rgba(	241, 85, 108, 0.2)");
+      upChartLinearGradient.addColorStop(0, "transparent");
     }
     return {
       datasets: [
         {
-          fill: true,
+          fill: {
+            target: { value: chartData[0]?.y },
+            above: subChartLineGradient,
+            below: upChartLinearGradient,
+          },
           label: "Hodnota",
           data: chartData,
-          borderColor: "#0DCF97",
+          // borderColor: "#0DCF97",
           backgroundColor: subChartLineGradient,
           pointStyle: "cross",
           pointHoverRadius: 10,
+          segment: {
+            borderColor: (ctx) => {
+              let val = ctx.p0.parsed.y;
+              val = chartData[ctx.p0.$context.dataIndex + 1]?.y;
+              let farba = val >= chartData[0]?.y ? "#0DCF97" : val <= chartData[0]?.y ? "rgba(241, 85, 108)" : "";
+              return farba;
+            },
+          },
         },
       ],
     };
