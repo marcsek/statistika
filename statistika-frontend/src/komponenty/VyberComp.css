@@ -8,6 +8,7 @@
 
 .vyber-button {
   grid-column: span 1;
+  width: 100px;
   border: none;
   cursor: pointer;
   color: rgba(255, 255, 255, 0.7);
@@ -16,9 +17,18 @@
   font-weight: 600;
   /* position: absolute; */
   align-self: center;
-  transition: all 0.1s;
-  height: 90%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: font-size 0.15s 0.15s, background-color 0.15s;
+  height: 95%;
   background-color: #3c3f50;
+}
+
+.vyber-button .lds-dual-ring::after {
+  height: 17px;
+  width: 17px;
 }
 
 .vyber-button#active {

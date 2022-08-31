@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 const LoadingButtonComponent = ({ loading, handleSubmitPress, children, buttonProps, delay = 200 }) => {
-  const [delayedLoading, setDelayedLoading] = useState(true);
+  const [delayedLoading, setDelayedLoading] = useState(false);
 
   useEffect(() => {
     if (!loading) {

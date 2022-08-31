@@ -4,6 +4,7 @@ const NastaveniaBotGrafu = {
   // aspectRatio: 600 / 350,
   type: "line",
   responsive: true,
+  responsiveAnimationDuration: 0,
   pointHoverRadius: 7,
   pointRadius: 0,
   interpolate: true,
@@ -17,14 +18,11 @@ const NastaveniaBotGrafu = {
     mode: "index",
     intersect: false,
   },
+  transitions: {
+    duration: 0,
+  },
   animation: {
     duration: 0,
-    // onProgress: function (animtion) {
-    //   if (animtion.currentStep % 10 === 0) {
-    //     animtion.chart.update();
-    //   }
-    //   console.log(animtion);
-    // },
   },
   scales: {
     x: {
@@ -49,6 +47,7 @@ const NastaveniaBotGrafu = {
     y: {
       type: "linear",
       display: true,
+      // grace: 20000,
       grid: {
         circular: true,
 

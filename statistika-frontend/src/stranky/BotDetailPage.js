@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import BotGraf from "../komponenty/grafy/BotGraf.js";
 import axios from "axios";
@@ -14,6 +14,7 @@ import { VscCircleFilled } from "react-icons/vsc";
 import { getTextValues } from "../pomocky/fakeApi.js";
 import { GrMoney } from "react-icons/gr";
 import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManager.js";
+import LoadingButtonComponent from "../komponenty/LoadingButtonComponent";
 
 const VyberComponent = () => {
   const [tranList, setTranList] = useState([
@@ -24,6 +25,7 @@ const VyberComponent = () => {
   ]);
   const [priceValue, setPriceValue] = useState("");
   const [loading, setLoadingStep, loadingMessage] = useLoadingManager(100, true);
+  const initLoad = useRef(true);
 
   const onBtnClick = useCallback(async () => {
     const valueCopy = priceValue;
@@ -46,6 +48,7 @@ const VyberComponent = () => {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(300);
     setLoadingStep("render");
+    initLoad.current = false;
   }, [setLoadingStep]);
 
   useEffect(() => {
@@ -81,7 +84,6 @@ const VyberComponent = () => {
       <span className="vyber-bot-title" id="title">
         Výber
       </span>
-      {/* {loading && <LoadingComponent background={true} loadingText={loadingMessage} />} */}
       <div className="vyber-cont-main">
         <div className="vyber-form-cont">
           <div className="vyber-input-cont">
@@ -100,16 +102,24 @@ const VyberComponent = () => {
               }}
             ></input>
           </div>
-          <button id={priceValue.length !== 0 ? "active" : "inactive"} className="vyber-button" onClick={(e) => onBtnClick()}>
+          <LoadingButtonComponent
+            buttonProps={{ className: "vyber-button", id: priceValue.length !== 0 || (loading && !initLoad) ? "active" : "inactive" }}
+            handleSubmitPress={onBtnClick}
+            loading={loading && !initLoad.current}
+            delay={0}
+          >
             Vybrať
-          </button>
+          </LoadingButtonComponent>
+          {/* <button id={priceValue.length !== 0 ? "active" : "inactive"} className="vyber-button" onClick={(e) => onBtnClick()}>
+            Vybrať
+          </button> */}
         </div>
         <div className="cont-legenda-list">
-          {loading && <LoadingComponent background={true} loadingText={loadingMessage} />}
           <div className="vyber-legenda">
             <span className="vyber-datum">Dátum</span>
             <span className="vyber-suma">Výber</span>
           </div>
+          {loading && initLoad.current && <LoadingComponent background={true} loadingText={loadingMessage} />}
           <ul className="list-vyber">
             {tranList.map((e, index) => (
               <li key={index} style={{ backgroundColor: index % 2 === 0 ? "#383c4b" : "" }} className="element-list-vyber">

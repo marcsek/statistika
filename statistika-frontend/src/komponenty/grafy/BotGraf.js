@@ -8,6 +8,7 @@ import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
 
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 import annotationPlugin from "chartjs-plugin-annotation";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import { useLoadingManager, LoadingComponent } from "../LoadingManager.js";
 
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
@@ -39,6 +40,13 @@ function BotGraf({ grafRequestData }) {
 
   //stateful chartjs data
   const data = useMemo(() => {
+    if (botChartRef.current) {
+      console.log(botChartRef.current);
+      if (!botChartRef.current.scales.y.ticks) return;
+      let tickt = botChartRef.current.scales.y.ticks[0];
+      tickt.value = 30000;
+      botChartRef.current.scales.y.ticks.push(tickt);
+    }
     return {
       datasets: [
         {
@@ -54,6 +62,36 @@ function BotGraf({ grafRequestData }) {
             borderColor: calculateCrossLineGradient,
           },
           borderJoinStyle: "bevel",
+          datalabels: {
+            offset: 4,
+            align: "left",
+            color: "#e7e7e7",
+            borderRadius: 4,
+            backgroundColor: (context) => {
+              var i = context.dataIndex;
+              if (i === 0) {
+                return "#2a2d38";
+              }
+            },
+            borderColor: (context) => {
+              var i = context.dataIndex;
+              if (i === 0) {
+                return "#3c3f50";
+              }
+            },
+            borderWidth: 2,
+            font: {
+              weight: 500,
+              size: 11,
+            },
+            formatter: function (value, context) {
+              var i = context.dataIndex;
+              if (i === 0) {
+                return "€ " + formatPrice(value.y, ",").split(".")[0];
+              }
+              return "";
+            },
+          },
         },
       ],
     };
@@ -94,6 +132,7 @@ function BotGraf({ grafRequestData }) {
           ref={botChartRef}
           options={NastaveniaBotGrafu}
           data={data}
+          plugins={[CrosshairPlugin, annotationPlugin, ChartDataLabels]}
         ></Line>
         <div className="bot-graf-filter" id="graf-filter">
           <ul>
