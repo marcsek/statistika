@@ -13,6 +13,7 @@ import { useLoadingManager, LoadingComponent } from "../LoadingManager.js";
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
+import { calculateCrossLineGradient, getGradients, getPointBackgroundColor } from "../../pomocky/chartHelperFunkcie";
 
 function BotGraf({ grafRequestData }) {
   Chart.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin, annotationPlugin);
@@ -32,105 +33,27 @@ function BotGraf({ grafRequestData }) {
     [grafRequestData, setLoadingStep]
   );
 
-  const normalize = (val, extremeOne, extremeTwo) => {
-    let min = Math.min(extremeOne, extremeTwo);
-    let max = Math.max(extremeOne, extremeTwo);
-    if (max - min === 0) {
-      return 1;
-    }
-
-    return (val - min) / (max - min);
-  };
-
   useEffect(() => {
     getDataFromParent(filter);
   }, [filter, getDataFromParent]);
 
   //stateful chartjs data
   const data = useMemo(() => {
-    let chartContext = botChartRef.current;
-    let subChartLineGradient = null;
-    let upChartLinearGradient = null;
-
-    if (chartContext != null) {
-      chartContext = chartContext.canvas.getContext("2d");
-      subChartLineGradient = chartContext.createLinearGradient(0, 0, 0, 500);
-      subChartLineGradient.addColorStop(1, "rgba(	13, 207, 151, 0.25)");
-      upChartLinearGradient = chartContext.createLinearGradient(0, 0, 0, 500);
-      upChartLinearGradient.addColorStop(0, "rgba(	241, 85, 108, 0.25)");
-    }
-    var firstPoint = null;
-
     return {
       datasets: [
         {
-          fill: {
-            target: { value: chartData[0]?.y },
-            above: subChartLineGradient,
-            below: upChartLinearGradient,
-          },
-
+          fill: getGradients,
           label: "Hodnota",
           data: chartData,
           borderColor: "#ffffff",
-          backgroundColor: (ctx) => {
-            if (chartData[ctx.index]?.y >= chartData[0]?.y) {
-              return "rgba(	13, 207, 151)";
-            }
-            return "rgba(	241, 85, 108)";
-          },
-          // pointStyle: "cross",
-          pointHoverRadius: 5,
+          backgroundColor: getPointBackgroundColor,
+          // pointHoverRadius: 5,
+          pointHoverBorderWidth: 2,
           pointBorderWidth: 0,
           segment: {
-            borderColor: (ctx) => {
-              let val = ctx.p0.parsed.y;
-              let valtwo = ctx.p1.parsed.y;
-              if (ctx.p0.$context.dataIndex === 0) {
-                firstPoint = ctx.p0;
-                // console.log(firstPoint);
-              }
-              if (val < chartData[0]?.y && valtwo > chartData[0]?.y) {
-                if (chartContext && firstPoint) {
-                  let gradient = chartContext.createLinearGradient(0, ctx.p0.y, 0, ctx.p1.y);
-                  // console.log("P0", ctx.p0.y);
-                  // console.log("P1", ctx.p1.y);
-                  // console.log("Mid", firstPoint.y);
-                  // console.log("Norm", normalize(firstPoint.y, ctx.p0.y, ctx.p1.y));
-                  // console.log(botChartRef.current);
-
-                  let midPoint = 1 - normalize(firstPoint.y, ctx.p0.y, ctx.p1.y);
-                  if (midPoint < 0 || midPoint > 1) {
-                    midPoint = 0;
-                  }
-                  gradient.addColorStop(midPoint, "rgba(241, 85, 108)");
-                  gradient.addColorStop(midPoint, "rgba(	13, 207, 151)");
-                  return gradient;
-                }
-              }
-              if (val > chartData[0]?.y && valtwo < chartData[0]?.y) {
-                if (chartContext && firstPoint) {
-                  let gradient = chartContext.createLinearGradient(0, ctx.p0.y, 0, ctx.p1.y);
-                  // console.log("P0", ctx.p0.y);
-                  // console.log("P1", ctx.p1.y);
-                  // console.log("Mid", firstPoint.y);
-                  // console.log("Norm", normalize(firstPoint.y, ctx.p0.y, ctx.p1.y));
-
-                  let midPoint = normalize(firstPoint.y, ctx.p0.y, ctx.p1.y);
-                  if (midPoint < 0 || midPoint > 1) {
-                    midPoint = 0;
-                  }
-                  gradient.addColorStop(midPoint, "rgba(	13, 207, 151)");
-                  gradient.addColorStop(midPoint, "rgba(241, 85, 108)");
-                  return gradient;
-                }
-              }
-              // console.log(ctx.p0);
-              val = chartData[ctx.p0.$context.dataIndex + 1]?.y;
-              let farba = val >= chartData[0]?.y ? "#0DCF97" : val <= chartData[0]?.y ? "rgba(241, 85, 108)" : "";
-              return farba;
-            },
+            borderColor: calculateCrossLineGradient,
           },
+          borderJoinStyle: "bevel",
         },
       ],
     };
