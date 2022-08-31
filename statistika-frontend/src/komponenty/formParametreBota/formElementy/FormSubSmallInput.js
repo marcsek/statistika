@@ -9,7 +9,7 @@ const FormSubSmallInput = ({ name, title, value, onChange, validate, stateStyle,
 
   return (
     <div className="input-nadpis-cont">
-      <span style={{ color: activeStyle === "inactive" && "#737373" }}>{title}</span>
+      <span style={{ color: activeStyle === "inactive" && "#949494" }}>{title}</span>
       <input
         autoComplete="off"
         name={name}

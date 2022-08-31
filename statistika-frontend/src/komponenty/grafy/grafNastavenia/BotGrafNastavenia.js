@@ -13,11 +13,18 @@ const NastaveniaBotGrafu = {
     },
   },
 
-  sort: true,
-
   interaction: {
     mode: "index",
     intersect: false,
+  },
+  animation: {
+    duration: 0,
+    // onProgress: function (animtion) {
+    //   if (animtion.currentStep % 10 === 0) {
+    //     animtion.chart.update();
+    //   }
+    //   console.log(animtion);
+    // },
   },
   scales: {
     x: {
@@ -80,6 +87,7 @@ const NastaveniaBotGrafu = {
             return e.chart.config.data.datasets[0].data[0]?.y;
           },
           borderColor: "white",
+          backgroundColor: "transparent",
           borderWidth: 1,
           borderDash: [1, 8],
         },

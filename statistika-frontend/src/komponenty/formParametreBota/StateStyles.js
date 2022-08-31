@@ -11,8 +11,8 @@ const getInputActiveStyle = (state) => {
   let isInactive = state === "inactive";
 
   return {
-    color: isInactive ? "rgb(115, 115, 115)" : "",
-    filter: isInactive ? "brightness(0.8)" : "",
+    color: isInactive ? "#949494" : "",
+    filter: isInactive ? "brightness(0.9)" : "",
     pointerEvents: isInactive ? "none" : "",
   };
 };

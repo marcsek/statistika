@@ -112,7 +112,7 @@ const VyberComponent = () => {
           </div>
           <ul className="list-vyber">
             {tranList.map((e, index) => (
-              <li key={index} style={{ backgroundColor: index % 2 === 0 ? "#393c4a" : "" }} className="element-list-vyber">
+              <li key={index} style={{ backgroundColor: index % 2 === 0 ? "#383c4b" : "" }} className="element-list-vyber">
                 <span className="vyber-datum">{formatDate(e.datum)}</span>
                 <span className="vyber-suma">
                   {formatCrypto(parseFloat(e.suma), 7)}

@@ -414,7 +414,7 @@
   width: 80%;
   height: 2px;
   /* background-color: #8b98a579; */
-  background-color: var(--border);
+  background-color: #5c6072;
   border-radius: 25px;
 }
 
@@ -787,6 +787,7 @@ textarea::placeholder {
   right: -0px;
   top: 50%;
   transform: translateY(-50%);
+  background-color: #545867 !important;
 }
 
 .choose-button {
@@ -862,7 +863,7 @@ textarea::placeholder {
   border-radius: 25px;
   border: 2px solid var(--border);
   outline: none;
-  background-color: transparent;
+  background-color: #383c4b;
   padding: 0;
   display: flex;
   justify-content: center;
@@ -907,7 +908,7 @@ textarea::placeholder {
 }
 
 #prepinac-lava-prava #selected {
-  background-color: #8b98a541;
+  background-color: #545867;
   border-radius: 0%;
 }
 #prepinac-lava-prava #unselected {
@@ -1121,7 +1122,7 @@ textarea::placeholder {
   /* background-color: #3c3f50; */
   /* color: #8c98a5; */
   border: 2px solid var(--border);
-  background-color: #383c4b;
+  background-color: #545867;
 }
 
 .moj-checkmark:hover {

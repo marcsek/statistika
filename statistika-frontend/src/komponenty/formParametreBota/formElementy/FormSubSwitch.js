@@ -10,7 +10,7 @@ const FormSubSwitch = ({ name, title, value, onChange, validate, stateStyle, act
   return (
     <div className="input-nadpis-cont" id="checkmark">
       {title && (
-        <span style={{ color: activeStyle === "inactive" && "#737373" }} id="nadpis-prepinac">
+        <span style={{ color: activeStyle === "inactive" && "#949494" }} id="nadpis-prepinac">
           {title}
         </span>
       )}
@@ -24,7 +24,7 @@ const FormSubSwitch = ({ name, title, value, onChange, validate, stateStyle, act
         <div
           style={{
             backgroundColor: stateStyle === "changed" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
-            color: activeStyle === "inactive" && "rgb(115, 115, 115)",
+            color: activeStyle === "inactive" && "#949494",
           }}
           id={value ? "selected" : "unselected"}
         >
@@ -33,7 +33,7 @@ const FormSubSwitch = ({ name, title, value, onChange, validate, stateStyle, act
         <div
           style={{
             backgroundColor: stateStyle === "changed" ? "#2d7bf4" : "" ? "#2d7bf4" : "",
-            color: activeStyle === "inactive" && "rgb(115, 115, 115)",
+            color: activeStyle === "inactive" && "#949494",
           }}
           id={!value ? "selected" : "unselected"}
         >

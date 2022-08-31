@@ -81,8 +81,12 @@ const FiltreBotList = ({ updateFilters, parentLoading }) => {
           name="zdroj"
           onClick={(e) => setFilters((prevValues) => ({ ...prevValues, buy: !prevValues.buy }))}
         >
-          <div id={!filters.buy == null ? "selected" : filters.buy ? "selected" : "unselected"}>Buy</div>
-          <div id={!filters.buy == null ? "unselected" : !filters.buy ? "selected" : "unselected"}>Sell</div>
+          <div className={filters.buy !== null ? "isActive" : ""} id={!filters.buy == null ? "selected" : filters.buy ? "selected" : "unselected"}>
+            Buy
+          </div>
+          <div className={filters.buy !== null ? "isActive" : ""} id={!filters.buy == null ? "unselected" : !filters.buy ? "selected" : "unselected"}>
+            Sell
+          </div>
         </button>
       </div>
       <div className="input-nadpis-cont">
@@ -92,8 +96,18 @@ const FiltreBotList = ({ updateFilters, parentLoading }) => {
           name="zdroj"
           onClick={(e) => setFilters((prevValues) => ({ ...prevValues, maker: !prevValues.maker }))}
         >
-          <div id={!filters.maker == null ? "selected" : filters.maker ? "selected" : "unselected"}>Maker</div>
-          <div id={!filters.maker == null ? "unselected" : !filters.maker ? "selected" : "unselected"}>Taker</div>
+          <div
+            className={filters.maker !== null ? "isActive" : ""}
+            id={!filters.maker == null ? "selected" : filters.maker ? "selected" : "unselected"}
+          >
+            Maker
+          </div>
+          <div
+            className={filters.maker !== null ? "isActive" : ""}
+            id={!filters.maker == null ? "unselected" : !filters.maker ? "selected" : "unselected"}
+          >
+            Taker
+          </div>
         </button>
       </div>
       <div id="datum" className="parameter-cont">
@@ -159,7 +173,11 @@ const OrderFiltersBotList = ({ updateOrderFilters, parentLoading = false }) => {
           })
         }
       >
-        {orderFilters.typeDate ? <BiChevronsDown /> : <BiChevronsUp />}
+        {orderFilters.typeDate ? (
+          <BiChevronsDown style={{ color: orderFilters.curType !== "date" && "#444757" }} />
+        ) : (
+          <BiChevronsUp style={{ color: orderFilters.curType !== "date" && "#444757" }} />
+        )}
         Dátum a Čas
       </button>
       <p className="cislo" id="element">
@@ -177,7 +195,11 @@ const OrderFiltersBotList = ({ updateOrderFilters, parentLoading = false }) => {
           })
         }
       >
-        {orderFilters.typePrice ? <BiChevronsDown /> : <BiChevronsUp />}
+        {orderFilters.typePrice ? (
+          <BiChevronsDown style={{ color: orderFilters.curType !== "price" && "#444757" }} />
+        ) : (
+          <BiChevronsUp style={{ color: orderFilters.curType !== "price" && "#444757" }} />
+        )}
         Cena
       </button>
       <button
@@ -192,7 +214,11 @@ const OrderFiltersBotList = ({ updateOrderFilters, parentLoading = false }) => {
           })
         }
       >
-        {orderFilters.typeNum ? <BiChevronsDown /> : <BiChevronsUp />}
+        {orderFilters.typeNum ? (
+          <BiChevronsDown style={{ color: orderFilters.curType !== "num" && "#444757" }} />
+        ) : (
+          <BiChevronsUp style={{ color: orderFilters.curType !== "num" && "#444757" }} />
+        )}
         Množstvo
       </button>
       <p className="maker" id="element">
@@ -206,7 +232,7 @@ const ObchodyListMemo = React.memo(({ listData }) => {
   return (
     <ul className="bot-obchody-cont">
       {listData.data.map((e, i) => {
-        let bgColor = i % 2 === 0 ? "rgb(57, 60, 74)" : "";
+        let bgColor = i % 2 === 0 ? "#383c4b" : "";
         return (
           <li key={i} style={{ backgroundColor: bgColor }}>
             <p className="datum" id="element">
