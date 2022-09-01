@@ -1,12 +1,12 @@
 import "./Header.css";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { TiChartLineOutline } from "react-icons/ti";
 import { RiListCheck2 } from "react-icons/ri";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { FiLogOut } from "react-icons/fi";
-import useWindowDimensions from "./pomocky/window";
+import useWindowIsSmall from "../customHooky/useWindowIsSmall";
 
 function Header() {
   const navigate = useNavigate();
@@ -30,15 +30,7 @@ function Header() {
   }, [location]);
 
   // listener na zmenu šírky kvôli resizu výšky grafu
-  const windowDimensions = useWindowDimensions();
-  const [windowIsSmall, setWindowIsSmall] = useState(false);
-  useLayoutEffect(() => {
-    if (windowDimensions.width < 350) {
-      setWindowIsSmall(true);
-    } else {
-      setWindowIsSmall(false);
-    }
-  }, [windowDimensions]);
+  const windowIsSmall = useWindowIsSmall(350);
 
   return (
     <div className="header" style={{ display: location.pathname === "/login" && "none" }}>

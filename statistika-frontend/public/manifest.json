@@ -1,7 +1,13 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [],
+  "short_name": "Highdmin",
+  "name": "Statistika-Highdmin",
+  "icons": [
+    {
+      "src": "logo-sm.ico",
+      "sizes": "128x128",
+      "type": "image/x-icon"
+    }
+  ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",

@@ -8,7 +8,7 @@ import BotListPage from "./stranky/BotListPage.js";
 import BotDetail from "./stranky/BotDetailPage";
 import LoginPage from "./stranky/LoginPage";
 import VytvorenieBotaPage from "./stranky/VytvorenieBotaPage";
-import Header from "./Header";
+import Header from "./komponenty/Header";
 import ErrorPage from "./stranky/ErrorPage";
 
 function App() {

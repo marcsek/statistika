@@ -1,96 +1,11 @@
-import React, { useState, useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import "./GrafPage.css";
 import axios from "axios";
 import MainGraf from "../komponenty/grafy/MainGraf";
 import BurzaGraf from "../komponenty/grafy/BurzaGraf";
 
-import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
-
 import { filterDate } from "../pomocky/datumovanie";
-import { MdEuroSymbol } from "react-icons/md";
-import { BsCurrencyBitcoin } from "react-icons/bs";
-import { getCelkovyVyvinData } from "../pomocky/fakeApi";
-import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManager.js";
-import { formatCrypto, formatPrice } from "../pomocky/cislovacky";
-import { ImStack } from "react-icons/im";
-import { BiChevronDownCircle, BiChevronUpCircle } from "react-icons/bi";
-import { motion } from "framer-motion";
-
-const CelkovyVyvin = () => {
-  const [data, setData] = useState({});
-  const [loading, setLoadingStep, loadingMessage] = useLoadingManager(30, true);
-
-  const celkovyVyvinRequest = useCallback(async () => {
-    setLoadingStep("fetch");
-    const newData = await getCelkovyVyvinData();
-    setLoadingStep();
-
-    setData(newData);
-  }, [setLoadingStep]);
-
-  useEffect(() => {
-    celkovyVyvinRequest();
-  }, [celkovyVyvinRequest]);
-
-  return (
-    <div className="celkovy-cont-title">
-      <div className="celkovy-stav-cont">
-        {loading && <LoadingComponent loadingText={loadingMessage}></LoadingComponent>}
-        <ul style={{ opacity: loading ? 0 : 100 }}>
-          <li className="stav-element">
-            <BiChevronUpCircle id="indikator" />
-            <p>Zmena 24H</p>
-            <span id="eur-zmena">
-              <MdEuroSymbol /> +{formatPrice(data.h24?.e, ",")}
-            </span>
-            <p id="btc-zmena">
-              <BsCurrencyBitcoin /> +{formatCrypto(data.h24?.b)}
-            </p>
-            <span id="perc-zmena" style={{ backgroundColor: "rgba(10,207,151,.18)" }}>
-              <VscTriangleUp /> {data.h24?.p}%
-            </span>
-          </li>
-          <li className="stav-element">
-            <BiChevronUpCircle id="indikator" />
-            <p>Zmena 7D</p>
-            <span id="eur-zmena">
-              <MdEuroSymbol /> +{formatPrice(data.d7?.e, ",")}
-            </span>
-            <p id="btc-zmena">
-              <BsCurrencyBitcoin /> +{formatCrypto(data.d7?.b)}
-            </p>
-            <span id="perc-zmena" style={{ backgroundColor: "rgba(10,207,151,.18)" }}>
-              <VscTriangleUp /> {data.d7?.p}%
-            </span>
-          </li>
-          <li className="stav-element">
-            <BiChevronDownCircle style={{ color: "#f1556c" }} id="indikator" />
-            <p>Zmena 3M</p>
-            <span id="eur-zmena">
-              <MdEuroSymbol /> {formatPrice(data.m3?.e, ",")}
-            </span>
-            <p id="btc-zmena">
-              <BsCurrencyBitcoin /> {formatCrypto(data.m3?.b)}
-            </p>
-            <span style={{ color: "#f1556c" }} id="perc-zmena">
-              <VscTriangleDown /> {data.m3?.p}%
-            </span>
-          </li>
-          <li className="stav-element">
-            <ImStack className="h" />
-            <p>Celkové prostriedky</p>
-            <span id="eur-zmena">
-              <MdEuroSymbol /> {formatPrice(data.cc?.e, ",")}
-            </span>
-            <p id="btc-zmena">
-              <BsCurrencyBitcoin /> {formatCrypto(data.cc?.b)}
-            </p>
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
-};
+import CelkovyVyvinComponent from "../komponenty/grafPage/CelkovyVyvinComponent";
 
 function Graf() {
   const mainGrafRequestData = useCallback(async (duration) => {
@@ -149,41 +64,48 @@ function Graf() {
     return docData;
   }, []);
 
+  let shouldPutTwo = true;
+  let shouldPutTwoCount = 0;
   return (
     <div className="graf-page-div">
       <div className="graf-page-title-div">
         <p className="title-hori">Dashboard</p>
       </div>
-      <CelkovyVyvin />
+      <CelkovyVyvinComponent />
       <div id="graf-burza-cont">
         <MainGraf grafRequestData={mainGrafRequestData}></MainGraf>
       </div>
       <div className="graf-burzy-cont">
         <ul>
-          <li className="burza">
-            <div className="burza-cont">
-              <p id="title">Burza 1</p>
-              <BurzaGraf grafRequestData={subChartRequestData} index={0}></BurzaGraf>
-            </div>
-          </li>
-          <li className="burza">
-            <div className="burza-cont">
-              <p id="title">Burza 2</p>
-              <BurzaGraf grafRequestData={subChartRequestData} farbaCiary={{ c: "#0DCF97", g: "rgba(	13, 207, 151, 0.20)" }} index={1}></BurzaGraf>
-            </div>
-          </li>
-          <li className="burza">
-            <div className="burza-cont">
-              <p id="title">Burza 3</p>
-              <BurzaGraf grafRequestData={subChartRequestData} farbaCiary={{ c: "#0DCF97", g: "rgba(	13, 207, 151, 0.2)" }} index={2}></BurzaGraf>
-            </div>
-          </li>
-          <li className="burza">
-            <div className="burza-cont">
-              <p id="title">Burza 4</p>
-              <BurzaGraf grafRequestData={subChartRequestData} index={3}></BurzaGraf>
-            </div>
-          </li>
+          {["SH", "BTC", "ETH", "LTC"].map((e, i) => {
+            let farbaCiary = undefined;
+
+            if (i > 0) {
+              shouldPutTwoCount++;
+            }
+
+            if (i > 0 && shouldPutTwo) {
+              farbaCiary = { c: "#0DCF97", g: "rgba(	13, 207, 151, 0.20)" };
+
+              if (shouldPutTwoCount === 2) {
+                shouldPutTwo = false;
+                shouldPutTwoCount = 0;
+              }
+            }
+            if (!shouldPutTwo && shouldPutTwoCount === 2) {
+              shouldPutTwoCount = 0;
+              shouldPutTwo = true;
+            }
+
+            return (
+              <li key={i} className="burza">
+                <div className="burza-cont">
+                  <p id="title">{"Burza " + (i + 1)}</p>
+                  <BurzaGraf grafRequestData={subChartRequestData} index={i} farbaCiary={farbaCiary}></BurzaGraf>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

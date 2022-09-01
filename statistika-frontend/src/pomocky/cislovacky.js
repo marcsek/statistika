@@ -35,11 +35,4 @@ function isPositiveInteger(str) {
   return false;
 }
 
-function isDecimal(str) {
-  if (/^[0-9]+$/.test(str) || str === "") {
-    return true;
-  }
-  return false;
-}
-
 export { formatPrice, formatCrypto, getPercentageChange, isPositiveInteger };

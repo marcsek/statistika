@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
+import React, { useState, useMemo, useRef, useCallback } from "react";
 import "./BurzaGraf.css";
 
 import { Chart, Interaction, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
@@ -9,16 +9,17 @@ import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
-import { useLoadingManager, LoadingComponent } from "../LoadingManager.js";
+import useLoadingManager from "../../customHooky/useLoadingManager";
+import LoadingComponent from "../zdielane/LoadingComponent";
 import NastaveniaBurzaGrafu from "./grafNastavenia/BurzaGrafNastavenia";
+import { GrafFiltre } from "./GrafFiltre";
 
 function BurzaGraf({ grafRequestData, farbaCiary, index }) {
   Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin, Filler);
   Interaction.modes.interpolate = Interpolate;
 
-  const [filter, setFilter] = useState("all");
   const [chartData, setChartData] = useState([]);
-  const [loading, setLoadingStep, loadingMessage] = useLoadingManager(50, true);
+  const [loading, setLoadingStep, loadingMessage] = useLoadingManager(0, true);
   const burzaChartRef = useRef(null);
 
   const getDataFromParent = useCallback(
@@ -29,10 +30,6 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     },
     [grafRequestData, setLoadingStep]
   );
-
-  useEffect(() => {
-    getDataFromParent(filter, index);
-  }, [filter, index, getDataFromParent]);
 
   //stateful chartjs data
   const data = useMemo(() => {
@@ -76,13 +73,6 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     );
   };
 
-  //helper funkcia na style filterov
-  const getFilterElementBGColor = (filterType) => {
-    if (filter === filterType && typeof filter !== "object") {
-      return "rgba(255, 255, 255, 0.29)";
-    }
-  };
-
   return (
     <>
       <div className="burza-chart-main">
@@ -95,22 +85,30 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
             options={NastaveniaBurzaGrafu}
             data={data}
           ></Line>
-          <div className="burza-graf-filter" id="graf-filter">
-            <ul>
-              <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>
-                1D
-              </li>
-              <li style={{ backgroundColor: getFilterElementBGColor("7d") }} onClick={() => setFilter("7d")}>
-                7D
-              </li>
-              <li style={{ backgroundColor: getFilterElementBGColor("3m") }} onClick={() => setFilter("3m")}>
-                3M
-              </li>
-              <li style={{ backgroundColor: getFilterElementBGColor("all") }} onClick={() => setFilter("all")}>
-                All
-              </li>
-            </ul>
-          </div>
+          <GrafFiltre
+            defaultFilter="all"
+            getDataFromParent={getDataFromParent}
+            render={(data) => {
+              return (
+                <div className="burza-graf-filter" id="graf-filter">
+                  <ul>
+                    <li style={{ backgroundColor: data.getFilterElementBGColor("1d") }} onClick={() => data.onFiltersChange("1d")}>
+                      1D
+                    </li>
+                    <li style={{ backgroundColor: data.getFilterElementBGColor("7d") }} onClick={() => data.onFiltersChange("7d")}>
+                      7D
+                    </li>
+                    <li style={{ backgroundColor: data.getFilterElementBGColor("3m") }} onClick={() => data.onFiltersChange("3m")}>
+                      3M
+                    </li>
+                    <li style={{ backgroundColor: data.getFilterElementBGColor("all") }} onClick={() => data.onFiltersChange("all")}>
+                      All
+                    </li>
+                  </ul>
+                </div>
+              );
+            }}
+          />
         </div>
       </div>
     </>

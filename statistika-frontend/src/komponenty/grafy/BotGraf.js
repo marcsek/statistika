@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
+import React, { useState, useMemo, useRef, useCallback } from "react";
 import "./BotGraf.css";
 
 import { Chart, Interaction, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
@@ -9,20 +9,21 @@ import NastaveniaBotGrafu from "./grafNastavenia/BotGrafNastavenia";
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
 import annotationPlugin from "chartjs-plugin-annotation";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { useLoadingManager, LoadingComponent } from "../LoadingManager.js";
+import useLoadingManager from "../../customHooky/useLoadingManager";
+import LoadingComponent from "../zdielane/LoadingComponent";
 
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
 import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
 import { calculateCrossLineGradient, getGradients, getPointBackgroundColor } from "../../pomocky/chartHelperFunkcie";
+import { GrafFiltre } from "./GrafFiltre";
 
 function BotGraf({ grafRequestData }) {
   Chart.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler, CrosshairPlugin, annotationPlugin);
   Interaction.modes.interpolate = Interpolate;
 
-  const [filter, setFilter] = useState("1y");
   const [chartData, setChartData] = useState([]);
-  const [loading, setLoadingStep, loadingMessage] = useLoadingManager(100, true);
+  const [loading, setLoadingStep, loadingMessage] = useLoadingManager(0, true);
   const botChartRef = useRef(null);
 
   const getDataFromParent = useCallback(
@@ -34,19 +35,8 @@ function BotGraf({ grafRequestData }) {
     [grafRequestData, setLoadingStep]
   );
 
-  useEffect(() => {
-    getDataFromParent(filter);
-  }, [filter, getDataFromParent]);
-
   //stateful chartjs data
   const data = useMemo(() => {
-    if (botChartRef.current) {
-      console.log(botChartRef.current);
-      if (!botChartRef.current.scales.y.ticks) return;
-      let tickt = botChartRef.current.scales.y.ticks[0];
-      tickt.value = 30000;
-      botChartRef.current.scales.y.ticks.push(tickt);
-    }
     return {
       datasets: [
         {
@@ -55,43 +45,13 @@ function BotGraf({ grafRequestData }) {
           data: chartData,
           borderColor: "#ffffff",
           backgroundColor: getPointBackgroundColor,
-          // pointHoverRadius: 5,
+          pointHoverRadius: 5,
           pointHoverBorderWidth: 2,
           pointBorderWidth: 0,
           segment: {
             borderColor: calculateCrossLineGradient,
           },
           borderJoinStyle: "bevel",
-          datalabels: {
-            offset: 4,
-            align: "left",
-            color: "#e7e7e7",
-            borderRadius: 4,
-            backgroundColor: (context) => {
-              var i = context.dataIndex;
-              if (i === 0) {
-                return "#2a2d38";
-              }
-            },
-            borderColor: (context) => {
-              var i = context.dataIndex;
-              if (i === 0) {
-                return "#3c3f50";
-              }
-            },
-            borderWidth: 2,
-            font: {
-              weight: 500,
-              size: 11,
-            },
-            formatter: function (value, context) {
-              var i = context.dataIndex;
-              if (i === 0) {
-                return "€ " + formatPrice(value.y, ",").split(".")[0];
-              }
-              return "";
-            },
-          },
         },
       ],
     };
@@ -115,13 +75,6 @@ function BotGraf({ grafRequestData }) {
     );
   };
 
-  //helper funkcia na style filterov
-  const getFilterElementBGColor = (filterType) => {
-    if (filter === filterType && typeof filter !== "object") {
-      return "rgba(255, 255, 255, 0.29)";
-    }
-  };
-
   return (
     <div className="bot-chart-main">
       {loading && <LoadingComponent background={true} blur={true} customSpinner={true} loadingText={loadingMessage} />}
@@ -132,30 +85,38 @@ function BotGraf({ grafRequestData }) {
           ref={botChartRef}
           options={NastaveniaBotGrafu}
           data={data}
-          plugins={[CrosshairPlugin, annotationPlugin, ChartDataLabels]}
+          plugins={[ChartDataLabels]}
         ></Line>
-        <div className="bot-graf-filter" id="graf-filter">
-          <ul>
-            <li style={{ backgroundColor: getFilterElementBGColor("1d") }} onClick={() => setFilter("1d")}>
-              1D
-            </li>
-            <li style={{ backgroundColor: getFilterElementBGColor("7d") }} onClick={() => setFilter("7d")}>
-              7D
-            </li>
-            <li style={{ backgroundColor: getFilterElementBGColor("1m") }} onClick={() => setFilter("1m")}>
-              1M
-            </li>
-            <li style={{ backgroundColor: getFilterElementBGColor("3m") }} onClick={() => setFilter("3m")}>
-              3M
-            </li>
-            <li style={{ backgroundColor: getFilterElementBGColor("1y") }} onClick={() => setFilter("1y")}>
-              1R
-            </li>
-            <li style={{ backgroundColor: getFilterElementBGColor("all") }} onClick={() => setFilter("all")}>
-              All
-            </li>
-          </ul>
-        </div>
+        <GrafFiltre
+          defaultFilter="1y"
+          getDataFromParent={getDataFromParent}
+          render={(data) => {
+            return (
+              <div className="bot-graf-filter" id="graf-filter">
+                <ul>
+                  <li style={{ backgroundColor: data.getFilterElementBGColor("1d") }} onClick={() => data.onFiltersChange("1d")}>
+                    1D
+                  </li>
+                  <li style={{ backgroundColor: data.getFilterElementBGColor("7d") }} onClick={() => data.onFiltersChange("7d")}>
+                    7D
+                  </li>
+                  <li style={{ backgroundColor: data.getFilterElementBGColor("1m") }} onClick={() => data.onFiltersChange("1m")}>
+                    1M
+                  </li>
+                  <li style={{ backgroundColor: data.getFilterElementBGColor("3m") }} onClick={() => data.onFiltersChange("3m")}>
+                    3M
+                  </li>
+                  <li style={{ backgroundColor: data.getFilterElementBGColor("1y") }} onClick={() => data.onFiltersChange("1y")}>
+                    1R
+                  </li>
+                  <li style={{ backgroundColor: data.getFilterElementBGColor("all") }} onClick={() => data.onFiltersChange("all")}>
+                    All
+                  </li>
+                </ul>
+              </div>
+            );
+          }}
+        />
       </div>
     </div>
   );

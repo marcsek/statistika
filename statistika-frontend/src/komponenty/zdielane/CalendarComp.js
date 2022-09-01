@@ -1,10 +1,10 @@
-import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import "./CalendarComp.css";
 
 import "react-calendar/dist/Calendar.css";
 import Calendar from "react-calendar";
 
-const CalendarComp = forwardRef((props, ref) => {
+const CalendarComp = forwardRef(({ parentLoading, minDate, maxDate, onCalendarClick }, ref) => {
   const [value, onChange] = useState(new Date());
   const [dateRange, setDateRange] = useState("Spolu 000 dni");
   const [calendarOpen, setCalendarOpen] = useState(false);
@@ -30,9 +30,9 @@ const CalendarComp = forwardRef((props, ref) => {
 
   return (
     <>
-      {!props.parentLoading && (
+      {!parentLoading && (
         <div id={calendarOpen ? "show" : "hidden"} className="calendar-div">
-          <Calendar minDate={props.minDate} maxDate={props.maxDate} selectRange={true} onChange={onChange} value={value} />
+          <Calendar minDate={minDate} maxDate={maxDate} selectRange={true} onChange={onChange} value={value} />
           <div className="sub-calendar-comp">
             <span style={{ visibility: value.length > 1 ? "" : "hidden" }} className="calendar-day-count">
               {dateRange}
@@ -40,7 +40,7 @@ const CalendarComp = forwardRef((props, ref) => {
             <button
               style={{ backgroundColor: value.length > 1 ? "" : "#3c3f50" }}
               className="calendar-button"
-              onClick={(e) => props.onCalendarClick(value)}
+              onClick={(e) => onCalendarClick(value)}
             >
               Použiť
             </button>

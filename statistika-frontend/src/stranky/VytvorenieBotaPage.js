@@ -11,8 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { MdKeyboardReturn } from "react-icons/md";
 import { TbRobot } from "react-icons/tb";
-import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManager";
-import LoadingButtonComponent from "../komponenty/LoadingButtonComponent";
+import LoadingButtonComponent from "../komponenty/zdielane/LoadingButtonComponent";
 
 function VytvorenieBotaPage() {
   const navigate = useNavigate();
@@ -44,6 +43,7 @@ function VytvorenieBotaPage() {
           buttonProps={{ className: "ulozit-bota-btn", id: renderPost ? "inactive" : "active" }}
           handleSubmitPress={onSave}
           loading={saving}
+          delay={200}
         >
           <FaRegSave /> Uložiť
         </LoadingButtonComponent>

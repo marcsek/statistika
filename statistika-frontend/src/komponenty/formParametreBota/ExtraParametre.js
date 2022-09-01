@@ -1,8 +1,6 @@
 import { useCallback, forwardRef, useImperativeHandle, useRef } from "react";
 import "../../stranky/BotDetailPage.css";
 
-import "../VyberComp.css";
-
 import InputButton from "./formElementy/ExtraInput.js";
 import DropDown from "./formElementy/ExtraDropDown.js";
 

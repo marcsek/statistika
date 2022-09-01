@@ -1,11 +1,10 @@
 import React, { useState, useCallback, useEffect, forwardRef, useImperativeHandle } from "react";
 import "../../stranky/BotDetailPage.css";
 
-import "../VyberComp.css";
 import { isPositiveInteger } from "../../pomocky/cislovacky";
 import defaultParaValues from "./DefaultHodnotyParametrov";
-import LoadingButtonComponent from "../LoadingButtonComponent";
 
+import LoadingButtonComponent from "../zdielane/LoadingButtonComponent";
 import FormSmallInput from "./formElementy/FormSmallInput";
 import FormSubSmallInput from "./formElementy/FormSubSmallInput";
 import FormSubSmallSwitch from "./formElementy/FormSubSwitch";

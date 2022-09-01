@@ -5,8 +5,8 @@ import ExtraParametre from "./ExtraParametre";
 import Parametre from "./Parametre";
 
 import { getTextValues, setNewTextValues, getSavedTextValues } from "../../pomocky/fakeApi.js";
-import { useLoadingManager, LoadingComponent } from "../LoadingManager.js";
-import "../VyberComp.css";
+import useLoadingManager from "../../customHooky/useLoadingManager";
+import LoadingComponent from "../zdielane/LoadingComponent";
 import defaultParaValues from "./DefaultHodnotyParametrov";
 
 // *** neviem ako budem robit initial loady, ak bude kazdy element robit requesty sam tak to nepojde cez forwardRef
@@ -32,22 +32,19 @@ const ParametreEditor = forwardRef(({ type, onCreate, loadingParent }, ref) => {
     parametreRef.current.setSavedTextValues(initValueCopy);
   }, [type, setLoadingStep]);
 
-  const textValuesSend = useCallback(
-    async (textValues) => {
-      const valuesToSend = {};
-      for (const key in textValues) {
-        valuesToSend[key] = textValues[key].value;
-      }
-      const response = await setNewTextValues(valuesToSend);
+  const textValuesSend = useCallback(async (textValues) => {
+    const valuesToSend = {};
+    for (const key in textValues) {
+      valuesToSend[key] = textValues[key].value;
+    }
+    const response = await setNewTextValues(valuesToSend);
 
-      const stateCopy = { ...textValues };
-      for (const key in stateCopy) {
-        stateCopy[key].init = response[key];
-      }
-      parametreRef.current.setSavedTextValues({ ...stateCopy });
-    },
-    [setLoadingStep]
-  );
+    const stateCopy = { ...textValues };
+    for (const key in stateCopy) {
+      stateCopy[key].init = response[key];
+    }
+    parametreRef.current.setSavedTextValues({ ...stateCopy });
+  }, []);
 
   useImperativeHandle(ref, () => ({
     getTextValues() {

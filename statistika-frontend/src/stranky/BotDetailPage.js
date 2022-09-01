@@ -1,151 +1,18 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import { useCallback } from "react";
 import { useParams } from "react-router-dom";
-import BotGraf from "../komponenty/grafy/BotGraf.js";
 import axios from "axios";
+
 import "./BotDetailPage.css";
+import { filterDate } from "../pomocky/datumovanie";
 
-import { filterDate, formatDate } from "../pomocky/datumovanie";
-import ObchodyList from "../komponenty/ObchodyList.js";
-import { MdEuroSymbol } from "react-icons/md";
-import "../komponenty/VyberComp.css";
-import { formatCrypto, formatPrice } from "../pomocky/cislovacky.js";
+import BotGraf from "../komponenty/grafy/BotGraf.js";
+import ObchodyList from "../komponenty/botDetail/ObchodyList.js";
 import ParametreEditor from "../komponenty/formParametreBota/ParametreEditor.js";
-import { VscCircleFilled } from "react-icons/vsc";
-import { getTextValues } from "../pomocky/fakeApi.js";
-import { GrMoney } from "react-icons/gr";
-import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManager.js";
-import LoadingButtonComponent from "../komponenty/LoadingButtonComponent";
-
-const VyberComponent = () => {
-  const [tranList, setTranList] = useState([
-    { mena: "ETH", suma: "34.3223", datum: new Date() },
-    { mena: "USDT", suma: "0.6523", datum: new Date() },
-    { mena: "ETH", suma: "0.2", datum: new Date() },
-    { mena: "ETH", suma: "3.243", datum: new Date() },
-  ]);
-  const [priceValue, setPriceValue] = useState("");
-  const [loading, setLoadingStep, loadingMessage] = useLoadingManager(100, true);
-  const initLoad = useRef(true);
-
-  const onBtnClick = useCallback(async () => {
-    const valueCopy = priceValue;
-    setPriceValue("");
-    if (valueCopy === "") {
-      return;
-    }
-    setLoadingStep("fetch");
-    const textValue = await getTextValues();
-    const mena = textValue.obPar.split("/")[!textValue.prepinac | 0];
-    // setLoadingStep("transform");
-    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    await sleep(500);
-    setTranList([{ mena: mena, suma: valueCopy, datum: new Date() }, ...tranList]);
-    setLoadingStep("render");
-  }, [priceValue, tranList, setLoadingStep]);
-
-  const initialFetch = useCallback(async () => {
-    setLoadingStep("fetch");
-    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    await sleep(300);
-    setLoadingStep("render");
-    initLoad.current = false;
-  }, [setLoadingStep]);
-
-  useEffect(() => {
-    initialFetch();
-  }, [initialFetch]);
-
-  const FooterVyber = () => {
-    let sucetTran = [];
-
-    tranList.forEach((e) => {
-      let najdenyElement = sucetTran.find((e2) => e2.mena === e.mena);
-      if (!najdenyElement) {
-        sucetTran.push({ mena: e.mena, suma: e.suma });
-      } else {
-        najdenyElement.suma = Number(najdenyElement.suma) + Number(e.suma);
-      }
-    });
-
-    return sucetTran.map((e, index) => (
-      <div key={index} className="footer-vyber">
-        <span className="vyber-suma">
-          <span className="vyber-suma-text">{formatCrypto(parseFloat(e.suma), 4)}</span>
-          <span className="vyber-mena">{e.mena}</span>
-          {/*  */}
-          {index !== sucetTran.length - 1 && <span className="vyber-separator">•</span>}
-        </span>
-      </div>
-    ));
-  };
-
-  return (
-    <div className="vyber-cont-major">
-      <span className="vyber-bot-title" id="title">
-        Výber
-      </span>
-      <div className="vyber-cont-main">
-        <div className="vyber-form-cont">
-          <div className="vyber-input-cont">
-            <div className="gr-money-box">
-              <GrMoney />
-            </div>
-            <input
-              className="vyber-input"
-              placeholder="Množstvo"
-              value={priceValue}
-              onChange={(e) => {
-                let value = e.target.value.replace(/^\s+|\s+$/gm, "");
-                if (isNaN(value) || value.split(".").length > 2 ? false : value.length === 1 && value === "." ? false : true) {
-                  setPriceValue(value);
-                }
-              }}
-            ></input>
-          </div>
-          <LoadingButtonComponent
-            buttonProps={{ className: "vyber-button", id: priceValue.length !== 0 || (loading && !initLoad) ? "active" : "inactive" }}
-            handleSubmitPress={onBtnClick}
-            loading={loading && !initLoad.current}
-            delay={0}
-          >
-            Vybrať
-          </LoadingButtonComponent>
-          {/* <button id={priceValue.length !== 0 ? "active" : "inactive"} className="vyber-button" onClick={(e) => onBtnClick()}>
-            Vybrať
-          </button> */}
-        </div>
-        <div className="cont-legenda-list">
-          <div className="vyber-legenda">
-            <span className="vyber-datum">Dátum</span>
-            <span className="vyber-suma">Výber</span>
-          </div>
-          {loading && initLoad.current && <LoadingComponent background={true} loadingText={loadingMessage} />}
-          <ul className="list-vyber">
-            {tranList.map((e, index) => (
-              <li key={index} style={{ backgroundColor: index % 2 === 0 ? "#383c4b" : "" }} className="element-list-vyber">
-                <span className="vyber-datum">{formatDate(e.datum)}</span>
-                <span className="vyber-suma">
-                  {formatCrypto(parseFloat(e.suma), 7)}
-                  <span className="vyber-mena">{e.mena}</span>
-                </span>
-              </li>
-            ))}
-          </ul>
-          <div id="footer" className="vyber-legenda">
-            <span className="vyber-nadpis">Vybraté spolu: </span>
-            <span className="vyber-suma">
-              <FooterVyber />
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+import VyberComponent from "../komponenty/botDetail/VyberComponent.js";
+import StatusIndicatorComponent from "../komponenty/botDetail/StatusIndicatorComponent.js";
 
 function BotDetail() {
   const { botId } = useParams();
-  const [botActive, setBotActive] = useState(true);
   document.title = `Bot ${botId} | Highdmin`;
 
   const chartRequestData = useCallback(async (duration) => {
@@ -169,10 +36,7 @@ function BotDetail() {
         <p className="bot-title-main" id="title">
           Bot {botId}
         </p>
-        <div className="bot-status-indicator">
-          <span>Status</span>
-          <VscCircleFilled style={{ color: botActive ? "rgb(22, 199, 132)" : "rgb(234, 57, 67)" }}></VscCircleFilled>
-        </div>
+        <StatusIndicatorComponent />
       </div>
       <div className="bot-major-cont">
         <div className="bot-vyber-major-cont">

@@ -2,15 +2,16 @@ import "./ObchodyList.css";
 
 import React, { useState, useCallback, useEffect, useRef } from "react";
 
-import { formatDate, getCompatibleValue } from "../pomocky/datumovanie";
-import { getPage, filtrujData } from "../pomocky/fakeApi";
+import { formatDate, getCompatibleValue } from "../../pomocky/datumovanie";
+import { getPage, filtrujData } from "../../pomocky/fakeApi";
 
 import Pagination from "./Pagination";
 import { BiChevronsDown, BiChevronsUp, BiSearchAlt, BiReset } from "react-icons/bi";
-import { useLoadingManager, LoadingComponent } from "../komponenty/LoadingManager.js";
-import { formatPrice } from "../pomocky/cislovacky";
+import useLoadingManager from "../../customHooky/useLoadingManager";
+import LoadingComponent from "../zdielane/LoadingComponent";
+import { formatPrice } from "../../pomocky/cislovacky";
 import { MdEuroSymbol } from "react-icons/md";
-import CalendarComp from "./CalendarComp";
+import CalendarComp from "../zdielane/CalendarComp.js";
 import { TbCalendar } from "react-icons/tb";
 
 const initialStart = new Date(946681200000);
@@ -24,7 +25,6 @@ const defaultFilters = {
   dateEnd: initialEnd,
 };
 
-/* filtre oddelene do komponentu aby sa zbytocne nerendroval list */
 const FiltreBotList = ({ updateFilters, parentLoading }) => {
   const [datePlaceholder, setDatePlaceholder] = useState(formatDate(initialStart) + " - " + formatDate(initialEnd));
   const [filters, setFilters] = useState({ ...defaultFilters });

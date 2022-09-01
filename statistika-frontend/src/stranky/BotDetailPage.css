@@ -1112,7 +1112,7 @@ textarea::placeholder {
 }
 
 .moj-checkmark svg {
-  width: 14px !important;
+  width: 4px !important;
   height: 14px !important;
   transform: scale(2.5);
   pointer-events: none;
@@ -1124,10 +1124,13 @@ textarea::placeholder {
   border: 2px solid var(--border);
   background-color: #545867;
 }
+.moj-checkmark#inactive svg {
+  visibility: hidden;
+}
 
 .moj-checkmark:hover {
   filter: brightness(1.2);
-  transform: scale(1.05);
+  /* transform: scale(1.05); */
 }
 
 .bot-status-indicator {

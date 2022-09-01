@@ -8,19 +8,20 @@ const normalize = (val, extremeOne, extremeTwo) => {
   return (val - min) / (max - min);
 };
 
+var gradient;
 const calculateCrossLineGradient = (ctx) => {
-  let val = ctx.p0.parsed.y;
-  let valtwo = ctx.p1.parsed.y;
+  let firstLinePoint = ctx.p0.parsed.y;
+  let secondLinePoint = ctx.p1.parsed.y;
   let chart = ctx.chart;
-  let firstPoint = chart._metasets[0].data[0];
+  let firstPoint = ctx.chart.getDatasetMeta(0).data[0];
   let chartContext = chart.canvas.getContext("2d");
   let chartData = chart.data.datasets[0].data;
 
   let aboveColor = "rgba(13, 207, 151)";
   let belowColor = "rgba(241, 85, 108)";
 
-  if (val < chartData[0]?.y && valtwo > chartData[0]?.y) {
-    let gradient = chartContext.createLinearGradient(0, ctx.p0.y, 0, ctx.p1.y);
+  if (firstLinePoint < chartData[0]?.y && secondLinePoint > chartData[0]?.y) {
+    gradient = chartContext.createLinearGradient(0, ctx.p0.y, 0, ctx.p1.y);
 
     let midPoint = 1 - normalize(firstPoint.y, ctx.p0.y, ctx.p1.y);
     if (midPoint < 0 || midPoint > 1) {
@@ -31,8 +32,8 @@ const calculateCrossLineGradient = (ctx) => {
     return gradient;
   }
 
-  if (val > chartData[0]?.y && valtwo < chartData[0]?.y) {
-    let gradient = chartContext.createLinearGradient(0, ctx.p0.y, 0, ctx.p1.y);
+  if (firstLinePoint > chartData[0]?.y && secondLinePoint < chartData[0]?.y) {
+    gradient = chartContext.createLinearGradient(0, ctx.p0.y, 0, ctx.p1.y);
     let midPoint = normalize(firstPoint.y, ctx.p0.y, ctx.p1.y);
     if (midPoint < 0 || midPoint > 1) {
       midPoint = 0;
@@ -42,15 +43,15 @@ const calculateCrossLineGradient = (ctx) => {
     return gradient;
   }
 
-  val = chartData[ctx.p0.$context.dataIndex + 1]?.y;
-  let farba = val >= chartData[0]?.y ? aboveColor : val <= chartData[0]?.y ? belowColor : "";
+  firstLinePoint = chartData[ctx.p0.$context.dataIndex + 1]?.y;
+  let farba = firstLinePoint >= chartData[0]?.y ? aboveColor : firstLinePoint <= chartData[0]?.y ? belowColor : "";
   return farba;
 };
 
 var subChartLineGradient, upChartLinearGradient, firstPoint;
 const getGradients = (ctx) => {
   let chartArea = ctx.chart.chartArea;
-  let currentFirstPoint = ctx.chart._metasets[0].data[0]?.y;
+  let currentFirstPoint = ctx.chart.getDatasetMeta(0).data[0]?.y;
   if (!chartArea) return;
   if (!currentFirstPoint) return;
 

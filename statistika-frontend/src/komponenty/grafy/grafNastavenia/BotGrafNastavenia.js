@@ -1,4 +1,5 @@
 import { formatPrice } from "../../../pomocky/cislovacky";
+
 const NastaveniaBotGrafu = {
   maintainAspectRatio: false,
   // aspectRatio: 600 / 350,
@@ -18,12 +19,13 @@ const NastaveniaBotGrafu = {
     mode: "index",
     intersect: false,
   },
-  transitions: {
-    duration: 0,
-  },
+
   animation: {
-    duration: 0,
+    y: {
+      duration: 0,
+    },
   },
+
   scales: {
     x: {
       type: "time",
@@ -120,6 +122,25 @@ const NastaveniaBotGrafu = {
       usePointStyle: true,
       backgroundColor: "#272933da",
       titleColor: "#b5c6cc",
+    },
+    datalabels: {
+      offset: 4,
+      align: "left",
+      color: "#e7e7e7",
+      borderRadius: 4,
+      backgroundColor: "#2a2d38",
+      borderColor: "#3c3f50",
+      borderWidth: 2,
+      font: {
+        weight: 500,
+        size: 11,
+      },
+      formatter: function (value, context) {
+        if (context.dataIndex === 0) {
+          return "€ " + formatPrice(value.y, ",").split(".")[0];
+        }
+        return null;
+      },
     },
   },
 };
