@@ -9,6 +9,7 @@ import LoadingComponent from "../zdielane/LoadingComponent";
 import { formatCrypto, formatPrice } from "../../pomocky/cislovacky";
 import { ImStack } from "react-icons/im";
 import { BiChevronDownCircle, BiChevronUpCircle } from "react-icons/bi";
+import Icon from "../icon";
 
 const CelkovyVyvinComponent = () => {
   const [data, setData] = useState({});
@@ -58,7 +59,7 @@ const CelkovyVyvinComponent = () => {
             </span>
           </li>
           <li className="stav-element">
-            <BiChevronDownCircle style={{ color: "#f1556c" }} id="indikator" />
+            <BiChevronDownCircle style={{ d: "#f1556c" }} id="indikator" />
             <p>Zmena 3M</p>
             <span id="eur-zmena">
               <MdEuroSymbol /> {formatPrice(data.m3?.e, ",")}

@@ -30,6 +30,9 @@ function ListGraf({ newData }) {
       },
       line: { borderWidth: 2 },
     },
+    // animation: {
+    //   duration: 0,
+    // },
     tooltips: { enabled: false },
     hover: { mode: null },
     scales: {

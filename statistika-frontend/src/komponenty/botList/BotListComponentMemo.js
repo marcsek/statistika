@@ -10,6 +10,7 @@ import ListGraf from "../grafy/ListGraf";
 
 const BotListComponentMemo = ({ data }) => {
   const navigate = useNavigate();
+  console.log(data);
   return (
     <>
       {data.pageData.map((burza, i) => {
@@ -89,7 +90,8 @@ const BotListComponentMemo = ({ data }) => {
                       {bot.zmena.cc}%
                     </span>
                     <div className="list-graf">
-                      <ListGraf newData={data.chartData[bot.chart]} />
+                      {console.log(data.chartData[bot.chart])}
+                      <ListGraf newData={[...data.chartData[bot.chart]].splice(70, 150)} />
                     </div>
                   </li>
                 );
