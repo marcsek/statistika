@@ -85,7 +85,7 @@ function Graf() {
             }
 
             if (i > 0 && shouldPutTwo) {
-              farbaCiary = { c: "#0DCF97", g: "rgba(	13, 207, 151, 0.20)" };
+              farbaCiary = { c: "#0DCF97", g: "rgba(	13, 207, 151, 0.25)" };
 
               if (shouldPutTwoCount === 2) {
                 shouldPutTwo = false;

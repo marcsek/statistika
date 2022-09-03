@@ -281,6 +281,7 @@
   .burza-chart-div {
     min-width: 100% !important;
     margin: 0 auto;
+    margin-top: 20px;
   }
 
   .burza-chart-main {

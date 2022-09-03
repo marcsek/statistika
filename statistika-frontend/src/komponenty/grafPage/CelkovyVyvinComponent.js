@@ -9,7 +9,6 @@ import LoadingComponent from "../zdielane/LoadingComponent";
 import { formatCrypto, formatPrice } from "../../pomocky/cislovacky";
 import { ImStack } from "react-icons/im";
 import { BiChevronDownCircle, BiChevronUpCircle } from "react-icons/bi";
-import Icon from "../icon";
 
 const CelkovyVyvinComponent = () => {
   const [data, setData] = useState({});

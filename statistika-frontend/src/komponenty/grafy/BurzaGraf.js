@@ -38,7 +38,7 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     if (chartContext != null) {
       chartContext = chartContext.canvas.getContext("2d");
       subChartLineGradient = chartContext.createLinearGradient(0, 0, 0, 200);
-      subChartLineGradient.addColorStop(0.25, typeof farbaCiary != "undefined" ? farbaCiary.g : "rgba(	44, 122, 244, 0.2)");
+      subChartLineGradient.addColorStop(0.35, typeof farbaCiary != "undefined" ? farbaCiary.g : "rgba(	44, 122, 244, 0.3)");
       subChartLineGradient.addColorStop(1, typeof farbaCiary === "undefined" ? "rgba(	75,0,130, 0)" : "rgba(	44, 122, 244, 0)");
     }
 
