@@ -21,6 +21,8 @@ const VyberComponent = () => {
   const initLoad = useRef(true);
 
   const onBtnClick = useCallback(async () => {
+    if (priceValue === "") return;
+
     setLoadingStep("fetch");
     const textValue = await getTextValues();
     const mena = textValue.obPar.split("/")[!textValue.prepinac | 0];

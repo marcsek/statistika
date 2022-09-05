@@ -37,8 +37,8 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     let subChartLineGradient = null;
     if (chartContext != null) {
       chartContext = chartContext.canvas.getContext("2d");
-      subChartLineGradient = chartContext.createLinearGradient(0, 0, 0, 200);
-      subChartLineGradient.addColorStop(0.35, typeof farbaCiary != "undefined" ? farbaCiary.g : "rgba(	44, 122, 244, 0.3)");
+      subChartLineGradient = chartContext.createLinearGradient(0, 0, 0, 230);
+      subChartLineGradient.addColorStop(0, typeof farbaCiary != "undefined" ? farbaCiary.g : "rgba(	44, 122, 244, 0.5)");
       subChartLineGradient.addColorStop(1, typeof farbaCiary === "undefined" ? "rgba(	75,0,130, 0)" : "rgba(	44, 122, 244, 0)");
     }
 
@@ -83,7 +83,7 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
         <div className="burza-chart-div" style={{ display: chartData.length === 0 ? "none" : "" }}>
           <Line
             ref={burzaChartRef}
-            style={{ display: Object.keys(Chart.instances).length === 0 ? "none" : "" }}
+            style={{ display: Object.keys(Chart.instances).length === 0 ? "none" : "", pointerEvents: loading ? "none" : "" }}
             options={NastaveniaBurzaGrafu}
             data={data}
           ></Line>

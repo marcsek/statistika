@@ -1,9 +1,9 @@
 .vyber-form-cont {
   display: grid;
   width: 60%;
-  max-width: 370px;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10%;
+  max-width: 450px;
+  grid-template-columns: 1fr 1fr 100px;
+  gap: 20px;
 }
 
 .vyber-button {

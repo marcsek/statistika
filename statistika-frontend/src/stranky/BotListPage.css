@@ -177,7 +177,9 @@
 }
 
 #burza-meno {
-  font-size: 1.2rem;
+  font-size: 0.94rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   width: 150px;
   text-align: left;
   color: #b5c6cc;

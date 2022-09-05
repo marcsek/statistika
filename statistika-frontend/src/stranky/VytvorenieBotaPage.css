@@ -84,9 +84,11 @@
 .post-bot-create-cont h1 {
   margin-top: 20px;
   text-align: center;
-  font-size: 2.25rem;
+  font-size: 1.8rem;
+  letter-spacing: 0.02rem;
   font-family: Rubik, sans-serif;
   color: #b5c6cc;
+  text-transform: uppercase;
 }
 
 .post-bot-create-cont .checkmark {

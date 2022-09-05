@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect, forwardRef, useImperativeHandle } from "react";
 import "../../stranky/BotDetailPage.css";
 
-import { isPositiveInteger } from "../../pomocky/cislovacky";
 import defaultParaValues from "./DefaultHodnotyParametrov";
+import { obParValidation, isPositiveInt, isNumber, isNonNullString, isPercent } from "./FormValidation";
 
 import LoadingButtonComponent from "../zdielane/LoadingButtonComponent";
 import FormSmallInput from "./formElementy/FormSmallInput";
@@ -108,9 +108,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
             title="Obchodný Pár"
             value={textValues.obPar.value}
             onChange={onTextChange}
-            validate={(e) => {
-              if (/^[a-zA-Z/]+$/.test(e.target.value) && e.target.value.split("/").length === 2) return true;
-            }}
+            validate={obParValidation}
             stateStyle={getStateStyle("obPar")}
             upperCase={true}
             id="ob-par-input"
@@ -142,9 +140,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
             title="Des. m. Cena"
             value={textValues.desMiestaCen.value}
             onChange={onTextChange}
-            validate={(e) => {
-              if (isPositiveInteger(e.target.value)) return true;
-            }}
+            validate={isPositiveInt}
             stateStyle={getStateStyle("desMiestaCen")}
           />
           <FormSmallInput
@@ -152,9 +148,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
             title="Des. m. Množstvo"
             value={textValues.desMiestaMnoz.value}
             onChange={onTextChange}
-            validate={(e) => {
-              if (isPositiveInteger(e.target.value)) return true;
-            }}
+            validate={isPositiveInt}
             stateStyle={getStateStyle("desMiestaMnoz")}
           />
           <FormSmallInput
@@ -162,9 +156,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
             title="Min. Hodnota"
             value={textValues.minHod.value}
             onChange={onTextChange}
-            validate={(e) => {
-              if (!isNaN(e.target.value)) return true;
-            }}
+            validate={isNumber}
             stateStyle={getStateStyle("minHod")}
           />
           <FormSmallInput
@@ -172,9 +164,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
             title="Testovaná Fee"
             value={textValues.testFee.value}
             onChange={onTextChange}
-            validate={(e) => {
-              if (!isNaN(e.target.value)) return true;
-            }}
+            validate={isNumber}
             stateStyle={getStateStyle("testFee")}
           />
           <FormSmallInput
@@ -182,9 +172,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
             title="Min. Profit"
             value={textValues.minProfit.value}
             onChange={onTextChange}
-            validate={(e) => {
-              if (isPositiveInteger(e.target.value)) return true;
-            }}
+            validate={isPositiveInt}
             stateStyle={getStateStyle("minProfit")}
           />
           <FormSmallInput
@@ -192,9 +180,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
             title="Zvýšit o % z Prof."
             value={textValues.zvysTrad.value}
             onChange={onTextChange}
-            validate={(e) => {
-              if ((isPositiveInteger(e.target.value) && parseInt(e.target.value) <= 100) || e.target.value === "") return true;
-            }}
+            validate={isPercent}
             stateStyle={getStateStyle("zvysTrad")}
           />
         </div>
@@ -204,18 +190,14 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
               name="percento"
               title="% Bal. Maker"
               value={textValues.percento.value}
-              validate={(e) => {
-                if ((isPositiveInteger(e.target.value) && parseInt(e.target.value) <= 100) || e.target.value === "") return true;
-              }}
+              validate={isPercent}
               stateStyle={getStateStyle("percento")}
             />
             <FormSubSmallInput
               name="odchylka"
               title="Odchýlka"
               value={textValues.odchylka.value}
-              validate={(e) => {
-                if (isPositiveInteger(e.target.value)) return true;
-              }}
+              validate={isPositiveInt}
               stateStyle={getStateStyle("odchylka")}
             />
             <FormSubSmallSwitch
@@ -238,9 +220,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
               name="nazov"
               title="Coin Názov"
               value={textValues.nazov.value}
-              validate={(e) => {
-                if (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value === "") return true;
-              }}
+              validate={isNonNullString}
               stateStyle={getStateStyle("nazov")}
               upperCase={true}
             />
@@ -248,18 +228,14 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
               name="minMnozstvo"
               title="Min. Množstvo"
               value={textValues.minMnozstvo.value}
-              validate={(e) => {
-                if (isPositiveInteger(e.target.value)) return true;
-              }}
+              validate={isPositiveInt}
               stateStyle={getStateStyle("minMnozstvo")}
             />
             <FormSubSmallInput
               name="desatina"
               title="Des. Miesta"
               value={textValues.desatina.value}
-              validate={(e) => {
-                if (isPositiveInteger(e.target.value)) return true;
-              }}
+              validate={isPositiveInt}
               stateStyle={getStateStyle("desatina")}
             />
           </FormSubParent>
@@ -275,9 +251,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
               name="hodnota"
               title="Prepo. Hodnota"
               value={textValues.hodnota.value}
-              validate={(e) => {
-                if (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value === "") return true;
-              }}
+              validate={isNonNullString}
               stateStyle={getStateStyle("hodnota")}
               upperCase={true}
             />

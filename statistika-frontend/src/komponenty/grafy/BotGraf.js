@@ -81,7 +81,7 @@ function BotGraf({ grafRequestData }) {
       <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
       <div className="bot-chart-div" style={{ display: chartData.length === 0 ? "none" : "" }}>
         <Line
-          style={{ display: Object.keys(Chart.instances).length === 0 ? "none" : "" }}
+          style={{ display: Object.keys(Chart.instances).length === 0 ? "none" : "", pointerEvents: loading ? "none" : "" }}
           ref={botChartRef}
           options={NastaveniaBotGrafu}
           data={data}

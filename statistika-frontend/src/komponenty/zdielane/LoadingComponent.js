@@ -1,6 +1,6 @@
 import "./LoadingComponent.css";
 
-function LoadingComponent({ error, loadingText, background, height, blur, customSpinner }) {
+function LoadingComponent({ error, loadingText, background, height, blur }) {
   return (
     <div className="loading-div" style={{ height: height }}>
       {background && <div id="background" style={{ backdropFilter: blur ? "blur(10px)" : "", backgroundColor: blur ? "transparent" : "" }}></div>}

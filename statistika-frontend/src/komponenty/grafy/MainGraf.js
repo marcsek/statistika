@@ -145,7 +145,7 @@ function MainGraf({ grafRequestData }) {
           <LoadingComponent loadingText={loadingMessage} background={true} blur={true} customSpinner={true} height={windowIsSmall ? 450 : 500} />
         )}
         <HighchartsReact
-          containerProps={{ style: { height: windowIsSmall ? "400px" : "450px" } }}
+          containerProps={{ style: { height: windowIsSmall ? "400px" : "450px", pointerEvents: loading ? "none" : "" } }}
           constructorType={"stockChart"}
           highcharts={Highcharts}
           options={options}

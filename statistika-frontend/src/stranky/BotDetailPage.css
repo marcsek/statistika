@@ -53,7 +53,9 @@
 }
 
 .vyber-bot-title {
-  font-size: 1.2rem !important;
+  font-size: 0.94rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: #b5c6cc !important;
   top: 15px !important;
 }
@@ -498,7 +500,9 @@ button .lds-dual-ring::after {
 }
 
 .graf-bot-title {
-  font-size: 1.2rem;
+  font-size: 0.94rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   font-weight: 700 !important;
   top: 20px;
   right: 3%;
@@ -506,7 +510,7 @@ button .lds-dual-ring::after {
 }
 
 .bot-samotny-graf {
-  margin-top: 20px;
+  margin-top: 40px;
   margin-bottom: 20px;
   width: 100%;
   /* margin-right: 20px; */
@@ -531,7 +535,9 @@ button .lds-dual-ring::after {
 }
 
 .obchody-title {
-  font-size: 1.2rem;
+  font-size: 0.94rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   left: 1.6%;
   top: 20px;
   color: #b5c6cc !important;
@@ -940,7 +946,9 @@ textarea::placeholder {
 }
 
 .para-title {
-  font-size: 1.2rem;
+  font-size: 0.94rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: #b5c6cc !important;
   font-weight: 700 !important;
   top: 20px;
