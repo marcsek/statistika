@@ -58,10 +58,6 @@ const ParametreEditor = forwardRef(({ type, onCreate, loadingParent }, ref) => {
   }));
 
   useEffect(() => {
-    // console.log("render parent");
-  });
-
-  useEffect(() => {
     textValuesRequest();
   }, [textValuesRequest]);
 

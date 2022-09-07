@@ -64,9 +64,6 @@
   .vyber-cont-major {
     background-color: #333644;
   }
-  .bot-vyber-major-cont {
-    /* background-color: transparent !important; */
-  }
 
   .bot-major-cont {
     grid-template-columns: 100%;
@@ -227,9 +224,6 @@
   }
   .bot-graf-filter ul {
     flex-direction: row !important	;
-  }
-  .bot-chart-div {
-    /* height: fit-content !important; */
   }
 
   .bot-graf-cont {
@@ -755,10 +749,6 @@ button .lds-dual-ring::after {
 .vypinac#bot-parametre svg {
   height: 28px;
   width: 28px;
-}
-
-.important-parametre-cont .parametre-input-cont .parametre-input {
-  /* width: 200px !important; */
 }
 
 #ob-par-input {

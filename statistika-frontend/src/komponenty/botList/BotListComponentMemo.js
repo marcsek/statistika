@@ -10,7 +10,7 @@ import ListGraf from "../grafy/ListGraf";
 
 const BotListComponentMemo = ({ data }) => {
   const navigate = useNavigate();
-  console.log(data);
+
   return (
     <>
       {data.pageData.map((burza, i) => {

@@ -6,7 +6,7 @@ const obParValidation = (e) => {
 };
 
 const isPositiveInt = (e) => {
-  if (/^[0-9]+$/.test(e.target.value) || e.target.value === "") {
+  if (/^\d+$/.test(e.target.value) || e.target.value === "") {
     return true;
   }
 };
