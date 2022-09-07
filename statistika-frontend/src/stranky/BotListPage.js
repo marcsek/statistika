@@ -20,10 +20,10 @@ function BotListPage() {
 
   const genFakeChartData = useCallback(async () => {
     const requestOne = axios.get(
-      `https://min-api.cryptocompare.com/data/v2/histohour?fsym=BTC&tsym=USD&limit=168&toTs=-1&agregate=1&api_key=YOURKEYHERE`
+      `https://min-api.cryptocompare.com/data/v2/histohour?fsym=BTC&tsym=USD&limit=168&toTs=-1&agregate=1&api_key=1421fcb8f7df3e57917155b6cf1a8850b2f901bfd3c84162bc8a3b6d90194cd9`
     );
     const requestTwo = axios.get(
-      `https://min-api.cryptocompare.com/data/v2/histohour?fsym=ETH&tsym=USD&limit=168&toTs=-1&agregate=1&api_key=YOURKEYHER`
+      `https://min-api.cryptocompare.com/data/v2/histohour?fsym=ETH&tsym=USD&limit=168&toTs=-1&agregate=1&api_key=1421fcb8f7df3e57917155b6cf1a8850b2f901bfd3c84162bc8a3b6d90194cd9`
     );
     let dataOne = [];
     let dataTwo = [];

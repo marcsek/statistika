@@ -19,7 +19,7 @@ function BotDetail() {
     let requestParams = filterDate(duration);
 
     let resData = await axios.get(
-      `https://min-api.cryptocompare.com/data/v2/histo${requestParams.tick}?fsym=BTC&tsym=USD&limit=${requestParams.amount}&toTs=-1&agregate=1&api_key=YOURKEYHERE`
+      `https://min-api.cryptocompare.com/data/v2/histo${requestParams.tick}?fsym=BTC&tsym=USD&limit=${requestParams.amount}&toTs=-1&agregate=1&api_key=1421fcb8f7df3e57917155b6cf1a8850b2f901bfd3c84162bc8a3b6d90194cd9`
     );
     let chartData = [];
     resData.data.Data.Data.forEach((e) => {
