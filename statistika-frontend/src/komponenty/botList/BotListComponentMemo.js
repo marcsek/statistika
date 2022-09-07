@@ -90,8 +90,7 @@ const BotListComponentMemo = ({ data }) => {
                       {bot.zmena.cc}%
                     </span>
                     <div className="list-graf">
-                      {console.log(data.chartData[bot.chart])}
-                      <ListGraf newData={[...data.chartData[bot.chart]].splice(70, 150)} />
+                      {data.chartData.length !== 0 && <ListGraf newData={[...data.chartData[bot.chart]].splice(70, 150)} />}
                     </div>
                   </li>
                 );
