@@ -16,6 +16,9 @@
   .bot-main-cont {
     max-width: 96% !important;
   }
+  #sticky-title {
+    width: 96% !important;
+  }
 }
 
 .bot-title-main {
@@ -31,15 +34,38 @@
   position: relative;
   width: 100%;
   height: fit-content;
+  z-index: 5;
+  min-height: 34px;
+}
+
+.title-inner-element {
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 40px;
+}
+
+#sticky-title {
+  /* box-sizing: border-box; */
+  /* padding: 7px 0px; */
+  background-color: #2a2d38bb;
+  backdrop-filter: blur(7px);
+  width: 87.5%;
+  /* box-shadow: 0px 14px 18px -2px #2a2d38bb; */
+  box-shadow: 0 8px 6px -6px #2a2d38bb;
+  /* box-shadow: rgb(88 102 126 / 8%) 0px 4px 24px, rgb(88 102 126 / 12%) 0px 1px 2px; */
+}
+
+#sticky-title .title-inner-element {
   align-items: center;
 }
 
 .bot-major-cont {
   margin: 0;
   /* padding: 30px 40px 0 40px; */
-  padding-top: 20px;
+  padding-top: 2px;
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -181,7 +207,7 @@
     /* height: fit-content; */
   }
   .bot-status-indicator {
-    margin-left: 0 !important;
+    /* margin-left: 0 !important; */
   }
   .vyber-form-cont {
     max-width: none !important;
@@ -207,8 +233,12 @@
 
 @media only screen and (max-width: 500px) {
   .bot-title-main {
-    width: 100%;
+    /* width: 100%; */
     text-align: center !important;
+  }
+
+  .title-inner-element {
+    justify-content: center;
   }
   .bot-graf-cont {
     justify-content: center !important;

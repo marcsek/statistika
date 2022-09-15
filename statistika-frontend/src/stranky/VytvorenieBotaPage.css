@@ -7,8 +7,7 @@
 
 .vyt-bot-title-cont {
   width: 100%;
-  margin-bottom: 8px;
-  height: 34px;
+  height: 40px;
   display: flex;
   align-items: space-between;
   justify-content: space-between;
@@ -20,6 +19,7 @@
   border-radius: 0.25rem;
   box-shadow: 0 0 35px 0 rgb(66 72 80 / 15%);
   padding: 20px;
+  margin-top: 2px;
   position: relative;
   box-sizing: border-box;
 }
@@ -28,6 +28,15 @@
   font-size: 1.2rem;
   color: #b5c6cc;
   font-weight: 700;
+}
+
+#sticky-title .ulozit-bota-btn {
+  height: 28px;
+}
+
+#sticky-title .vyt-bot-title-cont {
+  display: flex;
+  align-items: center;
 }
 
 .ulozit-bota-btn {

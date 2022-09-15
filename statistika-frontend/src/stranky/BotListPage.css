@@ -1,25 +1,48 @@
 .bot-list-main-div {
   display: flex;
   align-items: center;
+
   flex-direction: column;
   min-height: calc(100vh - 200px);
   /* padding-top: 15px; */
   margin-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
+  width: 100%;
+  max-width: 87.5%;
 }
 
 .bot-page-title-div {
-  width: 87.5%;
+  /* display: flex;
+  align-items: flex-start;
+  justify-content: space-between; */
+  /* flex-direction: row; */
+  margin-bottom: 8px;
+  z-index: 5;
+}
+
+.bot-page-title-sub {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   flex-direction: row;
-  margin-bottom: 8px;
+}
+
+#bot-page-sticky {
+  padding: 7px 0px;
+  height: 30px;
+  background-color: #2a2d388e;
+  backdrop-filter: blur(10px);
+}
+
+.bot-page-title-div > div {
+  width: 100%;
 }
 
 .list-burza {
   height: 100%;
-  width: 87.5%;
+  width: 100%;
   /* max-width: 1200px; */
   list-style: none;
   display: flex;
@@ -28,6 +51,26 @@
   gap: 30px;
   padding: 0;
   position: relative;
+  padding-top: 2px;
+}
+
+.sub-header-element {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 40px;
+}
+
+#sticky-title .sub-header-element {
+  align-items: center;
+}
+
+#sticky-title .vypinac {
+  height: 28px;
+  font-size: 0.98rem;
 }
 
 @media only screen and (max-height: 700px) {
@@ -139,6 +182,10 @@
     margin: 0;
     padding: 0;
   }
+
+  #sticky-title .vypinac {
+    font-size: 0;
+  }
   .bot-list-main-div .vypinac svg {
     /* padding-top: 10px; */
     position: absolute;
@@ -153,7 +200,9 @@
 
 @media only screen and (max-width: 1450px) {
   .list-burza {
-    width: 96%;
+  }
+  .bot-list-main-div {
+    max-width: 96%;
   }
   .bot-page-title-div {
     box-sizing: border-box;
