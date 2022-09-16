@@ -53,7 +53,7 @@ function VytvorenieBotaPage() {
       <div className="vyt-bot-content">
         {renderPost ? (
           <div className="post-bot-create-cont">
-            <h1>Bota Sa Podarilo Vytvoriť</h1>
+            <h1>Bota sa podarilo vytvoriť!</h1>
             <IoCheckmarkDoneSharp className="checkmark" />
             <button className="bot-button" onClick={(e) => navigate("/bot-detail/3232")}>
               <TbRobot /> Detail vytvoreného bota
@@ -70,7 +70,7 @@ function VytvorenieBotaPage() {
             </button>
           </div>
         ) : (
-          <div>
+          <div className="vyt-bot-parametre-editor-cont">
             <ParametreEditor ref={parametreRef} type="create" onCreate={onCreate} onSave={onSave}></ParametreEditor>
           </div>
         )}

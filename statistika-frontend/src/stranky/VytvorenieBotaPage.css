@@ -24,6 +24,19 @@
   box-sizing: border-box;
 }
 
+.bot-parametre-cont#animate {
+  animation: fade-in 0.15s;
+}
+
+@keyframes fade-in {
+  0% {
+    filter: opacity(0);
+  }
+  100% {
+    filter: opacity(100);
+  }
+}
+
 .vyt-bot-title-cont span {
   font-size: 1.2rem;
   color: #b5c6cc;
@@ -87,29 +100,29 @@
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  transition: opacity 0.15s;
+  animation: drop-drown-anim 0.25s;
 }
 
 .post-bot-create-cont h1 {
   margin-top: 20px;
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   letter-spacing: 0.02rem;
   font-family: Rubik, sans-serif;
   color: #b5c6cc;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .post-bot-create-cont .checkmark {
   width: 90px;
   height: 90px;
   color: #16c784;
-  animation: checkmark 0.5s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: checkmark 0.5s forwards cubic-bezier(0.34, 1.8, 0.64, 1);
 }
 
 @keyframes checkmark {
   0% {
-    transform: translateY(-100%);
+    transform: translateY(-80%);
   }
   100% {
     transform: translateY(0%);

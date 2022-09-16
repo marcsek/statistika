@@ -83,7 +83,11 @@ const ParametreEditor = forwardRef(({ type, onCreate, loadingParent }, ref) => {
   return (
     <>
       {(loading || loadingParent) && <LoadingComponent background={true} loadingText={loadingMessage}></LoadingComponent>}
-      <div className="bot-parametre-cont" style={{ visibility: loading ? "" : "" || loadingParent ? "none" : "" }}>
+      <div
+        className="bot-parametre-cont"
+        id={!(loading || loadingParent) ? "animate" : ""}
+        style={{ visibility: loading ? "" : "" || loadingParent ? "none" : "" }}
+      >
         {type === "create" && <ExtraParametre checkError={checkError} ref={extraParemetreRef} />}
         <Parametre checkError={checkError} ref={parametreRef} onSubmitPress={onSubmitPress} shouldDisplaySubmit={shouldDisplaySubmit} type={type} />
       </div>
