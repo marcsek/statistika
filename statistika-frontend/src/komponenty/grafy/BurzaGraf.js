@@ -6,13 +6,11 @@ import { Line } from "react-chartjs-2";
 
 import "chartjs-adapter-moment";
 import { CrosshairPlugin, Interpolate } from "chartjs-plugin-crosshair";
-import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
-import { formatPrice, getPercentageChange } from "../../pomocky/cislovacky";
-import { MdEuroSymbol } from "react-icons/md";
 import useLoadingManager from "../../customHooky/useLoadingManager";
 import LoadingComponent from "../zdielane/LoadingComponent";
 import NastaveniaBurzaGrafu from "./grafNastavenia/BurzaGrafNastavenia";
 import { GrafFiltre } from "./GrafFiltre";
+import PercZmenaGrafHeader from "./PercZmenaGrafHeader";
 
 function BurzaGraf({ grafRequestData, farbaCiary, index }) {
   Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, CrosshairPlugin, Filler);
@@ -57,29 +55,11 @@ function BurzaGraf({ grafRequestData, farbaCiary, index }) {
     };
   }, [chartData, farbaCiary]);
 
-  //component infa o zmene nad grafom
-  const PercZmenaData = ({ style }) => {
-    let perc = getPercentageChange(chartData[0]?.y, chartData?.at(-1)?.y);
-    let cena = formatPrice(chartData?.at(-1)?.y - chartData[0]?.y);
-    return (
-      <div style={{ position: "relative", ...style }}>
-        <div className="perc-zmena-chart-burza">
-          <p id="eur-zmena">
-            <MdEuroSymbol /> {(chartData?.at(-1)?.y - chartData[0]?.y < 0 ? "" : "+") + cena}
-          </p>
-          <span style={{ color: perc < 0 ? "#f1556c" : "#0acf97", backgroundColor: perc > 0 ? "rgba(10,207,151,.18)" : "" }} id="perc-zmena">
-            {perc < 0 ? <VscTriangleDown /> : <VscTriangleUp />} {Math.abs(perc)}%
-          </span>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <>
       <div className="burza-chart-main">
         {loading && <LoadingComponent background={true} blur={true} customSpinner={true} loadingText={loadingMessage} height={325} />}
-        <PercZmenaData style={{ visibility: loading ? "hidden" : "" }} />
+        <PercZmenaGrafHeader style={{ visibility: loading ? "hidden" : "" }} chartData={chartData} />
         <div className="burza-chart-div" style={{ display: chartData.length === 0 ? "none" : "" }}>
           <Line
             ref={burzaChartRef}

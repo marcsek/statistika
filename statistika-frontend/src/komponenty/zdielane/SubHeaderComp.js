@@ -1,19 +1,14 @@
-import { Sticky } from "react-sticky";
+import { useRef } from "react";
+
+import useStickyHeader from "../../customHooky/useStickyHeader";
 
 const SubHeaderComp = ({ children }) => {
+  const element = useRef(null);
+  const isSticky = useStickyHeader({ element, topOffset: 126 });
+
   return (
-    <div className="title-cont">
-      <Sticky stickyStyle={{ width: "100%" }} className="daco" topOffset={-136}>
-        {({ style, isSticky }) => (
-          <div
-            id={isSticky ? "sticky-title" : ""}
-            style={{ ...style, top: isSticky ? "126px" : "", width: "", left: "" }}
-            // className="sticky-title-cont"
-          >
-            {children}
-          </div>
-        )}
-      </Sticky>
+    <div ref={element} className="title-cont">
+      <div id={isSticky ? "sticky-title" : ""}>{children}</div>
     </div>
   );
 };

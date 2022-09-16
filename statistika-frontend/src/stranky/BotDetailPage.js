@@ -11,7 +11,6 @@ import ParametreEditor from "../komponenty/formParametreBota/ParametreEditor.js"
 import VyberComponent from "../komponenty/botDetail/VyberComponent.js";
 import StatusIndicatorComponent from "../komponenty/botDetail/StatusIndicatorComponent.js";
 
-import { Sticky, StickyContainer } from "react-sticky";
 import SubHeaderComp from "../komponenty/zdielane/SubHeaderComp";
 
 function BotDetail() {
@@ -34,45 +33,43 @@ function BotDetail() {
   }, []);
 
   return (
-    <StickyContainer>
-      <div className="bot-main-cont">
-        <SubHeaderComp>
-          <div className="title-inner-element">
-            <p className="bot-title-main" id="title">
-              Bot {botId}
-            </p>
-            <StatusIndicatorComponent />
-          </div>
-        </SubHeaderComp>
-        <div className="bot-major-cont">
-          <div className="bot-vyber-major-cont">
-            <VyberComponent />
-          </div>
-          <div className="bot-graf-major-cont">
-            <div className="bot-graf-cont">
-              <span className="graf-bot-title" id="title">
-                Graf vývoja
-              </span>
-              <div className="bot-samotny-graf">
-                <BotGraf grafRequestData={chartRequestData} />
-              </div>
+    <div className="bot-main-cont">
+      <SubHeaderComp>
+        <div className="title-inner-element">
+          <p className="bot-title-main" id="title">
+            Bot {botId}
+          </p>
+          <StatusIndicatorComponent />
+        </div>
+      </SubHeaderComp>
+      <div className="bot-major-cont">
+        <div className="bot-vyber-major-cont">
+          <VyberComponent />
+        </div>
+        <div className="bot-graf-major-cont">
+          <div className="bot-graf-cont">
+            <span className="graf-bot-title" id="title">
+              Graf vývoja
+            </span>
+            <div className="bot-samotny-graf">
+              <BotGraf grafRequestData={chartRequestData} />
             </div>
           </div>
         </div>
-        <div className="parametre-div" style={{ position: "relative" }}>
-          <span className="para-title" id="title">
-            Parametre
-          </span>
-          <ParametreEditor />
-        </div>
-        <div className="list-obchodov-div" style={{ position: "relative" }}>
-          <span className="obchody-title" id="title">
-            Zoznam obchodov
-          </span>
-          <ObchodyList />
-        </div>
       </div>
-    </StickyContainer>
+      <div className="parametre-div" style={{ position: "relative" }}>
+        <span className="para-title" id="title">
+          Parametre
+        </span>
+        <ParametreEditor />
+      </div>
+      <div className="list-obchodov-div" style={{ position: "relative" }}>
+        <span className="obchody-title" id="title">
+          Zoznam obchodov
+        </span>
+        <ObchodyList />
+      </div>
+    </div>
   );
 }
 

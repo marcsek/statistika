@@ -11,7 +11,6 @@ import useWindowDimensions from "../customHooky/useWindowDimensions";
 
 import BotListComponentMemo from "../komponenty/botList/BotListComponentMemo";
 import BotPowerSwitchComponent from "../komponenty/botList/BotPowerSwitchComponent";
-import { Sticky, StickyContainer } from "react-sticky";
 import SubHeaderComp from "../komponenty/zdielane/SubHeaderComp";
 
 function BotListPage() {
@@ -64,25 +63,23 @@ function BotListPage() {
   const height = useWindowDimensions().height;
 
   return (
-    <StickyContainer>
-      <div className="bot-list-main-div">
-        <SubHeaderComp>
-          <div className="sub-header-element">
-            <p className="title-hori">Bot List</p>
-            <BotPowerSwitchComponent />
-          </div>
-        </SubHeaderComp>
-        <div>
-          <button className="show-bot-button" onClick={(e) => navigate("/vytvorenie-bota")}>
-            <BiUserPlus />
-          </button>
+    <div className="bot-list-main-div">
+      <SubHeaderComp>
+        <div className="sub-header-element">
+          <p className="title-hori">Bot List</p>
+          <BotPowerSwitchComponent />
         </div>
-        <ul className="list-burza">
-          {loading && <LoadingComponent background={true} height={height - 230} loadingText={loadingMessage}></LoadingComponent>}
-          {!loading && <BotListComponentMemo data={{ pageData, chartData }} />}
-        </ul>
+      </SubHeaderComp>
+      <div>
+        <button className="show-bot-button" onClick={(e) => navigate("/vytvorenie-bota")}>
+          <BiUserPlus />
+        </button>
       </div>
-    </StickyContainer>
+      <ul className="list-burza">
+        {loading && <LoadingComponent background={true} height={height - 230} loadingText={loadingMessage}></LoadingComponent>}
+        {!loading && <BotListComponentMemo data={{ pageData, chartData }} />}
+      </ul>
+    </div>
   );
 }
 
