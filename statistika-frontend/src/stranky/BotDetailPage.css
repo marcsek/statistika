@@ -56,6 +56,16 @@
   /* box-shadow: 0px 14px 18px -2px #2a2d38bb; */
   box-shadow: 0 8px 6px -6px #2a2d38bb;
   /* box-shadow: rgb(88 102 126 / 8%) 0px 4px 24px, rgb(88 102 126 / 12%) 0px 1px 2px; */
+  animation: 0.4s header-translate-anim ease-in-out;
+}
+
+@keyframes header-translate-anim {
+  0% {
+    transform: translateY(-150%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
 }
 
 #sticky-title .title-inner-element {
@@ -762,6 +772,12 @@ button .lds-dual-ring::after {
   margin: 0;
   background: #cc3333;
   padding: 0;
+  outline: 0px solid;
+  transition-duration: 0.05s;
+}
+
+.vypinac#bot-parametre:focus {
+  outline-width: 3px;
 }
 
 .vypinac#bot-parametre:hover {

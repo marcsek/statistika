@@ -54,6 +54,23 @@
   padding-top: 2px;
 }
 
+.list-burza#animate {
+  animation: drop-drown-anim 0.3s ease-out;
+}
+
+@keyframes drop-drown-anim {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
 .sub-header-element {
   display: flex;
   flex-direction: row;
@@ -492,7 +509,7 @@ ol li:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 7px;
   transition: all 0.15s;
   font-weight: 600;
   cursor: pointer;
@@ -527,8 +544,8 @@ ol li:hover {
 .vypinac svg {
   pointer-events: none;
   margin-bottom: 2px;
-  height: 23px;
-  width: 23px;
+  height: 27px;
+  width: 27px;
 }
 
 .list-graf {
@@ -639,15 +656,15 @@ ol li:hover {
   align-items: center;
   justify-content: center;
   z-index: 4;
+  transition: outline 0.1;
 }
 
 .show-bot-button:hover {
   filter: brightness(1.1);
 }
 
-.show-bot-button:active {
-  transition: all 0.05s;
-  transform: scale(0.95);
+.show-bot-button:focus {
+  outline: 3px solid #2d7bf47e;
 }
 
 .show-bot-button svg {

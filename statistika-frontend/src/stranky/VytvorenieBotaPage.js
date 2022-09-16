@@ -51,27 +51,29 @@ function VytvorenieBotaPage() {
         </div>
       </SubHeaderComp>
       <div className="vyt-bot-content">
-        <div>{!renderPost && <ParametreEditor ref={parametreRef} type="create" onCreate={onCreate} onSave={onSave}></ParametreEditor>}</div>
-        <div
-          className="post-bot-create-cont"
-          style={{ height: !renderPost ? "0px" : "", opacity: !renderPost ? 0 : 100, overflow: !renderPost ? "hidden" : "" }}
-        >
-          <h1>Bota Sa Podarilo Vytvoriť</h1>
-          <IoCheckmarkDoneSharp className="checkmark" id={renderPost ? "active" : "inactive"} />
-          <button className="bot-button" onClick={(e) => navigate("/bot-detail/3232")}>
-            <TbRobot /> Detail vytvoreného bota
-          </button>
-          <button
-            className="return-button"
-            onClick={(e) => {
-              e.preventDefault();
-              setRenderPost(false);
-            }}
-          >
-            <MdKeyboardReturn />
-            Vytvoriť ďaľšieho bota
-          </button>
-        </div>
+        {renderPost ? (
+          <div className="post-bot-create-cont">
+            <h1>Bota Sa Podarilo Vytvoriť</h1>
+            <IoCheckmarkDoneSharp className="checkmark" />
+            <button className="bot-button" onClick={(e) => navigate("/bot-detail/3232")}>
+              <TbRobot /> Detail vytvoreného bota
+            </button>
+            <button
+              className="return-button"
+              onClick={(e) => {
+                e.preventDefault();
+                setRenderPost(false);
+              }}
+            >
+              <MdKeyboardReturn />
+              Vytvoriť ďaľšieho bota
+            </button>
+          </div>
+        ) : (
+          <div>
+            <ParametreEditor ref={parametreRef} type="create" onCreate={onCreate} onSave={onSave}></ParametreEditor>
+          </div>
+        )}
       </div>
     </div>
   );

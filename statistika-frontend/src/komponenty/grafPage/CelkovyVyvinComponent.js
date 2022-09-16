@@ -30,7 +30,7 @@ const CelkovyVyvinComponent = () => {
     <div className="celkovy-cont-title">
       <div className="celkovy-stav-cont">
         {loading && <LoadingComponent loadingText={loadingMessage}></LoadingComponent>}
-        <ul style={{ opacity: loading ? 0 : 100 }}>
+        <ul style={{ opacity: loading ? 0 : 100 }} id={!loading ? "animated" : ""}>
           <li className="stav-element">
             <BiChevronUpCircle id="indikator" />
             <p>Zmena 24H</p>

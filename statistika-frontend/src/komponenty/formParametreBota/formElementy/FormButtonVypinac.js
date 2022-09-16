@@ -6,7 +6,13 @@ const FormButtonVypinac = ({ value, onChange }) => {
   };
 
   return (
-    <button id="bot-parametre" className="vypinac" style={{ backgroundColor: value ? "#2d7bf4" : "#f1556c" }} name="zapnuty" onClick={handleChange}>
+    <button
+      id="bot-parametre"
+      className="vypinac"
+      style={{ backgroundColor: value ? "#2d7bf4" : "#f1556c", outlineColor: value ? "#2d7bf47e" : "#f1556c7e" }}
+      name="zapnuty"
+      onClick={handleChange}
+    >
       {!value ? <MdOutlinePowerOff /> : <MdOutlinePower />}
     </button>
   );

@@ -75,9 +75,12 @@ function BotListPage() {
           <BiUserPlus />
         </button>
       </div>
-      <ul className="list-burza">
-        {loading && <LoadingComponent background={true} height={height - 230} loadingText={loadingMessage}></LoadingComponent>}
-        {!loading && <BotListComponentMemo data={{ pageData, chartData }} />}
+      <ul className="list-burza" id={!loading ? "animate" : ""}>
+        {loading ? (
+          <LoadingComponent height={height - 230} loadingText={loadingMessage}></LoadingComponent>
+        ) : (
+          <BotListComponentMemo data={{ pageData, chartData }} />
+        )}
       </ul>
     </div>
   );

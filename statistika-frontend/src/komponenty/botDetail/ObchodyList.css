@@ -380,10 +380,11 @@ svg.euro-symbol {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  transition: all 0.1s;
+  transition: outline 0.1s ease-in-out;
   display: flex;
   justify-content: center;
   align-items: center;
+  outline: 0px solid #2d7df457;
 }
 
 .pagi-cont button svg {
@@ -400,9 +401,11 @@ svg.euro-symbol {
   filter: brightness(1.1);
 }
 
-.pagi-cont button:active {
-  transition: all 0.05s;
-  transform: scale(0.96);
+.pagi-cont button:focus {
+  outline: 3px solid #2d7df47e;
+}
+.pagi-cont #inactive:focus {
+  outline: 3px solid #3c3f507e;
 }
 
 .filtre-hladat-btn {
@@ -440,6 +443,12 @@ svg.euro-symbol {
   align-items: center;
   justify-content: center;
   gap: 2px;
+  outline: 0px solid #2d7df457;
+  transition: outline 0.05s linear;
+}
+
+.filtre-reset-btn:focus {
+  outline: 3px solid #2d7df47e;
 }
 
 .filtre-hladat-btn svg {
