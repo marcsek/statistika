@@ -29,7 +29,7 @@ const ParametreEditor = forwardRef(({ type, onCreate, loadingParent }, ref) => {
     }
     setLoadingStep("render");
 
-    parametreRef.current.setSavedTextValues(initValueCopy);
+    parametreRef.current?.setSavedTextValues(initValueCopy);
   }, [type, setLoadingStep]);
 
   const textValuesSend = useCallback(async (textValues) => {
@@ -43,7 +43,7 @@ const ParametreEditor = forwardRef(({ type, onCreate, loadingParent }, ref) => {
     for (const key in stateCopy) {
       stateCopy[key].init = response[key];
     }
-    parametreRef.current.setSavedTextValues({ ...stateCopy });
+    parametreRef.current?.setSavedTextValues({ ...stateCopy });
   }, []);
 
   useImperativeHandle(ref, () => ({
@@ -83,11 +83,7 @@ const ParametreEditor = forwardRef(({ type, onCreate, loadingParent }, ref) => {
   return (
     <>
       {(loading || loadingParent) && <LoadingComponent background={true} loadingText={loadingMessage}></LoadingComponent>}
-      <div
-        className="bot-parametre-cont"
-        id={!(loading || loadingParent) ? "animate" : ""}
-        style={{ visibility: loading ? "" : "" || loadingParent ? "none" : "" }}
-      >
+      <div className="bot-parametre-cont" id={!(loading || loadingParent) ? "animate" : ""}>
         {type === "create" && <ExtraParametre checkError={checkError} ref={extraParemetreRef} />}
         <Parametre checkError={checkError} ref={parametreRef} onSubmitPress={onSubmitPress} shouldDisplaySubmit={shouldDisplaySubmit} type={type} />
       </div>

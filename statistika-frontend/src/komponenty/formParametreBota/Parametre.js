@@ -78,7 +78,7 @@ const Parametre = forwardRef(({ type, checkError, shouldDisplaySubmit, onSubmitP
 
   const getStateStyle = useCallback(
     (meno, baseText) => {
-      if (textValues[meno].value === (baseText ? baseText : "")) {
+      if (textValues[meno].value === (baseText ? baseText : "") && meno !== "poznamka") {
         return "error";
       } else if (textValues[meno].value !== textValues[meno].init && type !== "create") {
         return "changed";

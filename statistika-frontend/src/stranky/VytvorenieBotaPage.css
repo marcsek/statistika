@@ -100,7 +100,6 @@
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  animation: drop-drown-anim 0.25s;
 }
 
 .post-bot-create-cont h1 {

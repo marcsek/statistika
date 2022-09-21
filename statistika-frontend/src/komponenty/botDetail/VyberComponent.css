@@ -15,7 +15,6 @@
   border-radius: 5px;
   font-size: 0.95rem;
   font-weight: 600;
-  /* position: absolute; */
   align-self: center;
   position: relative;
   display: flex;
@@ -52,18 +51,11 @@
 
 .vyber-input {
   width: 100%;
-  /* grid-column: span 2; */
   background-color: transparent;
-  /* color: var(--pismo-biela); */
   outline: none;
   border: none;
-  /* border: 2px solid rgba(255, 255, 255, 0.29); */
-  /* border-radius: 5px; */
-  /* height: 30px; */
   font-size: 1rem;
-  /* padding: 7px 5px 5px 5px; */
   transition: all 0.1s;
-  /* text-align: center; */
   font-weight: 600;
   height: 100%;
   padding-top: 2px;
@@ -71,11 +63,11 @@
 }
 
 .vyber-input:focus::placeholder {
-  transition: opacity 0.12s ease-in-out !important;
   opacity: 0;
 }
 
 .vyber-input::placeholder {
+  transition: opacity 0.12s ease-in-out !important;
   color: #8c98a5;
 }
 
@@ -84,8 +76,6 @@
   background-color: transparent;
   color: var(--pismo-biela);
   border: 2px solid var(--border);
-  /* box-shadow: 0 0 0 .15remrgba(89,92,106,.5); */
-  /* border-radius: 25px 10px 10px 25px; */
   border-radius: 7px;
   height: fit-content;
   display: flex;
@@ -111,7 +101,6 @@
   height: 85%;
   width: 20px;
   padding: 4px;
-  /* filter: invert(80%); */
 }
 
 .vyber-input-cont svg path {
@@ -128,7 +117,6 @@
 }
 
 .vyber-cont-main {
-  /* height: 100%; */
   height: 400px;
   display: flex;
   flex-direction: column;
@@ -204,8 +192,6 @@
   border-top: solid 1px var(--list-border);
   height: 30px;
   max-width: 100%;
-  /* flex-wrap: wrap; */
-  /* overflow: auto; */
 }
 
 .vyber-legenda span {
@@ -285,11 +271,9 @@
   justify-content: flex-start;
   align-items: center;
   overflow-x: auto;
-  /* gap: 3px; */
 }
 
 .vyber-legenda#footer .vyber-suma::-webkit-scrollbar {
-  /* width: 4px; */
   height: 4px;
 }
 
